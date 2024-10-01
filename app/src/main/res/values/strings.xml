@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AKAP</string>
+    <string name="test_text"><![CDATA[Test]]></string>
 </resources>
