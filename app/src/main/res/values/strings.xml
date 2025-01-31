@@ -1,4 +1,20 @@
 <resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="languages_codes">
+        <item>en</item>
+        <item>ru</item>
+    </string-array>
+
+    <string name="Language_S">Language</string>
+    <string name="Playlists_S">Playlists</string>
+    <string name="Recommendations_S">Recommendations</string>
+    <string name="Settings_S">Settings</string>
+    <string name="Tools_S">Tools</string>
+    <string name="Account_S">Account</string>
     <string name="app_name">AKAP</string>
-    <string name="test_text"><![CDATA[Test]]></string>
+    <string name="test_text">Test</string>
 </resources>
