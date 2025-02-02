@@ -3,7 +3,6 @@ package locale
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,9 +10,9 @@ import android.widget.Spinner
 import com.example.akap.R
 import java.util.Locale
 
-class LanguageManager(private val context: Context) {
+object LanguageManager {
 
-    fun setLocale(languageCode: String) {
+    fun setLocale(context: Context, languageCode: String) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val resources = context.resources
@@ -22,17 +21,17 @@ class LanguageManager(private val context: Context) {
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 
-    fun saveLanguage(languageCode: String) {
+    fun saveLanguage(context: Context, languageCode: String) {
         val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("Language", languageCode).apply()
     }
 
-    fun getSavedLanguage(): String {
+    fun getSavedLanguage(context: Context): String {
         val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
         return sharedPreferences.getString("Language", "en") ?: "en"
     }
 
-    fun setupLanguageSpinner(spinner: Spinner) {
+    fun setupLanguageSpinner(context: Context, spinner: Spinner) {
         val languages = context.resources.getStringArray(R.array.languages).toList()
         val languageCodes = context.resources.getStringArray(R.array.languages_codes).toList()
 
@@ -40,7 +39,7 @@ class LanguageManager(private val context: Context) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        val savedLanguage = getSavedLanguage()
+        val savedLanguage = getSavedLanguage(context)
         val selectedIndex = languageCodes.indexOf(savedLanguage).takeIf { it >= 0 } ?: 0
         spinner.setSelection(selectedIndex)
 
@@ -48,9 +47,9 @@ class LanguageManager(private val context: Context) {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedLanguage = languageCodes[position]
 
-                if (selectedLanguage != getSavedLanguage()) {
-                    saveLanguage(selectedLanguage)
-                    setLocale(selectedLanguage)
+                if (selectedLanguage != getSavedLanguage(context)) {
+                    saveLanguage(context, selectedLanguage)
+                    setLocale(context, selectedLanguage)
                     restartActivity(context as Activity)
                 }
             }
