@@ -9,6 +9,7 @@
         <item>ru</item>
     </string-array>
 
+    <string name="NowPlaying_S">Now Playing:</string>
     <string name="Language_S">Language</string>
     <string name="Playlists_S">Playlists</string>
     <string name="Recommendations_S">Recommendations</string>
@@ -17,4 +18,21 @@
     <string name="Account_S">Account</string>
     <string name="app_name">AKAP</string>
     <string name="test_text">Test</string>
+    <string name="now_playing">Now Playing: None</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="global_volume">Global Volume</string>
+    <string name="local_volume">Local Volume</string>
+    <string name="skip_intro">Skip Intro</string>
+    <string name="skip_outro">Skip Outro</string>
+    <string name="hide_settings">Hide settings</string>
+    <string name="show_settings">Show settings</string>
+    <string name="hello_blank_fragment" translatable="false">test</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="remove_song">Remove Song</string>
+    <string name="add_song">Add Song</string>
+    <string name="AllMusic_S">All Music</string>
+    <string name="song_title">Song Title</string>
+    <string name="artist">Artist</string>
 </resources>

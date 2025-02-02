@@ -9,6 +9,7 @@
         <item>ru</item>
     </string-array>
 
+    <string name="NowPlaying_S">Сейчас играет:</string>
     <string name="Language_S">Язык</string>
     <string name="Playlists_S">Плейлисты</string>
     <string name="Recommendations_S">Рекомендации</string>
@@ -17,4 +18,20 @@
     <string name="Account_S">Аккаунт</string>
     <string name="app_name">AKAP</string>
     <string name="test_text">Тест</string>
+    <string name="now_playing">Сейчас играет: Ничего</string>
+    <string name="play">Проиграть</string>
+    <string name="pause">Пауза</string>
+    <string name="stop">Стоп</string>
+    <string name="global_volume">Глобальная громкость</string>
+    <string name="local_volume">Локальная громкость</string>
+    <string name="skip_intro">Пропуск интро</string>
+    <string name="skip_outro">Пропуск аутро</string>
+    <string name="hide_settings">Скрыть настройки</string>
+    <string name="show_settings">Показать настройки</string>
+    <string name="create_playlist">Создать плейлист</string>
+    <string name="remove_song">Удалить пенсю</string>
+    <string name="add_song">Добавить песню</string>
+    <string name="AllMusic_S">Вся музыка</string>
+    <string name="song_title">Song Title</string>
+    <string name="artist">Artist</string>
 </resources>

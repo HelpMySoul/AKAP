@@ -15,11 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Карточка с настройками -->
         <include
             android:id="@+id/settingCard"
             layout="@layout/item_setting_card" />
 
-        <!-- Другие элементы интерфейса -->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@
         android:orientation="horizontal"
         android:padding="4dp">
 
-        <!-- Параметр (слева) -->
         <TextView
             android:id="@+id/settingName"
             android:layout_width="wrap_content"
@@ -23,7 +22,6 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <!-- Выбор (справа) -->
         <Spinner
             android:id="@+id/languageSpinner"
             android:layout_width="wrap_content"

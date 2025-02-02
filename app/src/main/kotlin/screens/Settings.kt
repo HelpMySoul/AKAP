@@ -1,3 +1,4 @@
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,8 @@ class Settings : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         val languageSpinner: Spinner = view.findViewById(R.id.languageSpinner)
-        val languageManager = LanguageManager(requireContext())
-        languageManager.setupLanguageSpinner(languageSpinner)
+
+        LanguageManager.setupLanguageSpinner(requireContext(), languageSpinner)
 
         return view
     }
