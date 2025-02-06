@@ -1,7 +1,10 @@
 package akap
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
@@ -13,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import screens.CurrentPlaylist
 import com.example.akap.R
 import locale.LanguageManager
@@ -34,7 +38,10 @@ class MainActivity : AppCompatActivity(), SongPlayerListener {
         val savedLanguage = LanguageManager.getSavedLanguage(this)
         LanguageManager.setLocale(this, savedLanguage)
 
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            songNextReceiver,
+            IntentFilter("SONG_NEXT")
+        )
 
 
         enableEdgeToEdge()
@@ -109,7 +116,13 @@ class MainActivity : AppCompatActivity(), SongPlayerListener {
         playerFragment?.updateSongAndPlaylist(this, song, playlist)
     }
     override fun onNextSongClicked() {
-        val allMusicFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        allMusicFragment?.playNextSong()
+        val currentPlaylistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        currentPlaylistFragment?.playNextSong()
+    }
+
+    private val songNextReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            onNextSongClicked()
+        }
     }
 }

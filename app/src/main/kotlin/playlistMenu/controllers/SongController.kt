@@ -2,6 +2,7 @@ package playlistMenu.controllers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -10,11 +11,14 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.akap.R
 import playlistMenu.adapters.SongAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
+import screens.CurrentPlaylist
 
 @SuppressLint("SetTextI18n")
 class SongController(
@@ -27,7 +31,7 @@ class SongController(
     private val skipIntroCheckBox: CheckBox,
     private val skipOutroCheckBox: CheckBox,
     private val pauseAndPlayButton: ImageButton,
-    private val currentTimeText: TextView
+    private val currentTimeText: TextView,
 ) {
 
     private val handler = Handler(Looper.getMainLooper())
@@ -115,16 +119,10 @@ class SongController(
     }
 
     private fun playNext() {
-        val nextSong = PlaylistManager.getNextSong(currentPlaylist)
-        if (nextSong == null) {
-            SongManager.stop()
-        } else {
+        playNextListenerSetup()
 
-            SongManager.play(context, nextSong)
-            currentSong = nextSong
-
-            playNextListenerSetup()
-        }
+        val intent = Intent("SONG_NEXT")
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 
     private fun playNextListenerSetup() {
