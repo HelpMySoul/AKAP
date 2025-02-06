@@ -9,7 +9,7 @@
         android:id="@+id/playlistNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/AllMusic_S"
+        android:text="@string/Current_playlist_S"
         android:textSize="18sp"
         android:textStyle="bold" />
 

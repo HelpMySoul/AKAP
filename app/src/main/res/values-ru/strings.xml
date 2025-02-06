@@ -11,7 +11,7 @@
 
     <string name="NowPlaying_S">Сейчас играет:</string>
     <string name="Language_S">Язык</string>
-    <string name="Playlists_S">Плейлисты</string>
+    <string name="Playlists_S">Все плейлисты</string>
     <string name="Recommendations_S">Рекомендации</string>
     <string name="Settings_S">Настройки</string>
     <string name="Tools_S">Инструменты</string>
@@ -31,7 +31,10 @@
     <string name="create_playlist">Создать плейлист</string>
     <string name="remove_song">Удалить пенсю</string>
     <string name="add_song">Добавить песню</string>
-    <string name="AllMusic_S">Вся музыка</string>
+    <string name="Current_playlist_S">Плейлист</string>
     <string name="song_title">Song Title</string>
     <string name="artist">Artist</string>
+    <string name="currentSongTime">0 / 0</string>
+    <string name="all_songs">Все песни</string>
+    <string name="song_S">Песен</string>
 </resources>

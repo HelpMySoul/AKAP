@@ -1,24 +1,21 @@
 package screens
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import playlistMenu.songControl.SongController
+import playlistMenu.interfaces.IPlaylist
+import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
-import java.io.IOException
+import playlistMenu.interfaces.SongPlayerListener
 
 class PlayerMain : Fragment() {
 
@@ -27,14 +24,23 @@ class PlayerMain : Fragment() {
     private lateinit var toggleSettingsButton: Button
     private lateinit var songControlPanel: View
     private var songController: SongController? = null
-    private lateinit var globalVolumeSeekBar: SeekBar
     private lateinit var localVolumeSeekBar: SeekBar
     private lateinit var skipIntroCheckBox: CheckBox
     private lateinit var skipOutroCheckBox: CheckBox
-    private lateinit var playButton: Button
-    private lateinit var pauseButton: Button
-    private lateinit var stopButton: Button
+    private lateinit var pauseAndPlayButton: ImageButton
+    private lateinit var currentTimeText: TextView
+    private lateinit var nextSongButton: ImageButton
 
+    private var currentPlaylist: IPlaylist? = null
+    private var currentSong: ISong? = null
+    private var nextSongClickListener: SongPlayerListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is SongPlayerListener) {
+            nextSongClickListener = context
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,13 +51,16 @@ class PlayerMain : Fragment() {
         currentTimeSeekBar = view.findViewById(R.id.currentTimeSeekBar)
         toggleSettingsButton = view.findViewById(R.id.toggleSettingsButton)
         songControlPanel = view.findViewById(R.id.included_song_control_panel)
-        globalVolumeSeekBar = view.findViewById(R.id.globalVolumeSeekBar)
         localVolumeSeekBar = view.findViewById(R.id.localVolumeSeekBar)
         skipIntroCheckBox = view.findViewById(R.id.skipIntroCheckBox)
         skipOutroCheckBox = view.findViewById(R.id.skipOutroCheckBox)
-        playButton = view.findViewById(R.id.playButton)
-        pauseButton = view.findViewById(R.id.pauseButton)
-        stopButton = view.findViewById(R.id.stopButton)
+        pauseAndPlayButton = view.findViewById(R.id.pauseAndPlayButton)
+        currentTimeText = view.findViewById(R.id.currentSongTimeText)
+        nextSongButton = view.findViewById(R.id.nextSongButton)
+
+        nextSongButton.setOnClickListener {
+            nextSongClickListener?.onNextSongClicked()
+        }
 
         toggleSettingsButton.setOnClickListener {
             if (songControlPanel.visibility == View.VISIBLE) {
@@ -62,11 +71,12 @@ class PlayerMain : Fragment() {
                 toggleSettingsButton.text = getString(R.string.hide_settings)
             }
         }
-
         return view
     }
 
-    fun updateSong( context: Context, song: ISong) {
+    fun updateSongAndPlaylist(context: Context, song: ISong, playlist: IPlaylist) {
+        currentSong = song
+        currentPlaylist = playlist
         currentSongTitle.text = song.title
 
         songController?.release()
@@ -74,22 +84,23 @@ class PlayerMain : Fragment() {
         songController = SongController(
             context = requireContext(),
             currentSong = song,
+            currentPlaylist = playlist,
             currentSongTitle = currentSongTitle,
             currentTimeSeekBar = currentTimeSeekBar,
-            globalVolumeSeekBar = globalVolumeSeekBar,
             localVolumeSeekBar = localVolumeSeekBar,
             skipIntroCheckBox = skipIntroCheckBox,
             skipOutroCheckBox = skipOutroCheckBox,
-            playButton = playButton,
-            pauseButton = pauseButton,
-            stopButton = stopButton
-
-
+            pauseAndPlayButton = pauseAndPlayButton,
+            currentTimeText = currentTimeText
         )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         songController?.release()
+    }
+    override fun onDetach() {
+        super.onDetach()
+        nextSongClickListener = null
     }
 }

@@ -1,15 +1,18 @@
-package playlistMenu.songControl
+package playlistMenu.services
 
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import playlistMenu.classes.Playlist
+import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
-class MusicFinder(private val context: Context) {
+class MusicFinderService(private val context: Context) {
 
-    fun findMusic(): List<ISong> {
-        val musicList = mutableListOf<ISong>()
+    fun findAllMusic(): MutableList<ISong> {
+
+        val songs: MutableList<ISong> = mutableListOf()
 
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
@@ -18,7 +21,7 @@ class MusicFinder(private val context: Context) {
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.DURATION,
-            MediaStore.Audio.Media.DATA
+            MediaStore.Audio.Media.DATA,
         )
 
         val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
@@ -53,14 +56,14 @@ class MusicFinder(private val context: Context) {
                     override val artist: String = artist
                     override var duration: Long = duration
                     override val filePath: String = path
-                    override var localVolume: Int = 100
+                    override var localVolume: Int = 50
                     override val introDuration: Long = 0
                     override val outroDuration: Long = 0
                 }
-                musicList.add(song)
+                songs.add(song)
             }
         }
 
-        return musicList
+        return songs
     }
 }

@@ -4,50 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/playButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/play" />
-
-        <Button
-            android:id="@+id/pauseButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/pause" />
-
-        <Button
-            android:id="@+id/stopButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/stop" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/global_volume"
-        android:layout_marginTop="16dp" />
-
-    <SeekBar
-        android:id="@+id/globalVolumeSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

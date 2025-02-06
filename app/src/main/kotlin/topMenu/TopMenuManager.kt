@@ -1,26 +1,29 @@
 package topMenu
 
 import Account
-import Playlists
+import screens.Playlists
 import Recommendations
 import Settings
 import Tools
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.akap.AllMusic
+import screens.CurrentPlaylist
 import com.example.akap.R
+import playlistMenu.controllers.PlaylistController
 
 object TopMenuManager {
 
-    fun loadButtons(
-        context: Context,
-        fragmentManager: FragmentManager,
-        containerId: Int
-    ): List<TopMenuButton> {
+    fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
-            TopMenuButton(context.getString(R.string.AllMusic_S)) { switchScreen(context, fragmentManager, containerId, AllMusic()) },
-            TopMenuButton(context.getString(R.string.Playlists_S)) { switchScreen(context, fragmentManager, containerId, Playlists()) },
+            TopMenuButton(context.getString(R.string.Current_playlist_S)) {
+                openCurrentPlaylist(context, fragmentManager, containerId)
+            },
+            TopMenuButton(context.getString(R.string.Playlists_S)) {
+                openPlaylistsScreen(context, fragmentManager, containerId)
+            },
             TopMenuButton(context.getString(R.string.Recommendations_S)) { switchScreen(context, fragmentManager, containerId, Recommendations()) },
             TopMenuButton(context.getString(R.string.Settings_S)) { switchScreen(context, fragmentManager, containerId, Settings()) },
             TopMenuButton(context.getString(R.string.Tools_S)) { switchScreen(context, fragmentManager, containerId, Tools()) },
@@ -29,12 +32,38 @@ object TopMenuManager {
 
     }
 
-    private fun switchScreen(
-        context: Context,
-        fragmentManager: FragmentManager,
-        containerId: Int,
-        fragment: Fragment
-    ) {
+    private fun openCurrentPlaylist(context: Context, fragmentManager: FragmentManager, containerId: Int) {
+        val playlistController = PlaylistController(context)
+        val currentPlaylist = playlistController.getPlaylist(context.getString(R.string.playlist_name))
+        currentPlaylist?.name?.let { Log.e("TopMenu", it) }
+        val fragment = CurrentPlaylist().apply {
+            arguments = Bundle().apply {
+                putString("playlist_name", currentPlaylist?.name)
+            }
+        }
+
+        fragmentManager.beginTransaction()
+            .replace(containerId, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun openPlaylistsScreen(context: Context, fragmentManager: FragmentManager, containerId: Int) {
+        val existingFragment = fragmentManager.findFragmentByTag("Playlists")
+
+        if (existingFragment != null) {
+            fragmentManager.popBackStack("Playlists", 0)
+        } else {
+            val fragment = Playlists()
+
+            fragmentManager.beginTransaction()
+                .replace(containerId, fragment, "Playlists")
+                .addToBackStack("Playlists")
+                .commit()
+        }
+    }
+
+    private fun switchScreen(context: Context, fragmentManager: FragmentManager, containerId: Int, fragment: Fragment) {
         fragmentManager.beginTransaction()
             .replace(containerId, fragment)
             .addToBackStack(null)
