@@ -33,7 +33,6 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
 
-    private lateinit var currentPlaylist: CurrentPlaylist
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +66,7 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-            currentPlaylist = CurrentPlaylist()
-            transaction.replace(R.id.songContainerFragment, currentPlaylist)
+            transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
             transaction.replace(R.id.playerLayout, PlayerMain())
             transaction.commit()
         }
