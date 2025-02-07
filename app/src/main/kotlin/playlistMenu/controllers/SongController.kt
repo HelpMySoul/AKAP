@@ -134,10 +134,11 @@ class SongController(
 
 
     private fun playNext() {
-        playNextListenerSetup()
 
-        val intent = Intent("SONG_NEXT")
+        val intent = Intent("NEXT_SONG")
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+
+        playNextListenerSetup()
     }
 
     private fun playNextListenerSetup() {

@@ -74,7 +74,7 @@ class PlayerMain : Fragment() {
         shuffleSongButton = view.findViewById(R.id.shuffleSongButton)
 
         nextSongButton.setOnClickListener {
-            playerClickListener?.onNextSong()
+            nextSong()
         }
 
         shuffleSongButton.setOnClickListener {
@@ -92,6 +92,11 @@ class PlayerMain : Fragment() {
             }
         }
         return view
+    }
+
+    private fun nextSong() {
+        val intent = Intent("NEXT_SONG")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
     }
 
     private fun shuffleCurrentPlaylist() {

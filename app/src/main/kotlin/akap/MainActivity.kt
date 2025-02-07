@@ -7,9 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -79,8 +77,8 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     }
     private fun  localBroadcastManagerSetup() {
         LocalBroadcastManager.getInstance(this).registerReceiver(
-            songNextReceiver,
-            IntentFilter("SONG_NEXT")
+            nextSongReceiver,
+            IntentFilter("NEXT_SONG")
         )
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -88,27 +86,8 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             IntentFilter("SHUFFLE_PLAYLIST")
         )
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            showPlayerReceiver,
-            IntentFilter("SHOW_PLAYER")
-        )
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            hidePlayerReceiver,
-            IntentFilter("HIDE_PLAYER")
-        )
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            hidePlaylistReceiver,
-            IntentFilter("HIDE_PLAYLIST")
-        )
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            showPlaylistReceiver,
-            IntentFilter("SHOW_PLAYLIST")
-        )
     }
-    private val songNextReceiver = object : BroadcastReceiver() {
+    private val nextSongReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (SongManager.isRepeating) {
                 onRepeatSong()
@@ -125,29 +104,6 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         }
     }
 
-    private val showPlayerReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onShowPlayer()
-        }
-    }
-
-    private val hidePlayerReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onHidePlayer()
-        }
-    }
-
-    private val showPlaylistReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onShowPlaylist()
-        }
-    }
-
-    private val hidePlaylistReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onHidePlaylist()
-        }
-    }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -174,16 +130,9 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     private fun createTopMenuButtons() {
         val topMenuLayout: LinearLayout = findViewById(R.id.topMenuLayout)
 
-        val playlistTopButton = TopMenuManager.loadPlaylistButton(this, supportFragmentManager, R.id.songContainerFragment )
 
-        val playlistButton = Button(this).apply {
-            text = playlistTopButton.name
-            setOnClickListener { playlistTopButton.action() }
-        }
 
-        topMenuLayout.addView(playlistButton)
-
-        val buttons = TopMenuManager.loadButtons(this, supportFragmentManager, R.id.menuContainerFragment )
+        val buttons = TopMenuManager.loadButtons(this, supportFragmentManager, R.id.songContainerFragment )
 
         for (button in buttons) {
             val btn = Button(this).apply {
@@ -202,64 +151,21 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
 
     override fun onNextSong() {
-        currentPlaylist.playNextSong()
+
+        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playerFragment?.playNextSong()
     }
 
     override fun onRepeatSong() {
-        currentPlaylist.repeatSong()
+        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playerFragment?.repeatSong()
     }
 
 
 
-    private fun onHidePlayer() {
-        val playerLayout: FrameLayout = findViewById(R.id.playerLayout)
-
-        if (playerLayout.visibility != View.GONE)
-        {
-            playerLayout.visibility = View.GONE
-        }
-    }
-
-    private fun onShowPlayer() {
-
-        val playerLayout: FrameLayout = findViewById(R.id.playerLayout)
-
-        if (playerLayout.visibility != View.VISIBLE)
-        {
-            playerLayout.visibility = View.VISIBLE
-        }
-
-    }
-
-    private fun onHidePlaylist() {
-        val playlistLayout: FrameLayout = findViewById(R.id.songContainerFragment)
-        val menuLayout: FrameLayout = findViewById(R.id.menuContainerFragment)
-
-        if (playlistLayout.visibility != View.GONE) {
-            playlistLayout.visibility = View.GONE
-
-        }
-        if (menuLayout.visibility != View.VISIBLE) {
-            menuLayout.visibility = View.VISIBLE
-        }
-    }
-
-    private fun onShowPlaylist() {
-
-        val playlistLayout: FrameLayout = findViewById(R.id.songContainerFragment)
-        val menuLayout: FrameLayout = findViewById(R.id.menuContainerFragment)
-
-        if (playlistLayout.visibility != View.VISIBLE) {
-            playlistLayout.visibility = View.VISIBLE
-        }
-
-        if (menuLayout.visibility != View.GONE) {
-            menuLayout.visibility = View.GONE
-        }
-
-    }
 
     private fun onPlaylistShuffleClicked() {
-        currentPlaylist.refreshPlaylist()
+        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playerFragment?.refreshPlaylist()
     }
 }

@@ -59,10 +59,6 @@ class CurrentPlaylist : Fragment() {
 
     private fun playSong(song: ISong) {
 
-        val intent = Intent("SHOW_PLAYER")
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-
-
         playlist?.findSong(song)?.let {
             songAdapter.refresh()
             songPlayerListener?.updateSong(it, playlist!!)
@@ -71,20 +67,13 @@ class CurrentPlaylist : Fragment() {
 
     fun playNextSong() {
         playlist?.getNext()?.let { playSong(it) }
+        songAdapter.refresh()
     }
 
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        if (SongManager.isPlaying) {
-            val intent = Intent("SHOW_PLAYER")
-            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-        }
-
-        val intent = Intent("SHOW_PLAYLIST")
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
 
         if (context is ISongPlayerListener) {
             songPlayerListener = context
@@ -93,12 +82,7 @@ class CurrentPlaylist : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        /*
-        val intent = Intent("HIDE_PLAYER")
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-        */
-        val intent = Intent("HIDE_PLAYLIST")
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
         songPlayerListener = null
     }
 
