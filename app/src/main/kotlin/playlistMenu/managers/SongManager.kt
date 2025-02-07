@@ -12,20 +12,33 @@ import java.io.IOException
 object SongManager {
 
     private var mediaPlayer: MediaPlayer? = null
+
+    private var currentSong: ISong? = null
+
     var isPlaying: Boolean = false
+    var isRepeating: Boolean = false
+
     var skipTheIntro: Boolean = false
     var skipTheOutro: Boolean = false
 
+
     fun play(context: Context, song: ISong) {
         Log.e("SongManager", "Current song: ${song.title}")
+
+
+
         if (mediaPlayer?.isPlaying == true) {
             stop()
         }
+
         initializeMediaPlayer(context, song)
+
+        currentSong = song
 
         mediaPlayer?.setOnPreparedListener {
             it.start()
             isPlaying = true
+            setLocalVolume(song.localVolume / 100f)
             if (skipTheIntro) {
                 it.seekTo(song.introDuration.toInt())
             }
@@ -83,7 +96,20 @@ object SongManager {
 
     fun setLocalVolume(volume: Float) {
         mediaPlayer?.setVolume(volume, volume)
+
     }
+
+    fun saveLocalVolume(context: Context, volume: Int) {
+        currentSong?.let { song ->
+            song.localVolume = (volume)
+            SongMetadataManager.saveMetadata(context, song)
+        }
+    }
+
+    fun getLocalVolume(): Int {
+        return currentSong?.localVolume ?: 100
+    }
+
 
     fun release() {
         mediaPlayer?.release()

@@ -7,6 +7,8 @@ import android.provider.MediaStore
 import playlistMenu.classes.Playlist
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
+import playlistMenu.managers.SongManager
+import playlistMenu.managers.SongMetadataManager
 
 class MusicFinderService(private val context: Context) {
 
@@ -56,10 +58,11 @@ class MusicFinderService(private val context: Context) {
                     override val artist: String = artist
                     override var duration: Long = duration
                     override val filePath: String = path
-                    override var localVolume: Int = 50
-                    override val introDuration: Long = 0
-                    override val outroDuration: Long = 0
+                    override var localVolume: Int = 75
+                    override var introDuration: Long = 0
+                    override var outroDuration: Long = 0
                 }
+                SongMetadataManager.loadMetadata(context, song)
                 songs.add(song)
             }
         }

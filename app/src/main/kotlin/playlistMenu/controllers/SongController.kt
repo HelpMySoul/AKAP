@@ -6,19 +6,16 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.akap.R
-import playlistMenu.adapters.SongAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
-import screens.CurrentPlaylist
 
 @SuppressLint("SetTextI18n")
 class SongController(
@@ -26,39 +23,46 @@ class SongController(
     private var currentSong: ISong,
     private var currentPlaylist: IPlaylist,
     private val currentSongTitle: TextView,
+    private val currentTimeText: TextView,
     private val currentTimeSeekBar: SeekBar,
     private val localVolumeSeekBar: SeekBar,
     private val skipIntroCheckBox: CheckBox,
     private val skipOutroCheckBox: CheckBox,
-    private val pauseAndPlayButton: ImageButton,
-    private val currentTimeText: TextView,
+    private val repeatSongCheckBox: CheckBox,
+    private val pauseAndPlayButton: ImageButton
 ) {
 
     private val handler = Handler(Looper.getMainLooper())
     private val updateSeekBarTask = Runnable { updateSongTime() }
 
     init {
-        PlaylistManager.getSongFromPlaylist(currentSong, currentPlaylist)?.let {
-            SongManager.play(context, it)
-            currentSong = it
-
-            playNextListenerSetup()
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                updateUI(true)
-            }, 100)
-        }
-
-        Handler(Looper.getMainLooper()).postDelayed( {
-            currentSongTitle.isSelected = true
-        }, 100)
-
-        Log.e("SongController", "Index: ${currentPlaylist.getIndex()}")
-        updateUI()
+        playCurrentSong()
 
         setupListeners()
 
         startUpdatingSeekBar()
+    }
+
+    private fun  playCurrentSong() {
+        playSong(currentSong)
+    }
+
+
+
+    private  fun playSong(song: ISong) {
+        PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let {
+            SongManager.play(context, it)
+            currentSong = it
+        }
+        playNextListenerSetup()
+
+        Handler(Looper.getMainLooper()).postDelayed( {
+            currentSongTitle.isSelected = true
+            updateUI(true)
+        }, 100)
+
+        updateUI()
+
     }
 
     private fun setupListeners() {
@@ -91,6 +95,9 @@ class SongController(
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                seekBar?.let {
+                    SongManager.saveLocalVolume(context, it.progress)
+                }
                 updateUI()
             }
         })
@@ -104,7 +111,13 @@ class SongController(
             SongManager.skipTheOutro = isChecked
             updateUI()
         }
-        
+
+        repeatSongCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            SongManager.isRepeating = isChecked
+            updateUI()
+        }
+
+
         pauseAndPlayButton.setOnClickListener {
             if (SongManager.isPlaying) {
                 SongManager.pause()
@@ -117,6 +130,8 @@ class SongController(
 
         playNextListenerSetup()
     }
+
+
 
     private fun playNext() {
         playNextListenerSetup()
@@ -151,6 +166,9 @@ class SongController(
         } else {
             pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
         }
+
+        localVolumeSeekBar.progress = SongManager.getLocalVolume()
+
     }
 
 

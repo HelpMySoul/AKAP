@@ -1,11 +1,13 @@
 package screens
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -51,6 +53,10 @@ class Playlists : Fragment() {
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
+
+        val intent = Intent("SHOW_PLAYLIST")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
         GlobalManager.playlistName = playlist.name
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {

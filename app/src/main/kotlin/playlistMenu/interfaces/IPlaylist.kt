@@ -1,5 +1,8 @@
 package playlistMenu.interfaces
 
+import java.io.Serializable
+
+
 interface IPlaylist {
     val name: String
     var songs: MutableList<ISong>

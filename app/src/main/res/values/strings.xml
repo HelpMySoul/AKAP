@@ -39,4 +39,7 @@
     <string name="all_songs">All songs</string>
     <string name="song_S">Songs</string>
     <string name="playlist_name" translatable="false" />
+    <string name="shuffleSongButton">Shuffle playlist</string>
+    <string name="repeat">Repeat song</string>
+    <string name="No_Playlist">No playlist</string>
 </resources>

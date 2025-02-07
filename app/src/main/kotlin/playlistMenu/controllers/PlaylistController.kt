@@ -27,4 +27,5 @@ class PlaylistController(private val context: Context) {
     fun addSongToPlaylist(playlistName: String, song: ISong) {
         PlaylistManager.addSongToPlaylist(playlistName, song)
     }
+
 }

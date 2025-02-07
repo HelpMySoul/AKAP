@@ -1,13 +1,14 @@
 package screens
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.akap.R
@@ -15,8 +16,9 @@ import playlistMenu.adapters.SongAdapter
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.interfaces.SongPlayerListener
+import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
+import playlistMenu.managers.SongManager
 
 class CurrentPlaylist : Fragment() {
 
@@ -25,7 +27,7 @@ class CurrentPlaylist : Fragment() {
     private lateinit var playlistController: PlaylistController
     private lateinit var playlistNameText: TextView
     private var playlist: IPlaylist? = null
-    private var songPlayerListener: SongPlayerListener? = null
+    private var songPlayerListener: ISongPlayerListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +58,11 @@ class CurrentPlaylist : Fragment() {
 
 
     private fun playSong(song: ISong) {
+
+        val intent = Intent("SHOW_PLAYER")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
+
         playlist?.findSong(song)?.let {
             songAdapter.refresh()
             songPlayerListener?.updateSong(it, playlist!!)
@@ -66,15 +73,44 @@ class CurrentPlaylist : Fragment() {
         playlist?.getNext()?.let { playSong(it) }
     }
 
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is SongPlayerListener) {
+
+        if (SongManager.isPlaying) {
+            val intent = Intent("SHOW_PLAYER")
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+        }
+
+        val intent = Intent("SHOW_PLAYLIST")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
+        if (context is ISongPlayerListener) {
             songPlayerListener = context
         }
     }
 
     override fun onDetach() {
         super.onDetach()
+        /*
+        val intent = Intent("HIDE_PLAYER")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+        */
+        val intent = Intent("HIDE_PLAYLIST")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
         songPlayerListener = null
     }
+
+    fun refreshPlaylist() {
+        playlist?.getFirstSong()?.let {
+            songAdapter.refresh()
+            songPlayerListener?.updateSong(it, playlist!!)
+        }
+    }
+
+    fun repeatSong() {
+        playlist?.getCurrentSong()?.let { playSong(it) }
+    }
+
 }

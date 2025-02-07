@@ -37,4 +37,7 @@
     <string name="currentSongTime">0 / 0</string>
     <string name="all_songs">Все песни</string>
     <string name="song_S">Песен</string>
+    <string name="shuffleSongButton">Перемешать плейлист</string>
+    <string name="repeat">Повторять песню</string>
+    <string name="No_Playlist">No playlist</string>
 </resources>

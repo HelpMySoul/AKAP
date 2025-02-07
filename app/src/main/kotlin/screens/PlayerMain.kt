@@ -1,6 +1,7 @@
 package screens
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,35 +11,47 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.akap.R
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
-import playlistMenu.interfaces.SongPlayerListener
+import playlistMenu.interfaces.ISongPlayerListener
 
 class PlayerMain : Fragment() {
 
     private lateinit var currentSongTitle: TextView
+    private lateinit var currentTimeText: TextView
+
     private lateinit var currentTimeSeekBar: SeekBar
-    private lateinit var toggleSettingsButton: Button
-    private lateinit var songControlPanel: View
-    private var songController: SongController? = null
     private lateinit var localVolumeSeekBar: SeekBar
+
+    private lateinit var toggleSettingsButton: Button
+    private lateinit var shuffleSongButton: Button
+
+    private lateinit var pauseAndPlayButton: ImageButton
+    private lateinit var nextSongButton: ImageButton
+
+    private lateinit var songControlPanel: View
+
+    private var songController: SongController? = null
+
     private lateinit var skipIntroCheckBox: CheckBox
     private lateinit var skipOutroCheckBox: CheckBox
-    private lateinit var pauseAndPlayButton: ImageButton
-    private lateinit var currentTimeText: TextView
-    private lateinit var nextSongButton: ImageButton
+    private lateinit var repeatSongCheckBox: CheckBox
+
+
 
     private var currentPlaylist: IPlaylist? = null
     private var currentSong: ISong? = null
-    private var nextSongClickListener: SongPlayerListener? = null
+    private var playerClickListener: ISongPlayerListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is SongPlayerListener) {
-            nextSongClickListener = context
+        if (context is ISongPlayerListener) {
+            playerClickListener = context
         }
     }
     override fun onCreateView(
@@ -57,10 +70,17 @@ class PlayerMain : Fragment() {
         pauseAndPlayButton = view.findViewById(R.id.pauseAndPlayButton)
         currentTimeText = view.findViewById(R.id.currentSongTimeText)
         nextSongButton = view.findViewById(R.id.nextSongButton)
+        repeatSongCheckBox = view.findViewById(R.id.repeatCheckBox)
+        shuffleSongButton = view.findViewById(R.id.shuffleSongButton)
 
         nextSongButton.setOnClickListener {
-            nextSongClickListener?.onNextSongClicked()
+            playerClickListener?.onNextSong()
         }
+
+        shuffleSongButton.setOnClickListener {
+            shuffleCurrentPlaylist()
+        }
+
 
         toggleSettingsButton.setOnClickListener {
             if (songControlPanel.visibility == View.VISIBLE) {
@@ -72,6 +92,17 @@ class PlayerMain : Fragment() {
             }
         }
         return view
+    }
+
+    private fun shuffleCurrentPlaylist() {
+        if (currentPlaylist == null) {
+            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            return
+        }
+        currentPlaylist?.shuffle()
+
+        val intent = Intent("SHUFFLE_PLAYLIST")
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
     }
 
     fun updateSongAndPlaylist(context: Context, song: ISong, playlist: IPlaylist) {
@@ -91,7 +122,8 @@ class PlayerMain : Fragment() {
             skipIntroCheckBox = skipIntroCheckBox,
             skipOutroCheckBox = skipOutroCheckBox,
             pauseAndPlayButton = pauseAndPlayButton,
-            currentTimeText = currentTimeText
+            currentTimeText = currentTimeText,
+            repeatSongCheckBox = repeatSongCheckBox
         )
     }
 
@@ -101,6 +133,6 @@ class PlayerMain : Fragment() {
     }
     override fun onDetach() {
         super.onDetach()
-        nextSongClickListener = null
+        playerClickListener = null
     }
 }

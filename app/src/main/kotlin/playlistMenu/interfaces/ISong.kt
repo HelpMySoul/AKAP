@@ -1,5 +1,8 @@
 package playlistMenu.interfaces
 
+import java.io.Serializable
+
+
 interface ISong {
     val id: Long
     val title: String
@@ -7,6 +10,6 @@ interface ISong {
     var duration: Long
     val filePath: String
     var localVolume : Int
-    val introDuration : Long
-    val outroDuration : Long
+    var introDuration : Long
+    var outroDuration : Long
 }

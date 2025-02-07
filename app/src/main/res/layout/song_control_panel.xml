@@ -17,11 +17,18 @@
         android:max="100" />
 
     <CheckBox
+        android:id="@+id/repeatCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat"
+        android:layout_marginTop="8dp" />
+
+    <CheckBox
         android:id="@+id/skipIntroCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/skip_intro"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp" />
 
     <CheckBox
         android:id="@+id/skipOutroCheckBox"
@@ -29,5 +36,15 @@
         android:layout_height="wrap_content"
         android:text="@string/skip_outro"
         android:layout_marginTop="8dp" />
+
+
+    <Button
+        android:id="@+id/shuffleSongButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/shuffleSongButton"
+        android:textAlignment="center"
+        android:orientation="vertical"   />
 
 </LinearLayout>
