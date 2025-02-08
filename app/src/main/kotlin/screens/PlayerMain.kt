@@ -19,6 +19,7 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
+import playlistMenu.managers.SongManager
 
 class PlayerMain : Fragment() {
 
@@ -74,11 +75,16 @@ class PlayerMain : Fragment() {
         shuffleSongButton = view.findViewById(R.id.shuffleSongButton)
 
         nextSongButton.setOnClickListener {
-            nextSong()
+            val intent = Intent("NEXT_SONG")
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
         }
 
         shuffleSongButton.setOnClickListener {
             shuffleCurrentPlaylist()
+        }
+
+        repeatSongCheckBox.setOnClickListener {
+            SongManager.isRepeating = repeatSongCheckBox.isChecked
         }
 
 
@@ -94,9 +100,25 @@ class PlayerMain : Fragment() {
         return view
     }
 
-    private fun nextSong() {
-        val intent = Intent("NEXT_SONG")
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+     fun nextSong() {
+         if (currentPlaylist == null) {
+            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            return
+         }
+         if (SongManager.isRepeating) {
+             currentPlaylist?.getCurrentSong()?.let {
+                 updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
+             }
+         } else {
+             currentPlaylist?.getNext().let {
+                 if (it != null) {
+                     updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
+                 }
+             }
+         }
+
+
+
     }
 
     private fun shuffleCurrentPlaylist() {
@@ -105,6 +127,8 @@ class PlayerMain : Fragment() {
             return
         }
         currentPlaylist?.shuffle()
+
+        currentPlaylist!!.getFirstSong()?.let { updateSongAndPlaylist(requireContext(), it, currentPlaylist!!) }
 
         val intent = Intent("SHUFFLE_PLAYLIST")
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)

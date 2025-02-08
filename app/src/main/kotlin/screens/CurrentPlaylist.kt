@@ -66,7 +66,6 @@ class CurrentPlaylist : Fragment() {
     }
 
     fun playNextSong() {
-        playlist?.getNext()?.let { playSong(it) }
         songAdapter.refresh()
     }
 
@@ -94,7 +93,7 @@ class CurrentPlaylist : Fragment() {
     }
 
     fun repeatSong() {
-        playlist?.getCurrentSong()?.let { playSong(it) }
+        songAdapter.refresh()
     }
 
 }

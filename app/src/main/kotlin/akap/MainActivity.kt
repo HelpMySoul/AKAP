@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -149,21 +150,24 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
 
     override fun onNextSong() {
+        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerLayout) as? PlayerMain
+        playerFragment?.nextSong()
 
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playerFragment?.playNextSong()
+        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playlistFragment?.playNextSong()
     }
 
     override fun onRepeatSong() {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playerFragment?.repeatSong()
+        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerLayout) as? PlayerMain
+        playerFragment?.nextSong()
+
+        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playlistFragment?.repeatSong()
     }
-
-
-
 
     private fun onPlaylistShuffleClicked() {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playerFragment?.refreshPlaylist()
+        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playlistFragment?.refreshPlaylist()
     }
+
 }
