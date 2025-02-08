@@ -28,4 +28,8 @@ class PlaylistController(private val context: Context) {
         PlaylistManager.addSongToPlaylist(playlistName, song)
     }
 
+    fun deletePlaylist(playlistName: String) {
+        PlaylistManager.deletePlaylist(playlistName)
+    }
+
 }

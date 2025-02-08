@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -24,6 +23,7 @@ import locale.LanguageManager
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
+import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
 import screens.PlayerMain
@@ -85,6 +85,10 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             IntentFilter("SHUFFLE_PLAYLIST")
         )
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            playlistRefreshReceiver,
+            IntentFilter("REFRESH_PLAYLIST")
+        )
     }
     private val nextSongReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -102,6 +106,18 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             onPlaylistShuffleClicked()
         }
     }
+
+    private val playlistRefreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            onPlaylistRefresh()
+        }
+    }
+
+    private fun onPlaylistRefresh() {
+        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+        playlistFragment?.refresh()
+    }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -123,7 +139,7 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     }
 
     private fun showPermissionDeniedMessage() {
-        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show()
     }
 
     private fun createTopMenuButtons() {
@@ -143,7 +159,7 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     }
 
-    override fun updateSong(song: ISong, playlist: IPlaylist) {
+    override fun updateUI(song: ISong?, playlist: IPlaylist) {
         val playerFragment = supportFragmentManager.findFragmentById(R.id.playerLayout) as? PlayerMain
         playerFragment?.updateSongAndPlaylist(this, song, playlist)
     }
@@ -165,9 +181,11 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         playlistFragment?.repeatSong()
     }
 
+
+
     private fun onPlaylistShuffleClicked() {
         val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playlistFragment?.refreshPlaylist()
+        playlistFragment?.playFirstInPlaylist()
     }
 
 }

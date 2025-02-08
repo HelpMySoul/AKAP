@@ -14,6 +14,7 @@ import playlistMenu.adapters.PlaylistAdapter
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.managers.GlobalManager
+import playlistMenu.managers.MenuFragmentManager
 
 class Playlists : Fragment() {
 
@@ -52,16 +53,17 @@ class Playlists : Fragment() {
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
         GlobalManager.playlistName = playlist.name
+
+
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {
                 putString("playlist_name", GlobalManager.playlistName)
             }
         }
 
-    parentFragmentManager.beginTransaction()
-        .replace(R.id.songContainerFragment, currentPlaylistFragment)
-        .addToBackStack(null)
-        .commit()
-
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.songContainerFragment, currentPlaylistFragment, GlobalManager.playlistName)
+            .addToBackStack(null)
+            .commit()
     }
 }

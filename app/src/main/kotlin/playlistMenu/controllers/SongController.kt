@@ -20,7 +20,7 @@ import playlistMenu.managers.SongManager
 @SuppressLint("SetTextI18n")
 class SongController(
     private val context: Context,
-    private var currentSong: ISong,
+    private var currentSong: ISong?,
     private var currentPlaylist: IPlaylist,
     private val currentSongTitle: TextView,
     private val currentTimeText: TextView,
@@ -44,7 +44,7 @@ class SongController(
     }
 
     private fun  playCurrentSong() {
-        playSong(currentSong)
+        currentSong?.let { playSong(it) }
     }
 
 
@@ -152,13 +152,18 @@ class SongController(
 
     private fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
-            currentSongTitle.text = "${currentSong.artist} - ${currentSong.title}"
+            currentSongTitle.text = "${currentSong?.artist} - ${currentSong?.title}"
         }
 
-        currentTimeSeekBar.max = currentSong.duration.toInt()
+        currentTimeSeekBar.max = currentSong?.duration?.toInt() ?: 0
         currentTimeSeekBar.progress = SongManager.getCurrentPosition()
 
-        currentTimeText.text = "${formatTime(SongManager.getCurrentPosition())} / ${formatTime(currentSong.duration.toInt())}"
+        currentTimeText.text = "${formatTime(SongManager.getCurrentPosition())} / ${
+            currentSong?.duration?.let {
+                formatTime(
+                    it.toInt())
+            }
+        }"
 
         currentSongTitle.isSelected = true
 
@@ -203,7 +208,10 @@ class SongController(
     }
 
     private  fun updateSongTimeText(currentTime: Int) {
-        currentTimeText.text = "${formatTime(currentTime)} / ${formatTime(currentSong.duration.toInt())}"
+        currentTimeText.text = "${formatTime(currentTime)} / ${currentSong?.duration?.let {
+            formatTime(
+                it.toInt())
+        }}"
     }
     fun release() {
         stopUpdatingSeekBar()

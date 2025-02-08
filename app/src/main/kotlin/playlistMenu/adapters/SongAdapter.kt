@@ -11,7 +11,7 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
 class SongAdapter(
-    private val playlist: IPlaylist,
+    private var playlist: IPlaylist,
     private val onSongClick: (ISong) -> Unit) : RecyclerView.Adapter<SongHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
@@ -37,6 +37,15 @@ class SongAdapter(
 
     override fun getItemCount(): Int {
         return playlist.songs.size
+    }
+
+
+
+    fun updatePlaylist(playlist: IPlaylist?) {
+        if (playlist != null) {
+            this.playlist = playlist
+        }
+        refresh()
     }
 
     @SuppressLint("NotifyDataSetChanged")

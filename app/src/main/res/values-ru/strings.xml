@@ -40,4 +40,8 @@
     <string name="shuffleSongButton">Перемешать плейлист</string>
     <string name="repeat">Повторять песню</string>
     <string name="No_Playlist">No playlist</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="search_hint">Поиск песни или автора…</string>
+    <string name="found_by">Found by:</string>
+    <string name="no_songs">No songs</string>
 </resources>

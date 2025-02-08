@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.akap.R
+import kotlinx.coroutines.currentCoroutineContext
 import playlistMenu.interfaces.IPlaylist
 
 class PlaylistAdapter(
@@ -27,9 +28,9 @@ class PlaylistAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val playlist = playlists[position]
-
         holder.playlistName.text = playlist.name
-        holder.songCount.text = "${R.string.song_S}" + ": ${playlist.songs.size}"
+        val songCountText = holder.itemView.context.getString(R.string.song_S)
+        holder.songCount.text = "$songCountText: ${playlist.songs.size}"
 
         holder.itemView.setOnClickListener { onPlaylistClick(playlist) }
     }

@@ -42,4 +42,8 @@
     <string name="shuffleSongButton">Shuffle playlist</string>
     <string name="repeat">Repeat song</string>
     <string name="No_Playlist">No playlist</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="search_hint">Search for a song or author…</string>
+    <string name="found_by">Found by:</string>
+    <string name="no_songs">No songs</string>
 </resources>

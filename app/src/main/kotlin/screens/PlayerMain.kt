@@ -134,11 +134,27 @@ class PlayerMain : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
     }
 
-    fun updateSongAndPlaylist(context: Context, song: ISong, playlist: IPlaylist) {
+    fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist) {
+        if (song != null) {
+            updateSong(song, playlist)
+            updateSongController(song, playlist)
+        }
+
+    }
+
+    private fun updateSong(song: ISong?, playlist: IPlaylist) {
         currentSong = song
         currentPlaylist = playlist
-        currentSongTitle.text = song.title
+        if (song != null) {
+            currentSongTitle.text = song.title
+        }
+        else {
+            currentSongTitle.text =  context?.getString(R.string.currentSongTime) ?: context?.getString(R.string.now_playing)
+        }
+    }
 
+
+    private fun updateSongController(song: ISong?, playlist: IPlaylist) {
         songController?.release()
 
         songController = SongController(
@@ -155,7 +171,6 @@ class PlayerMain : Fragment() {
             repeatSongCheckBox = repeatSongCheckBox
         )
     }
-
     override fun onDestroy() {
         super.onDestroy()
         songController?.release()

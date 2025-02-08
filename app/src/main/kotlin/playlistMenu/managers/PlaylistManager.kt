@@ -30,6 +30,12 @@ object PlaylistManager {
     }
 
     fun createPlaylist(name: String, songs: List<ISong>) {
+        val existingPlaylist = playlists.find { it.name == name }
+
+        if (existingPlaylist != null) {
+            playlists.remove(existingPlaylist)
+        }
+
         val playlist = Playlist(name)
         songs.forEach { playlist.addSong(it) }
         playlists.add(playlist)
@@ -45,6 +51,10 @@ object PlaylistManager {
 
     fun getSongFromPlaylist(song: ISong, playlist: IPlaylist): ISong? {
         return playlist.findSong(song)
+    }
+
+    fun deletePlaylist(playlistName: String) {
+        playlists.remove(getPlaylistByName(playlistName))
     }
 }
 

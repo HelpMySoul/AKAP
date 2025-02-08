@@ -61,6 +61,8 @@ class MusicFinderService(private val context: Context) {
                     override var localVolume: Int = 75
                     override var introDuration: Long = 0
                     override var outroDuration: Long = 0
+
+
                 }
                 SongMetadataManager.loadMetadata(context, song)
                 songs.add(song)

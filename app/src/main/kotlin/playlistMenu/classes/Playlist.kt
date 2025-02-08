@@ -1,6 +1,7 @@
 package playlistMenu.classes
 
 import android.util.Log
+import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
@@ -78,5 +79,13 @@ class Playlist(override val name: String) : IPlaylist {
 
     override fun getCurrentSong(): ISong? {
         return getSongAt(songIndex)
+    }
+
+    override fun findSongByKeyword(keyword: String): MutableList<ISong> {
+        val foundedSongs: List<ISong> = songs.filter { song ->
+            song.title.contains(keyword, ignoreCase = true) || song.artist.contains(keyword, ignoreCase = true)
+        }
+
+        return foundedSongs.toMutableList()
     }
 }
