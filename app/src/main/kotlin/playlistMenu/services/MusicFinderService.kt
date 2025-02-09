@@ -39,29 +39,28 @@ class MusicFinderService(private val context: Context) {
         )
 
         cursor?.use {
-            val idColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val titleColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-            val artistColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-            val durationColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-            val pathColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val idColumn        = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+            val titleColumn     = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val artistColumn    = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val durationColumn  = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+            val pathColumn      = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             while (it.moveToNext()) {
-                val id = it.getLong(idColumn)
-                val title = it.getString(titleColumn)
-                val artist = it.getString(artistColumn)
-                val duration = it.getLong(durationColumn)
-                val path = it.getString(pathColumn)
+                val id          = it.getLong(idColumn)
+                val title       = it.getString(titleColumn)
+                val artist      = it.getString(artistColumn)
+                val duration    = it.getLong(durationColumn)
+                val path        = it.getString(pathColumn)
 
                 val song = object : ISong {
-                    override val id: Long = id
-                    override val title: String = title
-                    override val artist: String = artist
-                    override var duration: Long = duration
-                    override val filePath: String = path
-                    override var localVolume: Int = 75
-                    override var introDuration: Long = 0
-                    override var outroDuration: Long = 0
-
+                    override val id:            Long    = id
+                    override val title:         String  = title
+                    override val artist:        String  = artist
+                    override var duration:      Long    = duration
+                    override val filePath:      String  = path
+                    override var localVolume:   Int     = 75
+                    override var introDuration: Long    = 0
+                    override var outroDuration: Long    = 0
 
                 }
                 SongMetadataManager.loadMetadata(context, song)

@@ -46,7 +46,6 @@ class Playlist(override val name: String) : IPlaylist {
     }
 
     override fun getNext(): ISong? {
-        Log.e("Playlist", "index: $songIndex : ${songs.size}")
         return if (songIndex + 1 < songs.size) {
             songIndex++
             songs[songIndex]
@@ -54,7 +53,6 @@ class Playlist(override val name: String) : IPlaylist {
             null
         }
     }
-
 
     override fun getBefore(): ISong? {
         return if (songIndex > 0) {

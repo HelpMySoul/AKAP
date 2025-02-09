@@ -11,21 +11,16 @@ import java.io.IOException
 
 object SongManager {
 
-    private var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer:    MediaPlayer?    = null
+    private var currentSong:    ISong?          = null
 
-    private var currentSong: ISong? = null
-
-    var isPlaying: Boolean = false
-    var isRepeating: Boolean = false
-
-    var skipTheIntro: Boolean = false
-    var skipTheOutro: Boolean = false
-
+    var isPlaying:              Boolean         = false
+    var isRepeating:            Boolean         = false
+    var skipTheIntro:           Boolean         = false
+    var skipTheOutro:           Boolean         = false
 
     fun play(context: Context, song: ISong) {
         Log.e("SongManager", "Current song: ${song.title}")
-
-
 
         if (mediaPlayer?.isPlaying == true) {
             stop()
@@ -113,8 +108,8 @@ object SongManager {
 
     fun release() {
         mediaPlayer?.release()
-        mediaPlayer = null
-        isPlaying = false
+        mediaPlayer     = null
+        isPlaying       = false
     }
 
     private fun initializeMediaPlayer(context: Context, song: ISong) {
@@ -133,6 +128,4 @@ object SongManager {
     fun setOnCompletionListener(listener: MediaPlayer.OnCompletionListener) {
         mediaPlayer?.setOnCompletionListener(listener)
     }
-
-
 }

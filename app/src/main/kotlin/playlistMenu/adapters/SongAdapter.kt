@@ -9,6 +9,7 @@ import com.example.akap.R
 import playlistMenu.classes.SongHolder
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
+import playlistMenu.managers.GlobalManager
 
 class SongAdapter(
     private var playlist: IPlaylist,
@@ -21,13 +22,13 @@ class SongAdapter(
 
     override fun onBindViewHolder(holder: SongHolder, position: Int) {
         val song = playlist.songs[position]
-        holder.titleText.text = song.title
-        holder.artistText.text = song.artist
+        holder.titleText.text   = song.title
+        holder.artistText.text  = song.artist
 
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
-        val defaultColor = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
+        val selectedColor       = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
+        val defaultColor        = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
 
-        val isSelected = position == playlist.getIndex()
+        val isSelected = (position == playlist.getIndex() && GlobalManager.playlistName == playlist.name)
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
 
         holder.itemView.setOnClickListener {
@@ -38,8 +39,6 @@ class SongAdapter(
     override fun getItemCount(): Int {
         return playlist.songs.size
     }
-
-
 
     fun updatePlaylist(playlist: IPlaylist?) {
         if (playlist != null) {

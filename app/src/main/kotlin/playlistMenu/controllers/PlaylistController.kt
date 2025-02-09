@@ -5,7 +5,7 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.PlaylistManager
 
-class PlaylistController(private val context: Context) {
+class PlaylistController(context: Context) {
 
     init {
         PlaylistManager.initialize(context)

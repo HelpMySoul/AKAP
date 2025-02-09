@@ -19,7 +19,8 @@ import playlistMenu.managers.MenuFragmentManager
 class Playlists : Fragment() {
 
     private lateinit var playlistController: PlaylistController
-    private lateinit var playlistAdapter: PlaylistAdapter
+    private lateinit var playlistAdapter:    PlaylistAdapter
+
     private val playlists = mutableListOf<IPlaylist>()
 
     override fun onCreateView(
@@ -33,12 +34,15 @@ class Playlists : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         playlistController = PlaylistController(requireContext())
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlaylists)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         playlistAdapter = PlaylistAdapter(playlists) { playlist ->
             openCurrentPlaylist(playlist)
         }
+
         recyclerView.adapter = playlistAdapter
 
         loadPlaylists()
@@ -54,16 +58,12 @@ class Playlists : Fragment() {
     private fun openCurrentPlaylist(playlist: IPlaylist) {
         GlobalManager.playlistName = playlist.name
 
-
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {
                 putString("playlist_name", GlobalManager.playlistName)
             }
         }
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.songContainerFragment, currentPlaylistFragment, GlobalManager.playlistName)
-            .addToBackStack(null)
-            .commit()
+        MenuFragmentManager.openFragment(parentFragmentManager, R.id.songContainerFragment, GlobalManager.playlistName, { currentPlaylistFragment })
     }
 }

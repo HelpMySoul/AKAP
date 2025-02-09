@@ -15,13 +15,12 @@ class PlaylistAdapter(
     private val onPlaylistClick: (IPlaylist) -> Unit) : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>() {
 
     class PlaylistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val playlistName: TextView = view.findViewById(R.id.playlist_name)
-        val songCount: TextView = view.findViewById(R.id.song_count)
+        val playlistName:   TextView = view.findViewById(R.id.playlist_name)
+        val songCount:      TextView = view.findViewById(R.id.song_count)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_playlist, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_playlist, parent, false)
         return PlaylistViewHolder(view)
     }
 

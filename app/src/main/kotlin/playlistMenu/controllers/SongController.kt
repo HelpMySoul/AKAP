@@ -19,21 +19,21 @@ import playlistMenu.managers.SongManager
 
 @SuppressLint("SetTextI18n")
 class SongController(
-    private val context: Context,
-    private var currentSong: ISong?,
-    private var currentPlaylist: IPlaylist,
-    private val currentSongTitle: TextView,
-    private val currentTimeText: TextView,
+    private val context:            Context,
+    private var currentSong:        ISong?,
+    private var currentPlaylist:    IPlaylist,
+    private val currentSongTitle:   TextView,
+    private val currentTimeText:    TextView,
     private val currentTimeSeekBar: SeekBar,
     private val localVolumeSeekBar: SeekBar,
-    private val skipIntroCheckBox: CheckBox,
-    private val skipOutroCheckBox: CheckBox,
+    private val skipIntroCheckBox:  CheckBox,
+    private val skipOutroCheckBox:  CheckBox,
     private val repeatSongCheckBox: CheckBox,
     private val pauseAndPlayButton: ImageButton
 ) {
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val updateSeekBarTask = Runnable { updateSongTime() }
+    private val handler             = Handler(Looper.getMainLooper())
+    private val updateSeekBarTask   = Runnable { updateSongTime() }
 
     init {
         playCurrentSong()
@@ -46,8 +46,6 @@ class SongController(
     private fun  playCurrentSong() {
         currentSong?.let { playSong(it) }
     }
-
-
 
     private  fun playSong(song: ISong) {
         PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let {
@@ -62,7 +60,6 @@ class SongController(
         }, 100)
 
         updateUI()
-
     }
 
     private fun setupListeners() {
@@ -80,6 +77,7 @@ class SongController(
                 seekBar?.let {
                     SongManager.seekTo(it.progress)
                 }
+
                 SongManager.unpause()
                 updateUI()
                 startUpdatingSeekBar()
@@ -117,7 +115,6 @@ class SongController(
             updateUI()
         }
 
-
         pauseAndPlayButton.setOnClickListener {
             if (SongManager.isPlaying) {
                 SongManager.pause()
@@ -127,17 +124,11 @@ class SongController(
             updateUI()
         }
 
-
         playNextListenerSetup()
     }
 
-
-
     private fun playNext() {
-
-        val intent = Intent("NEXT_SONG")
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
-
+        BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
         playNextListenerSetup()
     }
 
@@ -148,22 +139,20 @@ class SongController(
         })
     }
 
-
-
     private fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
-            currentSongTitle.text = "${currentSong?.artist} - ${currentSong?.title}"
+            currentSongTitle.text   = "${currentSong?.artist} - ${currentSong?.title}"
         }
 
-        currentTimeSeekBar.max = currentSong?.duration?.toInt() ?: 0
+        currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
         currentTimeSeekBar.progress = SongManager.getCurrentPosition()
 
-        currentTimeText.text = "${formatTime(SongManager.getCurrentPosition())} / ${
-            currentSong?.duration?.let {
-                formatTime(
-                    it.toInt())
-            }
-        }"
+        currentTimeText.text        = "${formatTime(SongManager.getCurrentPosition())} / " +
+                "${
+                    currentSong?.duration?.let {
+                        formatTime(it.toInt())
+                    }        
+                }"
 
         currentSongTitle.isSelected = true
 
@@ -174,11 +163,7 @@ class SongController(
         }
 
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
-
     }
-
-
-
 
     private fun formatTime(milliseconds: Int): String {
         val seconds = (milliseconds / 1000) % 60
@@ -199,7 +184,7 @@ class SongController(
     }
 
     private fun updateSongTime() {
-        val currentPosition = SongManager.getCurrentPosition()
+        val currentPosition         = SongManager.getCurrentPosition()
         currentTimeSeekBar.progress = currentPosition
 
         handler.postDelayed(updateSeekBarTask, 100)
@@ -208,11 +193,14 @@ class SongController(
     }
 
     private  fun updateSongTimeText(currentTime: Int) {
-        currentTimeText.text = "${formatTime(currentTime)} / ${currentSong?.duration?.let {
-            formatTime(
-                it.toInt())
-        }}"
+        currentTimeText.text = "${formatTime(currentTime)} / " +
+                "${
+                    currentSong?.duration?.let {
+                        formatTime(it.toInt())
+                    }
+                }"
     }
+
     fun release() {
         stopUpdatingSeekBar()
         SongManager.release()

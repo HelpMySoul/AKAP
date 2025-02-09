@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.akap.R
 import playlistMenu.adapters.SongAdapter
+import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.controllers.SongSearchController
 import playlistMenu.interfaces.IPlaylist
@@ -24,91 +25,72 @@ import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
 
-
 class CurrentPlaylist : Fragment() {
+    private lateinit var songsRecyclerView:     RecyclerView
+    private lateinit var songAdapter:           SongAdapter
+    private lateinit var playlistController:    PlaylistController
+    private lateinit var songSearchController:  SongSearchController
+    private lateinit var searchText:            EditText
+    private lateinit var playlistNameText:      TextView
+    private var          playlist:              IPlaylist?              = null
+    private var          songPlayerListener:    ISongPlayerListener?    = null
 
-    private lateinit var songsRecyclerView: RecyclerView
-    private lateinit var songAdapter: SongAdapter
-    private lateinit var playlistController: PlaylistController
-    private lateinit var songSearchController: SongSearchController
-    private lateinit var searchText: EditText
-    private lateinit var playlistNameText: TextView
-    private var playlist: IPlaylist? = null
-    private var songPlayerListener: ISongPlayerListener? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
 
-        songsRecyclerView = view.findViewById(R.id.songsRecyclerView)
-        playlistNameText = view.findViewById(R.id.playlistNameTextView)
-        searchText = view.findViewById(R.id.searchText)
+        songsRecyclerView   = view.findViewById(R.id.songsRecyclerView)
+        playlistNameText    = view.findViewById(R.id.playlistNameTextView)
+        searchText          = view.findViewById(R.id.searchText)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        playlistController = PlaylistController(requireContext())
-        songSearchController = SongSearchController(requireContext(), playlistController)
+        playlistController      = PlaylistController(requireContext())
+        songSearchController    = SongSearchController(requireContext(), playlistController)
 
         val playlistName = GlobalManager.playlistName
-
         playlist = playlistController.getPlaylist(playlistName)
 
         if (playlist != null) {
-            playlistNameText.text = playlist!!.name
-            songAdapter = SongAdapter(playlist!!) { song -> playSong(song) }
-            songsRecyclerView.adapter = songAdapter
+            playlistNameText.text       = playlist!!.name
+            songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
+            songsRecyclerView.adapter   = songAdapter
         } else {
-            playlistNameText.text = context?.getString(R.string.No_Playlist) ?: ""
+            playlistNameText.text       = context?.getString(R.string.No_Playlist) ?: ""
             Log.e("CurrentPlaylist", "null")
         }
 
         searchText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s?.toString() ?: ""
-                playlist = songSearchController.search(query, playlist)
+                val query   = s?.toString() ?: ""
+                playlist    = songSearchController.search(query, playlist)
+
                 songAdapter.updatePlaylist(playlist)
+
                 songsRecyclerView.adapter = songAdapter
 
-                val intent = Intent("REFRESH_PLAYLIST")
-                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+                BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
                 GlobalManager.playlistName = playlist?.name ?: playlistName
             }
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
-
-
-
 
         return view
     }
 
-
-
-
     private fun playSong(song: ISong) {
-
         playlist?.findSong(song)?.let {
             songAdapter.refresh()
             songPlayerListener?.updateUI(it, playlist!!)
-
         }
     }
 
     fun playNextSong() {
         songAdapter.refresh()
     }
-
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -136,9 +118,9 @@ class CurrentPlaylist : Fragment() {
     }
 
     fun refresh() {
-        playlistNameText.text = playlist!!.name
-        songAdapter = SongAdapter(playlist!!) { song -> playSong(song) }
-        songsRecyclerView.adapter = songAdapter
+        playlistNameText.text       = playlist!!.name
+        songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
+        songsRecyclerView.adapter   = songAdapter
     }
 
 

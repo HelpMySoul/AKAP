@@ -8,7 +8,7 @@ import playlistMenu.managers.GlobalManager
 import screens.CurrentPlaylist
 
 class SongSearchController(private val context: Context, private val playlistController: PlaylistController) {
-    private var origPlaylist: IPlaylist? = null
+    private var origPlaylist: IPlaylist?            = null
     private val tempPlaylists: MutableList<String>  = mutableListOf()
 
     fun search(query: String, currentPlaylist: IPlaylist?): IPlaylist? {
