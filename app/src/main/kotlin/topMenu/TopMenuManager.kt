@@ -52,10 +52,10 @@ object TopMenuManager {
 
     private fun openCurrentPlaylist(context: Context, fragmentManager: FragmentManager, containerId: Int) {
 
-        openFragment(fragmentManager, containerId, GlobalManager.playlistName) {
+        openFragment(fragmentManager, containerId, GlobalManager.getPlaylistName()) {
             CurrentPlaylist().apply {
                 arguments = Bundle().apply {
-                    putString("playlist_name", GlobalManager.playlistName)
+                    putString("playlist_name", GlobalManager.getPlaylistName())
                 }
             }
         }

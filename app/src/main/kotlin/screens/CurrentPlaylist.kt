@@ -47,13 +47,21 @@ class CurrentPlaylist : Fragment() {
         playlistController      = PlaylistController(requireContext())
         songSearchController    = SongSearchController(requireContext(), playlistController)
 
-        val playlistName = GlobalManager.playlistName
+        val playlistName = GlobalManager.getPlaylistName()
         playlist = playlistController.getPlaylist(playlistName)
 
         if (playlist != null) {
             playlistNameText.text       = playlist!!.name
             songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
             songsRecyclerView.adapter   = songAdapter
+
+            Log.e("CurrentPlaylist", "${GlobalManager.getSongID()} ${GlobalManager.getSongID() != (-1).toLong()} ${(-1).toLong()} $context")
+
+            if (GlobalManager.getSongID() != (-1).toLong()) {
+                playlist!!.findSongByID(GlobalManager.getSongID())?.let { songAdapter.setCurrentSong(it) }
+                BroadcastManagerController(requireContext()).sendBroadcast("SHOW_PLAYER")
+            }
+
         } else {
             playlistNameText.text       = context?.getString(R.string.No_Playlist) ?: ""
             Log.e("CurrentPlaylist", "null")
@@ -72,7 +80,7 @@ class CurrentPlaylist : Fragment() {
 
                 BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
-                GlobalManager.playlistName = playlist?.name ?: playlistName
+                GlobalManager.updatePlaylistName(playlist?.name ?: playlistName, requireContext())
             }
 
             override fun afterTextChanged(s: Editable?) {}

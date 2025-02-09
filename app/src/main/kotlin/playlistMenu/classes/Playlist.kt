@@ -86,4 +86,10 @@ class Playlist(override val name: String) : IPlaylist {
 
         return foundedSongs.toMutableList()
     }
+
+    override fun findSongByID(songID: Long): ISong? {
+        return songs.firstOrNull { song ->
+            song.id == songID
+        }
+    }
 }

@@ -2,18 +2,17 @@ package playlistMenu.controllers
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
+import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
 
@@ -34,17 +33,18 @@ class SongController(
 
     private val handler             = Handler(Looper.getMainLooper())
     private val updateSeekBarTask   = Runnable { updateSongTime() }
+    private val checkOutroSkip      = Runnable { outroSkip() }
+
+
 
     init {
         playCurrentSong()
-
         setupListeners()
-
-        startUpdatingSeekBar()
     }
 
     private fun  playCurrentSong() {
         currentSong?.let { playSong(it) }
+        startHandler()
     }
 
     private  fun playSong(song: ISong) {
@@ -70,7 +70,7 @@ class SongController(
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 SongManager.pause()
-                stopUpdatingSeekBar()
+                stopHandler()
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
@@ -80,7 +80,7 @@ class SongController(
 
                 SongManager.unpause()
                 updateUI()
-                startUpdatingSeekBar()
+                startHandler()
             }
         })
 
@@ -101,19 +101,25 @@ class SongController(
         })
 
         skipIntroCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            SongManager.skipTheIntro = isChecked
+            SongManager.setSkipTheIntro(context, isChecked)
             updateUI()
         }
+
+        skipIntroCheckBox.isChecked = SongManager.skipTheIntro
 
         skipOutroCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            SongManager.skipTheOutro = isChecked
+            SongManager.setSkipTheOutro(context, isChecked)
             updateUI()
         }
 
+        skipOutroCheckBox.isChecked = SongManager.skipTheOutro
+
         repeatSongCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            SongManager.isRepeating = isChecked
+            SongManager.setIsRepeating(context, isChecked)
             updateUI()
         }
+
+        repeatSongCheckBox.isChecked = SongManager.isRepeating
 
         pauseAndPlayButton.setOnClickListener {
             if (SongManager.isPlaying) {
@@ -139,7 +145,7 @@ class SongController(
         })
     }
 
-    private fun updateUI(updateSongTitle: Boolean = false) {
+    fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
             currentSongTitle.text   = "${currentSong?.artist} - ${currentSong?.title}"
         }
@@ -147,10 +153,10 @@ class SongController(
         currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
         currentTimeSeekBar.progress = SongManager.getCurrentPosition()
 
-        currentTimeText.text        = "${formatTime(SongManager.getCurrentPosition())} / " +
+        currentTimeText.text        = "${TimeAdapter.formatTime(SongManager.getCurrentPosition())} / " +
                 "${
                     currentSong?.duration?.let {
-                        formatTime(it.toInt())
+                        TimeAdapter.formatTime(it.toInt())
                     }        
                 }"
 
@@ -165,22 +171,16 @@ class SongController(
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
     }
 
-    private fun formatTime(milliseconds: Int): String {
-        val seconds = (milliseconds / 1000) % 60
-        val minutes = (milliseconds / 1000) / 60
-        return if (minutes > 0) {
-            "$minutes:${seconds.toString().padStart(2, '0')}"
-        } else {
-            "$seconds"
-        }
-    }
 
-    private fun startUpdatingSeekBar() {
+
+    private fun startHandler() {
         handler.post(updateSeekBarTask)
+        handler.post(checkOutroSkip)
     }
 
-    private fun stopUpdatingSeekBar() {
+    private fun stopHandler() {
         handler.removeCallbacks(updateSeekBarTask)
+        handler.removeCallbacks(checkOutroSkip)
     }
 
     private fun updateSongTime() {
@@ -193,16 +193,22 @@ class SongController(
     }
 
     private  fun updateSongTimeText(currentTime: Int) {
-        currentTimeText.text = "${formatTime(currentTime)} / " +
+        currentTimeText.text = "${TimeAdapter.formatTime(currentTime)} / " +
                 "${
                     currentSong?.duration?.let {
-                        formatTime(it.toInt())
+                        TimeAdapter.formatTime(it.toInt())
                     }
                 }"
     }
 
+    private fun outroSkip() {
+        SongManager.checkAndSkipOutro()
+
+        handler.postDelayed(checkOutroSkip, 1000)
+    }
+
     fun release() {
-        stopUpdatingSeekBar()
+        stopHandler()
         SongManager.release()
     }
 }

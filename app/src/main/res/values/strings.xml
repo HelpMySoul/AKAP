@@ -46,4 +46,11 @@
     <string name="search_hint">Search for a song or author…</string>
     <string name="found_by">Found by:</string>
     <string name="no_songs">No songs</string>
+    <string name="set_intro_skip">Set intro time</string>
+    <string name="set_outro_skip">Set outro time</string>
+    <string name="too_early_outro">The time of the outro should be after the intro</string>
+    <string name="too_late_intro">The time of the intro should be before the outro</string>
+    <string name="no_song_playing">No song playing</string>
+    <string name="intro_set_successfully">Intro set successfully</string>
+    <string name="outro_set_successfully">Outro set successfully</string>
 </resources>

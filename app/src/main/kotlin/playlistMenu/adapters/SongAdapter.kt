@@ -28,7 +28,7 @@ class SongAdapter(
         val selectedColor       = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
         val defaultColor        = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
 
-        val isSelected = (position == playlist.getIndex() && GlobalManager.playlistName == playlist.name)
+        val isSelected = (position == playlist.getIndex() && GlobalManager.getPlaylistName() == playlist.name)
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
 
         holder.itemView.setOnClickListener {
@@ -44,6 +44,11 @@ class SongAdapter(
         if (playlist != null) {
             this.playlist = playlist
         }
+        refresh()
+    }
+
+    fun setCurrentSong(song: ISong) {
+        playlist.findSong(song)
         refresh()
     }
 

@@ -1,5 +1,27 @@
 package playlistMenu.managers
 
+import android.content.Context
+import android.util.Log
+
 object GlobalManager {
-    var playlistName: String = ""
+    private var playlistName: String    = ""
+    private var songID      : Long      = -1
+
+    fun updatePlaylistName(newName: String, context: Context) {
+        playlistName = newName
+    }
+
+    fun getPlaylistName(): String {
+        return playlistName
+    }
+
+    fun updateSongID(iD: Long, context: Context) {
+        songID = iD
+
+        Log.e("SongName", "${GlobalManager.getSongID()} $context")
+    }
+
+    fun getSongID(): Long {
+        return songID
+    }
 }

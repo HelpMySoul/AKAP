@@ -1,7 +1,7 @@
 package screens
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +13,15 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.akap.R
+import playlistMenu.adapters.TimeAdapter
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
+import playlistMenu.managers.GlobalManager
+import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.SongManager
 
 class PlayerMain : Fragment() {
@@ -31,6 +33,8 @@ class PlayerMain : Fragment() {
 
     private lateinit var toggleSettingsButton:  Button
     private lateinit var shuffleSongButton:     Button
+    private lateinit var setIntroButton:        Button
+    private lateinit var setOutroButton:        Button
 
     private lateinit var pauseAndPlayButton:    ImageButton
     private lateinit var nextSongButton:        ImageButton
@@ -69,6 +73,8 @@ class PlayerMain : Fragment() {
         nextSongButton          = view.findViewById(R.id.nextSongButton)
         repeatSongCheckBox      = view.findViewById(R.id.repeatCheckBox)
         shuffleSongButton       = view.findViewById(R.id.shuffleSongButton)
+        setIntroButton          = view.findViewById(R.id.introSkipButton)
+        setOutroButton          = view.findViewById(R.id.skipOutroButton)
 
         nextSongButton.setOnClickListener {
             BroadcastManagerController(requireContext()).sendBroadcast("NEXT_SONG")
@@ -80,6 +86,17 @@ class PlayerMain : Fragment() {
 
         repeatSongCheckBox.setOnClickListener {
             SongManager.isRepeating = repeatSongCheckBox.isChecked
+            PlayerSettingsManager.saveSettings(requireContext())
+        }
+
+        setIntroButton.setOnClickListener {
+            SongManager.setSongIntroTime(requireContext())
+            PlayerSettingsManager.saveSettings(requireContext())
+        }
+
+        setOutroButton.setOnClickListener {
+            SongManager.setSongOutroTime(requireContext())
+            PlayerSettingsManager.saveSettings(requireContext())
         }
 
         toggleSettingsButton.setOnClickListener {
@@ -91,6 +108,8 @@ class PlayerMain : Fragment() {
                 toggleSettingsButton.text = getString(R.string.hide_settings)
             }
         }
+
+        toggleSettingsButton.performClick()
         return view
     }
 
@@ -110,6 +129,7 @@ class PlayerMain : Fragment() {
                  }
              }
          }
+
     }
 
     private fun shuffleCurrentPlaylist() {
@@ -131,16 +151,12 @@ class PlayerMain : Fragment() {
         }
     }
 
-    private fun updateSong(song: ISong?, playlist: IPlaylist) {
+    @SuppressLint("SetTextI18n")
+    fun updateSong(song: ISong?, playlist: IPlaylist) {
         currentSong     = song
         currentPlaylist = playlist
 
-        if (song != null) {
-            currentSongTitle.text = song.title
-        }
-        else {
-            currentSongTitle.text = context?.getString(R.string.currentSongTime) ?: context?.getString(R.string.now_playing)
-        }
+        currentPlaylist?.getCurrentSong()?.let { GlobalManager.updateSongID(it.id, requireContext()) }
     }
 
     private fun updateSongController(song: ISong?, playlist: IPlaylist) {

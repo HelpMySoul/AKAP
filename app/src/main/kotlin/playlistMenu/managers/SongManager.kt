@@ -1,11 +1,12 @@
 package playlistMenu.managers
 
 import android.content.Context
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.example.akap.R
+import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.interfaces.ISong
 import java.io.IOException
 
@@ -38,6 +39,10 @@ object SongManager {
                 it.seekTo(song.introDuration.toInt())
             }
         }
+
+        PlayerSettingsManager.saveSettings(context)
+
+        BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
     fun unpause() {
@@ -84,6 +89,50 @@ object SongManager {
         }
     }
 
+    fun setSongIntroTime(context: Context) {
+        if (!isPlaying) {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val currentPosition = getCurrentPosition()
+        val song = currentSong ?: run {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (currentPosition >= song.duration - song.outroDuration) {
+            Toast.makeText(context, context.getString(R.string.too_late_intro), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        song.introDuration = currentPosition.toLong()
+        SongMetadataManager.saveMetadata(context, song)
+        Toast.makeText(context, context.getString(R.string.intro_set_successfully), Toast.LENGTH_SHORT).show()
+    }
+
+    fun setSongOutroTime(context: Context) {
+        if (!isPlaying) {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val currentPosition = getCurrentPosition()
+        val song = currentSong ?: run {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (currentPosition <= song.introDuration) {
+            Toast.makeText(context, context.getString(R.string.too_early_outro), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        song.outroDuration = song.duration - currentPosition
+        SongMetadataManager.saveMetadata(context, song)
+        Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
+    }
+
     fun getCurrentPosition(): Int {
         return mediaPlayer?.currentPosition ?: 0
     }
@@ -91,7 +140,6 @@ object SongManager {
 
     fun setLocalVolume(volume: Float) {
         mediaPlayer?.setVolume(volume, volume)
-
     }
 
     fun saveLocalVolume(context: Context, volume: Int) {
@@ -127,5 +175,34 @@ object SongManager {
 
     fun setOnCompletionListener(listener: MediaPlayer.OnCompletionListener) {
         mediaPlayer?.setOnCompletionListener(listener)
+    }
+
+    fun checkAndSkipOutro() {
+        if (!skipTheOutro) {
+            return
+        }
+        currentSong?.let { song ->
+            mediaPlayer?.let { player ->
+                val currentPosition = player.currentPosition
+                val outroTime  = song.duration - song.outroDuration
+
+                if (currentPosition >= outroTime) {
+                    player.seekTo(song.duration.toInt())
+                }
+            }
+        }
+    }
+
+    fun setSkipTheIntro(context: Context, value: Boolean){
+        skipTheIntro = value
+        PlayerSettingsManager.saveSettings(context)
+    }
+    fun setSkipTheOutro(context: Context, value: Boolean){
+        skipTheOutro = value
+        PlayerSettingsManager.saveSettings(context)
+    }
+    fun setIsRepeating(context: Context, value: Boolean) {
+        isRepeating = value
+        PlayerSettingsManager.saveSettings(context)
     }
 }

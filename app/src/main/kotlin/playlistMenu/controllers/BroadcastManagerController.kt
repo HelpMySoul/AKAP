@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import playlistMenu.managers.PlayerSettingsManager
 
 class BroadcastManagerController(context: Context) {
     private val localBroadcastManager   = LocalBroadcastManager.getInstance(context)

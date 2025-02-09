@@ -12,8 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FFFFFF"
-        app:layout_constraintTop_toTopOf="@+id/playerLayout"
-        app:layout_constraintBottom_toBottomOf="@+id/playerLayout"
+        app:layout_constraintTop_toTopOf="@+id/playerFrameLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/playerFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/playerLayout"
+        app:layout_constraintBottom_toTopOf="@+id/playerFrameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
@@ -49,12 +49,12 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/playerLayout"
+        android:id="@+id/playerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

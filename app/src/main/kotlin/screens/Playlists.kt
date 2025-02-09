@@ -56,14 +56,14 @@ class Playlists : Fragment() {
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
-        GlobalManager.playlistName = playlist.name
+        GlobalManager.updatePlaylistName(playlist.name, requireContext())
 
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {
-                putString("playlist_name", GlobalManager.playlistName)
+                putString("playlist_name", GlobalManager.getPlaylistName())
             }
         }
 
-        MenuFragmentManager.openFragment(parentFragmentManager, R.id.songContainerFragment, GlobalManager.playlistName, { currentPlaylistFragment })
+        MenuFragmentManager.openFragment(parentFragmentManager, R.id.songContainerFragment, GlobalManager.getPlaylistName(), { currentPlaylistFragment })
     }
 }

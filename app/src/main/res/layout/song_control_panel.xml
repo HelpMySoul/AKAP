@@ -23,20 +23,53 @@
         android:text="@string/repeat"
         android:layout_marginTop="8dp" />
 
-    <CheckBox
-        android:id="@+id/skipIntroCheckBox"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/skip_intro"
-        android:layout_marginTop="8dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
-    <CheckBox
-        android:id="@+id/skipOutroCheckBox"
-        android:layout_width="wrap_content"
+        <CheckBox
+            android:id="@+id/skipIntroCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/skip_intro" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/introSkipButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_intro_skip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/skip_outro"
-        android:layout_marginTop="8dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
+        <CheckBox
+            android:id="@+id/skipOutroCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/skip_outro"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/skipOutroButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_outro_skip" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/shuffleSongButton"
