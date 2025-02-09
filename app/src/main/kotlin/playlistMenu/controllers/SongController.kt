@@ -12,7 +12,6 @@ import android.widget.TextView
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
 
@@ -38,8 +37,20 @@ class SongController(
 
 
     init {
-        playCurrentSong()
+        currentSong?.let { setupSongManager(it) }
         setupListeners()
+        updateUI(true)
+    }
+
+    fun startPlaying() {
+        playCurrentSong()
+    }
+
+    private fun setupSongManager(song: ISong) {
+        PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let { playlist ->
+            SongManager.setSong(context, playlist)
+            currentSong = song
+        }
     }
 
     private fun  playCurrentSong() {
@@ -47,17 +58,15 @@ class SongController(
         startHandler()
     }
 
-    private  fun playSong(song: ISong) {
-        PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let {
-            SongManager.play(context, it)
-            currentSong = it
-        }
+    private fun playSong(song: ISong) {
+
+        SongManager.play(context, song)
         playNextListenerSetup()
 
         Handler(Looper.getMainLooper()).postDelayed( {
             currentSongTitle.isSelected = true
             updateUI(true)
-        }, 100)
+        }, 33)
 
         updateUI()
     }
@@ -122,10 +131,15 @@ class SongController(
         repeatSongCheckBox.isChecked = SongManager.isRepeating
 
         pauseAndPlayButton.setOnClickListener {
-            if (SongManager.isPlaying) {
-                SongManager.pause()
+
+            if (!SongManager.canPlay) {
+                BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
             } else {
-                SongManager.unpause()
+                if (SongManager.isPaused) {
+                    SongManager.unpause()
+                } else {
+                    SongManager.pause()
+                }
             }
             updateUI()
         }
@@ -162,7 +176,7 @@ class SongController(
 
         currentSongTitle.isSelected = true
 
-        if (SongManager.isPlaying) {
+        if (!SongManager.isPaused) {
             pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
         } else {
             pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)

@@ -15,25 +15,20 @@ object SongManager {
     private var mediaPlayer:    MediaPlayer?    = null
     private var currentSong:    ISong?          = null
 
-    var isPlaying:              Boolean         = false
+    var canPlay:                Boolean         = false
+    var isPaused:               Boolean         = true
     var isRepeating:            Boolean         = false
     var skipTheIntro:           Boolean         = false
     var skipTheOutro:           Boolean         = false
 
     fun play(context: Context, song: ISong) {
-        Log.e("SongManager", "Current song: ${song.title}")
 
-        if (mediaPlayer?.isPlaying == true) {
-            stop()
-        }
-
-        initializeMediaPlayer(context, song)
-
-        currentSong = song
+        setSong(context, song)
 
         mediaPlayer?.setOnPreparedListener {
             it.start()
-            isPlaying = true
+            canPlay = true
+            isPaused  = false
             setLocalVolume(song.localVolume / 100f)
             if (skipTheIntro) {
                 it.seekTo(song.introDuration.toInt())
@@ -45,11 +40,24 @@ object SongManager {
         BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
+    fun setSong(context: Context, song: ISong) {
+        Log.e("SongManager", "Current song: ${song.title}")
+
+        if (mediaPlayer?.isPlaying == true) {
+            stop()
+        }
+
+        initializeMediaPlayer(context, song)
+
+        currentSong = song
+
+    }
+
     fun unpause() {
         mediaPlayer?.let { player ->
-            if (!isPlaying) {
+            if (isPaused) {
                 player.start()
-                isPlaying = true
+                isPaused = false
             }
         } ?: run {
             Log.e("SongManager", "MediaPlayer is not initialized in unpause")
@@ -58,9 +66,9 @@ object SongManager {
 
     fun pause() {
         mediaPlayer?.let { player ->
-            if (isPlaying) {
+            if (!isPaused) {
                 player.pause()
-                isPlaying = false
+                isPaused = true
             }
         } ?: run {
             Log.e("SongManager", "MediaPlayer is not initialized in pause")
@@ -69,10 +77,10 @@ object SongManager {
 
     fun stop() {
         mediaPlayer?.let { player ->
-            if (isPlaying) {
+            if (canPlay) {
                 player.stop()
                 player.reset()
-                isPlaying = false
+                canPlay = false
             }
         } ?: run {
             Log.e("SongManager", "MediaPlayer is not initialized in stop")
@@ -90,7 +98,7 @@ object SongManager {
     }
 
     fun setSongIntroTime(context: Context) {
-        if (!isPlaying) {
+        if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
         }
@@ -112,7 +120,7 @@ object SongManager {
     }
 
     fun setSongOutroTime(context: Context) {
-        if (!isPlaying) {
+        if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
         }
@@ -157,7 +165,8 @@ object SongManager {
     fun release() {
         mediaPlayer?.release()
         mediaPlayer     = null
-        isPlaying       = false
+        canPlay       = false
+        isPaused        = true
     }
 
     private fun initializeMediaPlayer(context: Context, song: ISong) {

@@ -131,6 +131,9 @@ class PlayerMain : Fragment() {
          }
 
     }
+    fun playSong() {
+        songController?.startPlaying()
+    }
 
     private fun shuffleCurrentPlaylist() {
         if (currentPlaylist == null) {
