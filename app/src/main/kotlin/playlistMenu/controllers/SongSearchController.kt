@@ -26,7 +26,7 @@ class SongSearchController(private val context: Context, private val playlistCon
         val foundSongs = origPlaylist?.findSongByKeyword(query) ?: mutableListOf()
 
         if (foundSongs.isEmpty()) {
-            return null
+            return origPlaylist
         }
 
         playlistController.createPlaylist(searchPlaylistName, foundSongs)

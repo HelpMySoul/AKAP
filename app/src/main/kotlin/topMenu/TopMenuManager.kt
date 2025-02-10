@@ -21,7 +21,7 @@ import playlistMenu.managers.MenuFragmentManager
 
 object TopMenuManager {
 
-    fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
+    private fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
             TopMenuButton(context.getString(R.string.Current_playlist_S)) {
                 openCurrentPlaylist(context, fragmentManager, containerId)

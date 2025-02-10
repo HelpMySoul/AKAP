@@ -80,12 +80,17 @@ class Playlist(override val name: String) : IPlaylist {
     }
 
     override fun findSongByKeyword(keyword: String): MutableList<ISong> {
-        val foundedSongs: List<ISong> = songs.filter { song ->
-            song.title.contains(keyword, ignoreCase = true) || song.artist.contains(keyword, ignoreCase = true)
+        val keywords = keyword.split("\\s+".toRegex())
+
+        val foundedSongs = songs.filter { song ->
+            keywords.all { word ->
+                song.title.contains(word, ignoreCase = true) || song.artist.contains(word, ignoreCase = true)
+            }
         }
 
         return foundedSongs.toMutableList()
     }
+
 
     override fun findSongByID(songID: Long): ISong? {
         return songs.firstOrNull { song ->
