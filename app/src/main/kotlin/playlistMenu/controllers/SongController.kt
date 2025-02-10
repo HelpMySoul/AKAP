@@ -34,8 +34,6 @@ class SongController(
     private val updateSeekBarTask   = Runnable { updateSongTime() }
     private val checkOutroSkip      = Runnable { outroSkip() }
 
-
-
     init {
         currentSong?.let { setupSongManager(it) }
         setupListeners()
@@ -184,8 +182,6 @@ class SongController(
 
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
     }
-
-
 
     private fun startHandler() {
         handler.post(updateSeekBarTask)

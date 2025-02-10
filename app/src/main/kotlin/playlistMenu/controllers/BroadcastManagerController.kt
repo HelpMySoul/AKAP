@@ -9,21 +9,30 @@ import playlistMenu.managers.PlayerSettingsManager
 
 class BroadcastManagerController(context: Context) {
     private val localBroadcastManager   = LocalBroadcastManager.getInstance(context)
-    private val receivers               = mutableMapOf<String, BroadcastReceiver>()
+    private val receivers               = mutableMapOf<String, () -> Unit>()
 
-    fun registerReceiver(action: String, receiver: BroadcastReceiver) {
-        receivers[action] = receiver
-        localBroadcastManager.registerReceiver(receiver, IntentFilter(action))
-    }
-
-    fun unregisterReceiver(action: String) {
-        receivers[action]?.let {
-            localBroadcastManager.unregisterReceiver(it)
-            receivers.remove(action)
+    fun unregisterAll() {
+        receivers.keys.forEach { _ ->
+            localBroadcastManager.unregisterReceiver(object : BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {}
+            })
         }
+        receivers.clear()
     }
 
     fun sendBroadcast(action: String) {
         localBroadcastManager.sendBroadcast(Intent(action))
+    }
+
+    fun registerReceivers(vararg actions: Pair<String, () -> Unit>) {
+        actions.forEach { (action, handler) ->
+            val receiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    handler.invoke()
+                }
+            }
+            receivers[action] = handler
+            localBroadcastManager.registerReceiver(receiver, IntentFilter(action))
+        }
     }
 }

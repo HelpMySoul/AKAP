@@ -46,8 +46,11 @@
     <string name="no_songs">Нет песен</string>
     <string name="set_intro_skip">Задать начало</string>
     <string name="set_outro_skip">Задать конец</string>
-    <string name="too_early_outro">The time of the outro should be after the intro</string>
-    <string name="too_late_intro">The time of the intro should be before the outro</string>
-    <string name="no_song_playing">No song playing</string>
-    <string name="outro_set_successfully">Outro set successfully</string>
+    <string name="too_early_outro">Время аутро должно быть после интро</string>
+    <string name="too_late_intro">Время интро должно быть раньше времени аутро</string>
+    <string name="no_song_playing">Нет проигрываемой песни</string>
+    <string name="intro_set_successfully">Интро успешно установлено</string>
+    <string name="outro_set_successfully">Аутро успешно установлено</string>
+    <string name="current_language_text">Текущий язык</string>
+    <string name="delete_metadata">Удалить метаданные</string>
 </resources>

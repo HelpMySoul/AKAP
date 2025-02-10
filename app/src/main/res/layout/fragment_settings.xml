@@ -17,7 +17,18 @@
 
         <include
             android:id="@+id/settingCard"
-            layout="@layout/item_setting_card" />
+            layout="@layout/item_setting_card"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <Button
+            android:id="@+id/delete_metadata_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_metadata" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

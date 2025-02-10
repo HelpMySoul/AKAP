@@ -53,4 +53,6 @@
     <string name="no_song_playing">No song playing</string>
     <string name="intro_set_successfully">Intro set successfully</string>
     <string name="outro_set_successfully">Outro set successfully</string>
+    <string name="current_language_text">Current language</string>
+    <string name="delete_metadata">Delete metadata</string>
 </resources>

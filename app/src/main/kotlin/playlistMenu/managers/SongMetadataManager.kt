@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import org.json.JSONArray
 import org.json.JSONObject
+import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.interfaces.ISong
 
 object SongMetadataManager {
@@ -51,6 +52,31 @@ object SongMetadataManager {
                 song.outroDuration = obj.getLong("outroDuration")
                 break
             }
+        }
+    }
+
+    fun removeMetadata(context: Context, songId: Long) {
+        val prefs           = getPreferences(context)
+        val metadataJson    = prefs.getString(KEY_METADATA, "[]") ?: "[]"
+        val metadataArray   = JSONArray(metadataJson)
+
+        for (i in 0 until metadataArray.length()) {
+            val obj = metadataArray.getJSONObject(i)
+            if (obj.getLong("id") == songId) {
+                metadataArray.remove(i)
+                prefs.edit().putString(KEY_METADATA, metadataArray.toString()).apply()
+                return
+            }
+        }
+    }
+
+    fun clearAllMetadata(context: Context) {
+        val editor = getPreferences(context).edit()
+        editor.remove(KEY_METADATA)
+        val success = editor.commit()
+
+        if (success) {
+            BroadcastManagerController(context).sendBroadcast("RESTART_APP")
         }
     }
 }

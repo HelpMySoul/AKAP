@@ -165,7 +165,7 @@ object SongManager {
     fun release() {
         mediaPlayer?.release()
         mediaPlayer     = null
-        canPlay       = false
+        canPlay         = false
         isPaused        = true
     }
 

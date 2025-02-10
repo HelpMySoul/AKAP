@@ -29,7 +29,11 @@ object PlayerSettingsManager {
 
         editor.apply()
 
-        Log.d("GlobalManager", "Save context:  $context ${SongManager.skipTheIntro} ${SongManager.skipTheOutro} ${SongManager.isRepeating} ${GlobalManager.getPlaylistName()} ${GlobalManager.getSongID()}")
+        Log.d("GlobalManager", "Save context:  $context ${SongManager.skipTheIntro} " +
+                                                        "${SongManager.skipTheOutro} "          +
+                                                        "${SongManager.isRepeating} "           +
+                                                        "${GlobalManager.getPlaylistName()} "   +
+                                                        "${GlobalManager.getSongID()}")
     }
 
     fun loadSettings(context: Context) {
@@ -42,7 +46,11 @@ object PlayerSettingsManager {
         GlobalManager.updatePlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "", context)
 
         GlobalManager.updateSongID(prefs.getLong(KEY_CURRENT_SONG, -1), context)
-        Log.d("GlobalManager", "Load context: $context ${SongManager.skipTheIntro} ${SongManager.skipTheOutro} ${SongManager.isRepeating} ${GlobalManager.getPlaylistName()} ${GlobalManager.getSongID()}")
+        Log.d("GlobalManager", "Load context: $context ${SongManager.skipTheIntro} " +
+                                                        "${SongManager.skipTheOutro} "          +
+                                                        "${SongManager.isRepeating} "           +
+                                                        "${GlobalManager.getPlaylistName()} "   +
+                                                        "${GlobalManager.getSongID()}")
     }
 
     private fun getPreferences(context: Context): SharedPreferences {

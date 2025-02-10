@@ -1,8 +1,6 @@
 package akap
 
 import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -20,6 +18,7 @@ import screens.CurrentPlaylist
 import com.example.akap.R
 import locale.LanguageManager
 import playlistMenu.controllers.BroadcastManagerController
+import playlistMenu.controllers.PlayerEventController
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
@@ -36,7 +35,7 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     private lateinit var broadcastManagerController: BroadcastManagerController
-
+    private lateinit var playerEventController:      PlayerEventController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +48,6 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         broadcastManagerController = BroadcastManagerController(this)
         localBroadcastManagerSetup()
 
-
-
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
@@ -60,10 +57,11 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             insets
         }
 
-        createTopMenuButtons()
+        TopMenuManager.createTopMenuButtons(this, findViewById(R.id.topMenuLayout), supportFragmentManager)
+
         PlaylistManager.initialize(this)
 
-        Toast.makeText(this, "Current language: $savedLanguage", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "${this.getString(R.string.current_language_text)}: $savedLanguage", Toast.LENGTH_SHORT).show()
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
@@ -78,34 +76,22 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     }
 
     private fun  localBroadcastManagerSetup() {
-        broadcastManagerController.registerReceiver("NEXT_SONG",        createBroadcastReceiver { (SongManager.isRepeating).let { if (it) onRepeatSong() else onNextSong() }})
-        broadcastManagerController.registerReceiver("SHUFFLE_PLAYLIST", createBroadcastReceiver { onPlaylistShuffleClicked() })
-        broadcastManagerController.registerReceiver("REFRESH_PLAYLIST", createBroadcastReceiver { onPlaylistRefresh() })
-        broadcastManagerController.registerReceiver("SHOW_PLAYER",      createBroadcastReceiver { onShowPlayer() })
-        broadcastManagerController.registerReceiver("PLAY_SONG",        createBroadcastReceiver { onPlaySong() })
-    }
+        playerEventController       = PlayerEventController(this, supportFragmentManager)
+        broadcastManagerController  = BroadcastManagerController(this)
 
-    private fun createBroadcastReceiver(action: (() -> Unit)? = null): BroadcastReceiver {
-        return object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                action?.invoke()
-            }
-        }
+        broadcastManagerController.registerReceivers(
+            "NEXT_SONG"        to { playerEventController.onNextOrRepeatSong()                                  },
+            "SHUFFLE_PLAYLIST" to { playerEventController.onPlaylistShuffleClicked()                            },
+            "REFRESH_PLAYLIST" to { playerEventController.onPlaylistRefresh()                                   },
+            "SHOW_PLAYER"      to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout))    },
+            "PLAY_SONG"        to { playerEventController.onPlaySong()                                          },
+            "RESTART_APP"      to { restartApp()                                                                }
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
-        broadcastManagerController.unregisterReceiver("NEXT_SONG")
-        broadcastManagerController.unregisterReceiver("SHUFFLE_PLAYLIST")
-        broadcastManagerController.unregisterReceiver("REFRESH_PLAYLIST")
-        broadcastManagerController.unregisterReceiver("SHOW_PLAYER")
-        broadcastManagerController.unregisterReceiver("PLAY_SONG")
-    }
-
-    private fun onPlaylistRefresh() {
-        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playlistFragment?.refresh()
+        broadcastManagerController.unregisterAll()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -128,68 +114,9 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         exitProcess(0)
     }
 
-    private fun createTopMenuButtons() {
-        val topMenuLayout: LinearLayout = findViewById(R.id.topMenuLayout)
-
-        val buttons = TopMenuManager.loadButtons(this, supportFragmentManager, R.id.songContainerFragment )
-
-        for (button in buttons) {
-            val btn = Button(this).apply {
-                text = button.name
-                setOnClickListener { button.action() }
-            }
-            topMenuLayout.addView(btn)
-        }
-    }
-
     override fun updateSong(song: ISong?, playlist: IPlaylist) {
         val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
         playerFragment?.updateSongAndPlaylist(this, song, playlist)
         playerFragment?.playSong()
-    }
-
-    override fun onNextSong() {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
-        playerFragment?.nextSong()
-        playerFragment?.playSong()
-
-        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playlistFragment?.playNextSong()
-    }
-
-    override fun onRepeatSong() {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
-        playerFragment?.nextSong()
-        playerFragment?.playSong()
-
-        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playlistFragment?.repeatSong()
-    }
-
-    override fun onShowPlayer() {
-        val playerFrameLayout = findViewById<View>(R.id.playerFrameLayout)
-        if (playerFrameLayout.visibility != View.VISIBLE) {
-            playerFrameLayout.visibility = View.VISIBLE
-
-            val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
-
-            val playlist = PlaylistController(this).getPlaylist(GlobalManager.getPlaylistName())
-
-            if (playlist != null) {
-                val song = playlist.getCurrentSong()
-                playerFragment?.updateSongAndPlaylist(this, song,  playlist)
-            }
-        }
-    }
-
-    override fun onPlaySong() {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
-        playerFragment?.playSong()
-    }
-
-
-    private fun onPlaylistShuffleClicked() {
-        val playlistFragment = supportFragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
-        playlistFragment?.playFirstInPlaylist()
     }
 }

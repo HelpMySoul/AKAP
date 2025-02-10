@@ -22,5 +22,6 @@ interface IPlaylist {
     fun getCurrentSong():       ISong?
 
     fun findSongByKeyword(keyword: String): MutableList<ISong>
+
     fun findSongByID(songID: Long): ISong?
 }

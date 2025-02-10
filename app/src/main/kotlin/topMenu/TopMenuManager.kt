@@ -8,6 +8,8 @@ import Tools
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import screens.CurrentPlaylist
@@ -69,5 +71,17 @@ object TopMenuManager {
 
     private fun openFragment(fragmentManager: FragmentManager, containerId: Int, fragmentTag: String, fragmentFactory: () -> Fragment) {
         MenuFragmentManager.openFragment(fragmentManager, containerId, fragmentTag, fragmentFactory)
+    }
+
+    fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: FragmentManager) {
+        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment )
+
+        for (button in buttons) {
+            val btn = Button(context).apply {
+                text = button.name
+                setOnClickListener { button.action() }
+            }
+            topMenuLayout.addView(btn)
+        }
     }
 }
