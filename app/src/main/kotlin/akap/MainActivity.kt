@@ -1,14 +1,14 @@
 package akap
 
+import playlistMenu.services.MediaSessionService
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,14 +19,11 @@ import com.example.akap.R
 import locale.LanguageManager
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
-import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
-import playlistMenu.managers.SongManager
 import screens.PlayerMain
 import topMenu.TopMenuManager
 import kotlin.system.exitProcess
@@ -36,7 +33,9 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     private lateinit var broadcastManagerController: BroadcastManagerController
     private lateinit var playerEventController:      PlayerEventController
+    private lateinit var mediaSessionService: MediaSessionService
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,6 +72,10 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             transaction.replace(R.id.playerFrameLayout, PlayerMain())
             transaction.commit()
         }
+
+        val intent = Intent(this, MediaSessionService::class.java)
+        startForegroundService(intent)
+
     }
 
     private fun  localBroadcastManagerSetup() {
