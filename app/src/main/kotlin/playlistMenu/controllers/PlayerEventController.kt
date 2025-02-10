@@ -1,6 +1,7 @@
 package playlistMenu.controllers
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.akap.R
@@ -14,6 +15,7 @@ class PlayerEventController(
     private val fragmentManager:    FragmentManager
 ) {
     fun onNextOrRepeatSong() {
+        Log.d("PlayerEventController", "onNextOrRepeatSong called")
         if (SongManager.isRepeating) onRepeatSong() else onNextSong()
     }
 
