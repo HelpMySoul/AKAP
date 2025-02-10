@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import playlistMenu.managers.PlayerSettingsManager
 
@@ -21,6 +22,7 @@ class BroadcastManagerController(context: Context) {
     }
 
     fun sendBroadcast(action: String) {
+        Log.d("BroadcastManager", "Sending broadcast: $action")
         localBroadcastManager.sendBroadcast(Intent(action))
     }
 
@@ -28,6 +30,7 @@ class BroadcastManagerController(context: Context) {
         actions.forEach { (action, handler) ->
             val receiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent?) {
+                    Log.d("BroadcastManager", "Received broadcast: $action")
                     handler.invoke()
                 }
             }

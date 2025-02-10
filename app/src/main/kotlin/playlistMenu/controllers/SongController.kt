@@ -157,9 +157,13 @@ class SongController(
         })
     }
 
+    private fun  getSongName(): String {
+        return "${currentSong?.artist} - ${currentSong?.title}"
+    }
+
     fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
-            currentSongTitle.text   = "${currentSong?.artist} - ${currentSong?.title}"
+            currentSongTitle.text   = getSongName()
         }
 
         currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
