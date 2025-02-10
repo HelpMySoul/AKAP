@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     private fun  localBroadcastManagerSetup() {
         playerEventController       = PlayerEventController(this, supportFragmentManager)
-        broadcastManagerController  = BroadcastManagerController(this)
+        broadcastManagerController  = BroadcastManagerController(applicationContext)
 
         broadcastManagerController.registerReceivers(
             "NEXT_SONG"        to { playerEventController.onNextOrRepeatSong()                                  },
