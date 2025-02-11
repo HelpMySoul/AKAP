@@ -1,6 +1,6 @@
 package akap
 
-import playlistMenu.services.MediaSessionService
+import notification.services.MediaSessionService
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     private lateinit var broadcastManagerController: BroadcastManagerController
     private lateinit var playerEventController:      PlayerEventController
-    private lateinit var mediaSessionService: MediaSessionService
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
