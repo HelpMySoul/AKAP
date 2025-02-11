@@ -53,4 +53,8 @@
     <string name="outro_set_successfully">Аутро успешно установлено</string>
     <string name="current_language_text">Текущий язык</string>
     <string name="delete_metadata">Удалить метаданные</string>
+    <string name="now_playing_title">Title</string>
+    <string name="now_playing_artist">Artist</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
