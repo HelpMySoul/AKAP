@@ -6,6 +6,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -19,11 +22,14 @@ import com.example.akap.R
 import locale.LanguageManager
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
+import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
+import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
+import playlistMenu.managers.SongManager
 import screens.PlayerMain
 import topMenu.TopMenuManager
 import kotlin.system.exitProcess

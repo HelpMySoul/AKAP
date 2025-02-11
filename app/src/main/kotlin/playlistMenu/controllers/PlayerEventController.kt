@@ -1,7 +1,6 @@
 package playlistMenu.controllers
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.akap.R
@@ -14,12 +13,19 @@ class PlayerEventController(
     private val context:            Context,
     private val fragmentManager:    FragmentManager
 ) {
-    fun onNextOrRepeatSong() {
-        Log.d("PlayerEventController", "onNextOrRepeatSong called")
-        if (SongManager.isRepeating) onRepeatSong() else onNextSong()
+    fun onPauseOrPlaySong() {
+        if (!SongManager.canPlay) {
+            BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
+        } else {
+            if (SongManager.isPaused) {
+                onUnpause()
+            } else {
+                onPauseSong()
+            }
+        }
     }
 
-    private fun onNextSong() {
+    fun onNextSong() {
         getPlayerFragment()?.apply {
             nextSong()
             playSong()
@@ -27,9 +33,9 @@ class PlayerEventController(
         getPlaylistFragment()?.playNextSong()
     }
 
-    private fun onRepeatSong() {
+    fun onRepeatSong() {
         getPlayerFragment()?.apply {
-            nextSong()
+            repeatSong()
             playSong()
         }
         getPlaylistFragment()?.repeatSong()
@@ -67,5 +73,21 @@ class PlayerEventController(
 
     private fun getPlaylistFragment(): CurrentPlaylist? {
         return fragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+    }
+
+    fun onPreviousSong() {
+        getPlayerFragment()?.prevSong()
+    }
+
+    fun onStopSong() {
+        getPlayerFragment()?.stopSong()
+    }
+
+    fun onPauseSong() {
+        getPlayerFragment()?.pauseSong()
+    }
+
+    fun onUnpause() {
+        getPlayerFragment()?.unpauseSong()
     }
 }
