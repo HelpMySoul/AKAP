@@ -6,9 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -22,14 +19,11 @@ import com.example.akap.R
 import locale.LanguageManager
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
-import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
-import playlistMenu.managers.SongManager
 import screens.PlayerMain
 import topMenu.TopMenuManager
 import kotlin.system.exitProcess
@@ -88,12 +82,17 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         broadcastManagerController  = BroadcastManagerController(applicationContext)
 
         broadcastManagerController.registerReceivers(
-            "NEXT_SONG"        to { playerEventController.onNextOrRepeatSong()                                  },
-            "SHUFFLE_PLAYLIST" to { playerEventController.onPlaylistShuffleClicked()                            },
-            "REFRESH_PLAYLIST" to { playerEventController.onPlaylistRefresh()                                   },
-            "SHOW_PLAYER"      to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout))    },
-            "PLAY_SONG"        to { playerEventController.onPlaySong()                                          },
-            "RESTART_APP"      to { restartApp()                                                                }
+            "NEXT_SONG"             to { playerEventController.onNextSong()                                          },
+            "REPEAT_SONG"           to { playerEventController.onRepeatSong()                                        },
+            "PAUSE_OR_PLAY_SONG"    to { playerEventController.onPauseOrPlaySong()                                   },
+            "PREVIOUS_SONG"         to { playerEventController.onPreviousSong()                                      },
+            "SHUFFLE_PLAYLIST"      to { playerEventController.onPlaylistShuffleClicked()                            },
+            "REFRESH_PLAYLIST"      to { playerEventController.onPlaylistRefresh()                                   },
+            "SHOW_PLAYER"           to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout))    },
+            "PLAY_SONG"             to { playerEventController.onPlaySong()                                          },
+            "STOP_SONG"             to { playerEventController.onStopSong()                                          },
+            "PAUSE_SONG"            to { playerEventController.onPauseSong()                                         },
+            "RESTART_APP"           to { restartApp()                                                                }
         )
     }
 

@@ -85,17 +85,17 @@ class PlayerMain : Fragment() {
         }
 
         repeatSongCheckBox.setOnClickListener {
-            SongManager.isRepeating = repeatSongCheckBox.isChecked
+            songController?.setRepeat(repeatSongCheckBox.isChecked)
             PlayerSettingsManager.saveSettings(requireContext())
         }
 
         setIntroButton.setOnClickListener {
-            SongManager.setSongIntroTime(requireContext())
+            songController?.setIntroTime(requireContext())
             PlayerSettingsManager.saveSettings(requireContext())
         }
 
         setOutroButton.setOnClickListener {
-            SongManager.setSongOutroTime(requireContext())
+            songController?.setOutroTime(requireContext())
             PlayerSettingsManager.saveSettings(requireContext())
         }
 
@@ -118,21 +118,37 @@ class PlayerMain : Fragment() {
             Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
             return
          }
-         if (SongManager.isRepeating) {
-             currentPlaylist?.getCurrentSong()?.let {
+
+         currentPlaylist?.getNext().let {
+             if (it != null) {
                  updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
              }
-         } else {
-             currentPlaylist?.getNext().let {
-                 if (it != null) {
-                     updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
-                 }
-             }
          }
+    }
+
+    fun repeatSong() {
+        if (SongManager.isRepeating) {
+            currentPlaylist?.getCurrentSong()?.let {
+                updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
+            }
+        }
+    }
+    fun prevSong() {
+        if (currentPlaylist == null) {
+            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        currentPlaylist?.getBefore().let {
+            if (it != null) {
+                updateSongAndPlaylist(requireContext(), it, currentPlaylist!!)
+            }
+        }
 
     }
     fun playSong() {
         songController?.startPlaying()
+        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
     }
 
     private fun shuffleCurrentPlaylist() {
@@ -186,5 +202,20 @@ class PlayerMain : Fragment() {
     override fun onDetach() {
         super.onDetach()
         playerClickListener = null
+    }
+
+    fun pauseSong() {
+        songController?.pauseSong()
+        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
+    }
+
+    fun stopSong() {
+        songController?.stopSong()
+        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
+    }
+
+    fun unpauseSong() {
+        songController?.unpauseSong()
+        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
     }
 }
