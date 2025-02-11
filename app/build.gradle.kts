@@ -46,6 +46,8 @@ dependencies {
     implementation("androidx.media:media:1.6.0")
     implementation("androidx.media3:media3-session:1.2.0")
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.espresso.core)
 
 
 

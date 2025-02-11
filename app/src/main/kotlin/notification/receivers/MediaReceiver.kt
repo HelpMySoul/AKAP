@@ -1,4 +1,4 @@
-package playlistMenu.receivers
+package notification.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,7 +14,7 @@ class MediaReceiver : BroadcastReceiver() {
 
         when (action) {
             "ACTION_PREV" -> broadcastManager.sendBroadcast("ACTION_PREV")
-            "ACTION_PLAY" -> broadcastManager.sendBroadcast("ACTION_PLAY")
+            "ACTION_PLAY_PAUSE" -> broadcastManager.sendBroadcast("ACTION_PLAY")
             "ACTION_NEXT" -> broadcastManager.sendBroadcast("NEXT_SONG")
         }
     }
