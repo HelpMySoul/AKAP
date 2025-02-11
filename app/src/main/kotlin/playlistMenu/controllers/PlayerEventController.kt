@@ -33,6 +33,13 @@ class PlayerEventController(
         getPlaylistFragment()?.playNextSong()
     }
 
+    fun onPreviousSong() {
+        getPlayerFragment()?.apply {
+            prevSong()
+            playSong()
+        }
+        getPlaylistFragment()?.prevSong()
+    }
     fun onRepeatSong() {
         getPlayerFragment()?.apply {
             repeatSong()
@@ -65,6 +72,7 @@ class PlayerEventController(
 
     fun onPlaySong() {
         getPlayerFragment()?.playSong()
+
     }
 
     private fun getPlayerFragment(): PlayerMain? {
@@ -75,9 +83,7 @@ class PlayerEventController(
         return fragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
     }
 
-    fun onPreviousSong() {
-        getPlayerFragment()?.prevSong()
-    }
+
 
     fun onStopSong() {
         getPlayerFragment()?.stopSong()

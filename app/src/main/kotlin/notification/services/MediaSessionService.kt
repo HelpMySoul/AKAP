@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.OptIn
 import androidx.media3.common.util.Log
@@ -21,40 +22,50 @@ class MediaSessionService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
     private lateinit var notificationController: NotificationController
     private lateinit var intentController: IntentController
+    private val notificationId = 1
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
         Log.d("MediaSessionService", "Service created")
 
-        notificationController  = NotificationController(applicationContext)
-        intentController        = IntentController(applicationContext)
+        notificationController = NotificationController(applicationContext)
+        intentController = IntentController(applicationContext)
 
-        startForegroundService()
-
-        val player   = Media3Player(applicationContext)
+        val player = Media3Player(applicationContext)
         mediaSession = MediaSession.Builder(this, player)
             .setId("MediaSession")
             .build()
     }
 
-    @SuppressLint("ForegroundServiceType")
-    private fun startForegroundService() {
-        val channelId = "media_session_channel"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Media Session",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
-        }
+    @OptIn(UnstableApi::class)
+    fun showNotification(title: String, artist: String) {
+        try {
+            val channelId = "media_session_channel"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "Media Session",
+                    NotificationManager.IMPORTANCE_LOW
+                )
+                val notificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager.createNotificationChannel(channel)
+            }
 
-        val notification = buildNotification(channelId)
-        startForeground(1, notification)
+            val notification = buildNotification(channelId, title, artist)
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.notify(notificationId, notification)
+        } catch (e: Exception) {
+            Log.e("MSSErrors", "Error showing notification", e)
+        }
     }
 
-    private fun buildNotification(channelId: String): Notification {
+    fun hideNotification() {
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.cancel(notificationId)
+    }
+
+    private fun buildNotification(channelId: String, title: String, artist: String): Notification {
         val remoteViewsSmall = notificationController.createRemoteViews(R.layout.notification_small)
         val remoteViewsBig = notificationController.createRemoteViews(R.layout.notification_big)
 
@@ -62,15 +73,15 @@ class MediaSessionService : MediaSessionService() {
             remoteViewsSmall,
             R.id.title,
             R.id.artist,
-            applicationContext.getString(R.string.now_playing_title),
-            applicationContext.getString(R.string.now_playing_artist)
+            title,
+            artist
         )
         notificationController.setRemoteViewsText(
             remoteViewsBig,
             R.id.title,
             R.id.artist,
-            applicationContext.getString(R.string.now_playing_title),
-            applicationContext.getString(R.string.now_playing_artist)
+            title,
+            artist
         )
 
         remoteViewsBig.setOnClickPendingIntent(
@@ -95,11 +106,19 @@ class MediaSessionService : MediaSessionService() {
 
     override fun onDestroy() {
         mediaSession?.release()
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        hideNotification()
         super.onDestroy()
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession {
         return mediaSession!!
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        val title = intent?.getStringExtra("title") ?: "Default Title"
+        val artist = intent?.getStringExtra("artist") ?: "Default Artist"
+        showNotification(title, artist)
+        return START_NOT_STICKY
     }
 }

@@ -98,6 +98,10 @@ class CurrentPlaylist : Fragment() {
         songAdapter.refresh()
     }
 
+    fun prevSong() {
+        songAdapter.refresh()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -128,6 +132,8 @@ class CurrentPlaylist : Fragment() {
         songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
         songsRecyclerView.adapter   = songAdapter
     }
+
+
 
 
 }

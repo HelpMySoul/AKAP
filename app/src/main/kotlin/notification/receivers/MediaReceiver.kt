@@ -13,8 +13,8 @@ class MediaReceiver : BroadcastReceiver() {
         val broadcastManager = BroadcastManagerController(context)
 
         when (action) {
-            "ACTION_PREV" -> broadcastManager.sendBroadcast("ACTION_PREV")
-            "ACTION_PLAY_PAUSE" -> broadcastManager.sendBroadcast("ACTION_PLAY")
+            "ACTION_PREV" -> broadcastManager.sendBroadcast("PREVIOUS_SONG")
+            "ACTION_PLAY_PAUSE" -> broadcastManager.sendBroadcast("PAUSE_OR_PLAY_SONG")
             "ACTION_NEXT" -> broadcastManager.sendBroadcast("NEXT_SONG")
         }
     }

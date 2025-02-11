@@ -4,8 +4,19 @@ import android.app.Notification
 import android.content.Context
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import com.example.akap.R
+import playlistMenu.managers.SongManager
 
 class NotificationController(private val context: Context) {
+
+    private fun updatePlayPauseButton() : Int {
+        val iconResId = if (SongManager.isPaused) {
+            android.R.drawable.ic_media_pause
+        } else {
+            android.R.drawable.ic_media_play
+        }
+        return iconResId
+    }
 
     fun buildNotification(
         channelId: String,
@@ -13,7 +24,7 @@ class NotificationController(private val context: Context) {
         bigContentView: RemoteViews
     ): Notification {
         return NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(android.R.drawable.ic_media_play)
+            .setSmallIcon(updatePlayPauseButton())
             .setCustomContentView(smallContentView)
             .setCustomBigContentView(bigContentView)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())

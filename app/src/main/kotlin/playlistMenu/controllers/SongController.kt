@@ -2,6 +2,7 @@ package playlistMenu.controllers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,8 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import notification.controllers.NotificationController
+import notification.services.MediaSessionService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
@@ -42,6 +45,11 @@ class SongController(
 
     fun startPlaying() {
         playCurrentSong()
+        val intent = Intent(context, MediaSessionService::class.java).apply {
+            putExtra("title", currentSong?.title)
+            putExtra("artist", currentSong?.artist)
+        }
+        context.startService(intent)
     }
 
     private fun setupSong(song: ISong) {
