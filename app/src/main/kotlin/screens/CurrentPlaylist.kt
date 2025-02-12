@@ -23,7 +23,9 @@ import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
 
-class CurrentPlaylist : Fragment() {
+class CurrentPlaylist(
+    private var onSongClick: ((ISong) -> Unit)? = null
+) : Fragment() {
     private lateinit var songsRecyclerView:     RecyclerView
     private lateinit var songAdapter:           SongAdapter
     private lateinit var playlistController:    PlaylistController
@@ -50,7 +52,12 @@ class CurrentPlaylist : Fragment() {
 
         if (playlist != null) {
             playlistNameText.text       = playlist!!.name
-            songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
+
+            if (onSongClick == null) {
+                onSongClick = { song -> playSong(song) }
+            }
+            songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
+
             songsRecyclerView.adapter   = songAdapter
 
             Log.e("CurrentPlaylist", "${GlobalManager.getSongID()} ${GlobalManager.getSongID() != (-1).toLong()} ${(-1).toLong()} $context")
@@ -129,11 +136,11 @@ class CurrentPlaylist : Fragment() {
 
     fun refresh() {
         playlistNameText.text       = playlist!!.name
-        songAdapter                 = SongAdapter(playlist!!) { song -> playSong(song) }
+        if (onSongClick == null) {
+            onSongClick = { song -> playSong(song) }
+        }
+        songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
         songsRecyclerView.adapter   = songAdapter
     }
-
-
-
 
 }

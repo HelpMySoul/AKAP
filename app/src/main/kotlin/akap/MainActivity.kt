@@ -21,11 +21,14 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.akap.R
 import locale.LanguageManager
 import notification.services.NotificationService
+import playlistMenu.adapters.SongAdapter
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
+import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
+import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
@@ -70,13 +73,15 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
         }
+        val playlist = CurrentPlaylist()
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
+            transaction.replace(R.id.songContainerFragment, playlist)
             transaction.replace(R.id.playerFrameLayout, PlayerMain())
             transaction.commit()
         }
+
     }
 
     private fun  localBroadcastManagerSetup() {
