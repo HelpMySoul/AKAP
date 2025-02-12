@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import notification.services.MediaSessionService
+import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.interfaces.IPlaylist

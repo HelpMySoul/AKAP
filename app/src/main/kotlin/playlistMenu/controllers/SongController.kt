@@ -11,7 +11,7 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import notification.controllers.NotificationController
-import notification.services.MediaSessionService
+import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
@@ -45,9 +45,10 @@ class SongController(
 
     fun startPlaying() {
         playCurrentSong()
-        val intent = Intent(context, MediaSessionService::class.java).apply {
+        val intent = Intent(context, NotificationService::class.java).apply {
             putExtra("title", currentSong?.title)
             putExtra("artist", currentSong?.artist)
+            putExtra("show", true)
         }
         context.startService(intent)
     }

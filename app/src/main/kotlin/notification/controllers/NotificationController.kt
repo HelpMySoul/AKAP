@@ -9,22 +9,13 @@ import playlistMenu.managers.SongManager
 
 class NotificationController(private val context: Context) {
 
-    private fun updatePlayPauseButton() : Int {
-        val iconResId = if (SongManager.isPaused) {
-            android.R.drawable.ic_media_pause
-        } else {
-            android.R.drawable.ic_media_play
-        }
-        return iconResId
-    }
-
     fun buildNotification(
         channelId: String,
         smallContentView: RemoteViews,
         bigContentView: RemoteViews
     ): Notification {
         return NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(updatePlayPauseButton())
+            .setSmallIcon(android.R.drawable.ic_media_play)
             .setCustomContentView(smallContentView)
             .setCustomBigContentView(bigContentView)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())

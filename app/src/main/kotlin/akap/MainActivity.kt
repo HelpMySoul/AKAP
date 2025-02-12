@@ -1,11 +1,15 @@
 package akap
 
-import notification.services.MediaSessionService
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -14,9 +18,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import screens.CurrentPlaylist
 import com.example.akap.R
 import locale.LanguageManager
+import notification.services.NotificationService
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
 import playlistMenu.interfaces.IPlaylist
@@ -24,6 +28,8 @@ import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
+import playlistMenu.managers.SongManager
+import screens.CurrentPlaylist
 import screens.PlayerMain
 import topMenu.TopMenuManager
 import kotlin.system.exitProcess
@@ -71,10 +77,6 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             transaction.replace(R.id.playerFrameLayout, PlayerMain())
             transaction.commit()
         }
-
-        val intent = Intent(this, MediaSessionService::class.java)
-        startForegroundService(intent)
-
     }
 
     private fun  localBroadcastManagerSetup() {
@@ -99,6 +101,7 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     override fun onDestroy() {
         super.onDestroy()
         broadcastManagerController.unregisterAll()
+        stopService(Intent(this, NotificationService::class.java))
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
