@@ -73,11 +73,10 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
         }
-        val playlist = CurrentPlaylist()
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.songContainerFragment, playlist)
+            transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
             transaction.replace(R.id.playerFrameLayout, PlayerMain())
             transaction.commit()
         }

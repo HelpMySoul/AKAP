@@ -17,7 +17,8 @@ import notification.controllers.NotificationController
 class NotificationService : Service() {
 
     private lateinit var notificationController: NotificationController
-    private lateinit var intentController: IntentController
+    private lateinit var intentController:       IntentController
+
     private val notificationId = 1
 
     override fun onCreate() {
@@ -25,7 +26,7 @@ class NotificationService : Service() {
         Log.d("NotificationService", "Service created")
 
         notificationController = NotificationController(applicationContext)
-        intentController = IntentController(applicationContext)
+        intentController       = IntentController(applicationContext)
     }
 
     override fun onDestroy() {
@@ -76,7 +77,7 @@ class NotificationService : Service() {
 
     private fun buildNotification(channelId: String, title: String, artist: String): Notification {
         val remoteViewsSmall = notificationController.createRemoteViews(R.layout.notification_small)
-        val remoteViewsBig = notificationController.createRemoteViews(R.layout.notification_big)
+        val remoteViewsBig   = notificationController.createRemoteViews(R.layout.notification_big)
 
         notificationController.setRemoteViewsText(
             remoteViewsSmall,
@@ -112,12 +113,14 @@ class NotificationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val title = intent?.getStringExtra("title") ?: "Default Title"
+        val title  = intent?.getStringExtra("title") ?: "Default Title"
         val artist = intent?.getStringExtra("artist") ?: "Default Artist"
-        val show = intent?.getBooleanExtra("show", false)
+        val show   = intent?.getBooleanExtra("show", false)
+
         if (show == true) {
             showNotification(title, artist)
         }
+
         return START_NOT_STICKY
     }
 
