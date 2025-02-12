@@ -1,15 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView5"
+    <Button
+        android:id="@+id/btnTrim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="627dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="✂ Обрезать аудио"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnMerge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔀 Объединить треки"
+        android:backgroundTint="@android:color/holo_purple"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnSplit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔉 Разделить трек"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔊 Изменить громкость"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnConvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔄 Конвертировать аудио"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnEditTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🏷 Редактировать теги"
+        android:backgroundTint="@android:color/darker_gray"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnEqualizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎛 Эквалайзер"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnVocalProcessing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎤 Обработка вокала"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp" />
+</LinearLayout>
