@@ -32,7 +32,20 @@ class NotificationService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         hideNotification()
-        stopSelf()
+        Log.e("NotificationServiceErrors", "Destroyed NS")
+    }
+
+    fun updateNotification(title: String, artist: String) {
+        try {
+            val channelId = "NotificationService"
+            val notification = buildNotification(channelId, title, artist)
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.notify(notificationId, notification)
+
+        } catch (e: Exception) {
+            Log.e("NotificationServiceErrors", "Error updating notification", e)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -63,15 +76,17 @@ class NotificationService : Service() {
             notificationManager.notify(notificationId, notification)
 
             startForeground(notificationId, notification)
+
         } catch (e: Exception) {
             Log.e("NotificationServiceErrors", "Error showing notification", e)
         }
     }
 
     fun hideNotification() {
+        stopForeground(STOP_FOREGROUND_REMOVE)
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.cancel(notificationId)
-        stopForeground(STOP_FOREGROUND_DETACH)
+        stopService(Intent(applicationContext, NotificationService::class.java))
         stopSelf()
     }
 

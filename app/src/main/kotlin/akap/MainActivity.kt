@@ -1,15 +1,16 @@
 package akap
 
 import android.Manifest
-import android.content.BroadcastReceiver
+import android.app.ActivityManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -19,16 +20,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.akap.R
+import kotlinx.coroutines.delay
 import locale.LanguageManager
+import mediaReceiver.MediaButtonHandler
+import mediaReceiver.MediaButtonReceiver
 import notification.services.NotificationService
-import playlistMenu.adapters.SongAdapter
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
-import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
@@ -42,12 +43,11 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
     private lateinit var broadcastManagerController: BroadcastManagerController
     private lateinit var playerEventController:      PlayerEventController
+    private lateinit var mediaButtonHandler:         MediaButtonHandler
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        PlayerSettingsManager.loadSettings(this)
 
         val savedLanguage = LanguageManager.getSavedLanguage(this)
         LanguageManager.setLocale(this, savedLanguage)
@@ -64,23 +64,37 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             insets
         }
 
-        TopMenuManager.createTopMenuButtons(this, findViewById(R.id.topMenuLayout), supportFragmentManager)
+        if (savedInstanceState == null) {
+            initializeComponents()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun initializeComponents() {
+        PlayerSettingsManager.loadSettings(this)
 
         PlaylistManager.initialize(this)
 
-        Toast.makeText(this, "${this.getString(R.string.current_language_text)}: $savedLanguage", Toast.LENGTH_SHORT).show()
+        TopMenuManager.createTopMenuButtons(this, findViewById(R.id.topMenuLayout), supportFragmentManager)
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
+        transaction.replace(R.id.playerFrameLayout, PlayerMain())
+        transaction.commit()
+
+
+        mediaButtonHandler = MediaButtonHandler(this)
+        mediaButtonHandler.initialize()
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
         }
 
-        if (savedInstanceState == null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
-            transaction.replace(R.id.playerFrameLayout, PlayerMain())
-            transaction.commit()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_AUDIO), 1001)
         }
-
     }
 
     private fun  localBroadcastManagerSetup() {
@@ -105,7 +119,12 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
     override fun onDestroy() {
         super.onDestroy()
         broadcastManagerController.unregisterAll()
+        mediaButtonHandler.release()
+        finishAffinity()
         stopService(Intent(this, NotificationService::class.java))
+        Log.e("NotificationServiceError","Destroyed MainAct")
+
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

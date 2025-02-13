@@ -109,6 +109,9 @@ class PlayerMain : Fragment() {
                 toggleSettingsButton.text = getString(R.string.hide_settings)
             }
         }
+        pauseAndPlayButton.setOnClickListener {
+            BroadcastManagerController(requireContext()).sendBroadcast("PAUSE_OR_PLAY_SONG")
+        }
 
         toggleSettingsButton.performClick()
         return view
@@ -190,7 +193,6 @@ class PlayerMain : Fragment() {
             localVolumeSeekBar  = localVolumeSeekBar,
             skipIntroCheckBox   = skipIntroCheckBox,
             skipOutroCheckBox   = skipOutroCheckBox,
-            pauseAndPlayButton  = pauseAndPlayButton,
             currentTimeText     = currentTimeText,
             repeatSongCheckBox  = repeatSongCheckBox
         )
@@ -218,4 +220,5 @@ class PlayerMain : Fragment() {
         songController?.unpauseSong()
         pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
     }
+
 }

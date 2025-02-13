@@ -14,14 +14,10 @@ class PlayerEventController(
     private val fragmentManager:    FragmentManager
 ) {
     fun onPauseOrPlaySong() {
-        if (!SongManager.canPlay) {
-            BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
+        if (SongManager.isPaused) {
+            onUnpauseSong()
         } else {
-            if (SongManager.isPaused) {
-                onUnpause()
-            } else {
-                onPauseSong()
-            }
+            onPauseSong()
         }
     }
 
@@ -93,7 +89,7 @@ class PlayerEventController(
         getPlayerFragment()?.pauseSong()
     }
 
-    fun onUnpause() {
+    fun onUnpauseSong() {
         getPlayerFragment()?.unpauseSong()
     }
 }

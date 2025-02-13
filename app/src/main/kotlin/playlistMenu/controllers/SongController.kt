@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.CheckBox
@@ -29,8 +30,7 @@ class SongController(
     private val localVolumeSeekBar: SeekBar,
     private val skipIntroCheckBox:  CheckBox,
     private val skipOutroCheckBox:  CheckBox,
-    private val repeatSongCheckBox: CheckBox,
-    private val pauseAndPlayButton: ImageButton
+    private val repeatSongCheckBox: CheckBox
 ) {
 
     private val handler             = Handler(Looper.getMainLooper())
@@ -38,19 +38,26 @@ class SongController(
     private val checkOutroSkip      = Runnable { outroSkip() }
 
     init {
-        currentSong?.let { setupSong(it) }
+        setSong()
         setupListeners()
         updateUI(true)
     }
 
     fun startPlaying() {
         playCurrentSong()
+
         val intent = Intent(context, NotificationService::class.java).apply {
             putExtra("title", currentSong?.title)
             putExtra("artist", currentSong?.artist)
             putExtra("show", true)
         }
-        context.startService(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
+
     }
 
     private fun setupSong(song: ISong) {
@@ -144,10 +151,6 @@ class SongController(
         }
 
         repeatSongCheckBox.isChecked = SongManager.isRepeating
-
-        pauseAndPlayButton.setOnClickListener {
-            BroadcastManagerController(context).sendBroadcast("PAUSE_OR_PLAY_SONG")
-        }
 
         playNextListenerSetup()
     }
@@ -253,5 +256,9 @@ class SongController(
 
     fun setOutroTime(context: Context) {
         SongManager.setSongOutroTime(context)
+    }
+
+    fun setSong() {
+        currentSong?.let { setupSong(it) }
     }
 }
