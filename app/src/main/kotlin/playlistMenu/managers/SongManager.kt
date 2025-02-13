@@ -23,8 +23,6 @@ object SongManager {
 
     fun play(context: Context, song: ISong) {
 
-        setSong(context, song)
-
         mediaPlayer?.setOnPreparedListener {
             it.start()
             canPlay = true
