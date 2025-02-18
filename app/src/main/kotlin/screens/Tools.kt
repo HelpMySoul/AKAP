@@ -1,6 +1,4 @@
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +6,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import activities.TrimAudioActivity
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
 import com.arthenica.ffmpegkit.Session
 import com.example.akap.R
+import tools.controllers.SongPickerController
 
 class Tools : Fragment() {
+    lateinit var songPickerController: SongPickerController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +39,16 @@ class Tools : Fragment() {
         btnEqualizer.setOnClickListener { openEqualizer() }
         btnVocalProcessing.setOnClickListener { processVocal() }
 
+        songPickerController = SongPickerController(this, parentFragmentManager)
+
+        songPickerController.setListeners(viewLifecycleOwner,
+            "GET_TRIM_SONG_PATH" to { /*selectedSongPath ->
+                val intent = Intent(requireContext(), TrimAudioActivity::class.java)
+                intent.putExtra("AUDIO_URI", Uri.parse(selectedSongPath))
+                startActivity(intent)*/ //TODO() create controller for it
+            }
+        )
+
         return view
     }
 
@@ -53,9 +63,7 @@ class Tools : Fragment() {
     }
 
     private fun openTrimActivity() {
-        val intent = Intent(requireContext(), TrimAudioActivity::class.java)
-        intent.putExtra("AUDIO_URI", Uri.parse("/storage/emulated/0/Music/sample.mp3")) // TODO: выбрать файл через File Picker
-        startActivity(intent)
+        songPickerController.openSongPicker("GET_TRIM_SONG_PATH")
     }
 
     private fun mergeAudio() {
