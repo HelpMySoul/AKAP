@@ -13,11 +13,19 @@ class PlayerEventController(
     private val context:            Context,
     private val fragmentManager:    FragmentManager
 ) {
-    fun onNextOrRepeatSong() {
-        if (SongManager.isRepeating) onRepeatSong() else onNextSong()
+    fun onPauseOrPlaySong() {
+        if (!SongManager.canPlay) {
+            BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
+        } else {
+            if (SongManager.isPaused) {
+                onUnpause()
+            } else {
+                onPauseSong()
+            }
+        }
     }
 
-    private fun onNextSong() {
+    fun onNextSong() {
         getPlayerFragment()?.apply {
             nextSong()
             playSong()
@@ -25,9 +33,16 @@ class PlayerEventController(
         getPlaylistFragment()?.playNextSong()
     }
 
-    private fun onRepeatSong() {
+    fun onPreviousSong() {
         getPlayerFragment()?.apply {
-            nextSong()
+            prevSong()
+            playSong()
+        }
+        getPlaylistFragment()?.prevSong()
+    }
+    fun onRepeatSong() {
+        getPlayerFragment()?.apply {
+            repeatSong()
             playSong()
         }
         getPlaylistFragment()?.repeatSong()
@@ -57,6 +72,7 @@ class PlayerEventController(
 
     fun onPlaySong() {
         getPlayerFragment()?.playSong()
+
     }
 
     private fun getPlayerFragment(): PlayerMain? {
@@ -65,5 +81,19 @@ class PlayerEventController(
 
     private fun getPlaylistFragment(): CurrentPlaylist? {
         return fragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
+    }
+
+
+
+    fun onStopSong() {
+        getPlayerFragment()?.stopSong()
+    }
+
+    fun onPauseSong() {
+        getPlayerFragment()?.pauseSong()
+    }
+
+    fun onUnpause() {
+        getPlayerFragment()?.unpauseSong()
     }
 }

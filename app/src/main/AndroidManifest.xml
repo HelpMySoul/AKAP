@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,8 +17,6 @@
         android:theme="@style/Theme.AKAP"
         tools:targetApi="31"
         android:requestLegacyExternalStorage="true">
-
-        <activity android:name="activities.TrimAudioActivity" />
 
         <activity
             android:name="akap.MainActivity"

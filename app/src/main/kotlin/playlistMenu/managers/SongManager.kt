@@ -186,7 +186,7 @@ object SongManager {
         mediaPlayer?.setOnCompletionListener(listener)
     }
 
-    fun checkAndSkipOutro() {
+    fun checkAndSkipOutro(context: Context) {
         if (!skipTheOutro) {
             return
         }
@@ -196,7 +196,11 @@ object SongManager {
                 val outroTime  = song.duration - song.outroDuration
 
                 if (currentPosition >= outroTime) {
-                    player.seekTo(song.duration.toInt())
+                    if (isRepeating){
+                        BroadcastManagerController(context).sendBroadcast("REPEAT_SONG")
+                    } else {
+                        BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
+                    }
                 }
             }
         }
@@ -214,4 +218,6 @@ object SongManager {
         isRepeating = value
         PlayerSettingsManager.saveSettings(context)
     }
+
+
 }

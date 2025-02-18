@@ -2,6 +2,7 @@ package playlistMenu.managers
 
 import android.content.Context
 import android.util.Log
+import playlistMenu.controllers.BroadcastManagerController
 
 object GlobalManager {
     private var playlistName: String    = ""

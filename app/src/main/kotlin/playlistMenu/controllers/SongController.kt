@@ -2,6 +2,7 @@ package playlistMenu.controllers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,8 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import notification.controllers.NotificationController
+import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
@@ -35,16 +38,22 @@ class SongController(
     private val checkOutroSkip      = Runnable { outroSkip() }
 
     init {
-        currentSong?.let { setupSongManager(it) }
+        currentSong?.let { setupSong(it) }
         setupListeners()
         updateUI(true)
     }
 
     fun startPlaying() {
         playCurrentSong()
+        val intent = Intent(context, NotificationService::class.java).apply {
+            putExtra("title", currentSong?.title)
+            putExtra("artist", currentSong?.artist)
+            putExtra("show", true)
+        }
+        context.startService(intent)
     }
 
-    private fun setupSongManager(song: ISong) {
+    private fun setupSong(song: ISong) {
         PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let { playlist ->
             SongManager.setSong(context, playlist)
             currentSong = song
@@ -70,12 +79,17 @@ class SongController(
     }
 
     private fun setupListeners() {
+
+
         currentTimeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            var wasPaused: Boolean = false
+
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 updateSongTimeText(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                wasPaused = SongManager.isPaused
                 SongManager.pause()
                 stopHandler()
             }
@@ -85,7 +99,10 @@ class SongController(
                     SongManager.seekTo(it.progress)
                 }
 
-                SongManager.unpause()
+                if (!wasPaused) {
+                    SongManager.unpause()
+                }
+
                 updateUI()
                 startHandler()
             }
@@ -129,24 +146,18 @@ class SongController(
         repeatSongCheckBox.isChecked = SongManager.isRepeating
 
         pauseAndPlayButton.setOnClickListener {
-
-            if (!SongManager.canPlay) {
-                BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
-            } else {
-                if (SongManager.isPaused) {
-                    SongManager.unpause()
-                } else {
-                    SongManager.pause()
-                }
-            }
-            updateUI()
+            BroadcastManagerController(context).sendBroadcast("PAUSE_OR_PLAY_SONG")
         }
 
         playNextListenerSetup()
     }
 
     private fun playNext() {
-        BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
+        if (SongManager.isRepeating){
+            BroadcastManagerController(context).sendBroadcast("REPEAT_SONG")
+        } else {
+            BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
+        }
         playNextListenerSetup()
     }
 
@@ -157,9 +168,13 @@ class SongController(
         })
     }
 
+    private fun  getSongName(): String {
+        return "${currentSong?.artist} - ${currentSong?.title}"
+    }
+
     fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
-            currentSongTitle.text   = "${currentSong?.artist} - ${currentSong?.title}"
+            currentSongTitle.text   = getSongName()
         }
 
         currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
@@ -173,12 +188,6 @@ class SongController(
                 }"
 
         currentSongTitle.isSelected = true
-
-        if (!SongManager.isPaused) {
-            pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
-        } else {
-            pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
-        }
 
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
     }
@@ -212,7 +221,7 @@ class SongController(
     }
 
     private fun outroSkip() {
-        SongManager.checkAndSkipOutro()
+        SongManager.checkAndSkipOutro(context)
 
         handler.postDelayed(checkOutroSkip, 1000)
     }
@@ -220,5 +229,29 @@ class SongController(
     fun release() {
         stopHandler()
         SongManager.release()
+    }
+
+    fun pauseSong() {
+        SongManager.pause()
+    }
+
+    fun stopSong() {
+        SongManager.stop()
+    }
+
+    fun unpauseSong() {
+        SongManager.unpause()
+    }
+
+    fun setRepeat(checked: Boolean) {
+        SongManager.isRepeating = checked
+    }
+
+    fun setIntroTime(context: Context) {
+        SongManager.setSongIntroTime(context)
+    }
+
+    fun setOutroTime(context: Context) {
+        SongManager.setSongOutroTime(context)
     }
 }

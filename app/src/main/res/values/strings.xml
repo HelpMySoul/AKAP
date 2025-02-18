@@ -55,4 +55,8 @@
     <string name="outro_set_successfully">Outro set successfully</string>
     <string name="current_language_text">Current language</string>
     <string name="delete_metadata">Delete metadata</string>
+    <string name="now_playing_title">Title</string>
+    <string name="now_playing_artist">Artist</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
