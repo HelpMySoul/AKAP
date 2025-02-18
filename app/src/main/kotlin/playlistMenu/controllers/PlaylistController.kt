@@ -20,8 +20,14 @@ class PlaylistController(context: Context) {
         return PlaylistManager.getPlaylistByName(name)
     }
 
-    fun createPlaylist(name: String, songs: List<ISong>) {
-        PlaylistManager.createPlaylist(name, songs)
+    fun createPlaylist(name: String, songs: List<ISong>, isTemporary: Boolean = false) {
+        PlaylistManager.createPlaylist(name, songs, isTemporary)
+    }
+
+    fun createPlaylist(name: String, playlist: IPlaylist?, isTemporary: Boolean = false) {
+        if (playlist != null) {
+            PlaylistManager.createPlaylist(name, playlist, isTemporary)
+        }
     }
 
     fun addSongToPlaylist(playlistName: String, song: ISong) {

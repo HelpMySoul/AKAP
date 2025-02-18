@@ -29,7 +29,7 @@ class SongSearchController(private val context: Context, private val playlistCon
             return origPlaylist
         }
 
-        playlistController.createPlaylist(searchPlaylistName, foundSongs)
+        playlistController.createPlaylist(searchPlaylistName, foundSongs, true)
         tempPlaylists.add(searchPlaylistName)
         return playlistController.getPlaylist(searchPlaylistName)
     }

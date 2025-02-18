@@ -1,11 +1,13 @@
 package playlistMenu.classes
 
 import android.util.Log
+import org.json.JSONArray
+import org.json.JSONObject
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
-class Playlist(override val name: String) : IPlaylist {
+class Playlist(override val name: String, val isTemporary: Boolean = false) : IPlaylist {
     override var songs: MutableList<ISong> = mutableListOf()
     private var songIndex: Int = 0
 
@@ -95,6 +97,33 @@ class Playlist(override val name: String) : IPlaylist {
     override fun findSongByID(songID: Long): ISong? {
         return songs.firstOrNull { song ->
             song.id == songID
+        }
+    }
+
+    fun toJson(): JSONObject {
+        val json = JSONObject()
+        json.put("name", name)
+
+        val songsArray = JSONArray()
+        songs.forEach { song ->
+            songsArray.put((song as? Song)?.toJson())
+        }
+
+        json.put("songs", songsArray)
+        return json
+    }
+
+    companion object {
+        fun fromJson(json: JSONObject): Playlist {
+            val playlist = Playlist(json.getString("name"))
+            val songsArray = json.getJSONArray("songs")
+
+            for (i in 0 until songsArray.length()) {
+                val songJson = songsArray.getJSONObject(i)
+                playlist.addSong(Song.fromJson(songJson))
+            }
+
+            return playlist
         }
     }
 }

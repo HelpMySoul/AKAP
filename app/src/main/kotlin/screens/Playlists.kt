@@ -2,9 +2,11 @@ package screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +20,9 @@ import playlistMenu.managers.MenuFragmentManager
 
 class Playlists : Fragment() {
 
-    private lateinit var playlistController: PlaylistController
-    private lateinit var playlistAdapter:    PlaylistAdapter
+    private lateinit var playlistController:    PlaylistController
+    private lateinit var playlistAdapter:       PlaylistAdapter
+    private lateinit var createPlaylistButton:  Button
 
     private val playlists = mutableListOf<IPlaylist>()
 
@@ -44,6 +47,12 @@ class Playlists : Fragment() {
         }
 
         recyclerView.adapter = playlistAdapter
+
+        createPlaylistButton = view.findViewById(R.id.createPlaylistButton)
+
+        createPlaylistButton.setOnClickListener {
+            playlistController.createPlaylist(GlobalManager.getPlaylistName() + " Сохраненный", playlistController.getPlaylist(GlobalManager.getPlaylistName()))
+        }
 
         loadPlaylists()
     }
