@@ -11,22 +11,10 @@
         android:layout_height="wrap_content"
         android:text="Выбрать аудиофайл" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Spinner
-            android:id="@+id/formatSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
-        android:id="@+id/btnConvert"
+        android:id="@+id/btnRemoveSilence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Конвертировать" />
+        android:text="Удалить тишину" />
 
 </LinearLayout>
