@@ -15,7 +15,7 @@ object MenuFragmentManager {
 
         fragmentManager.beginTransaction()
             .replace(containerId, newFragment, fragmentTag)
-            .addToBackStack(fragmentTag)
+            .addToBackStack(null)
             .commit()
     }
 }

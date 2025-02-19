@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="song_selected">#D3D3D3</color>
     <color name="song_default">#00000000</color>
+    <color name="playlist_selected">#D3D3D3</color>
+    <color name="playlist_default">#00000000</color>
 </resources>

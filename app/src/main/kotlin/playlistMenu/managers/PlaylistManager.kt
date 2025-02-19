@@ -43,8 +43,6 @@ object PlaylistManager {
             allSongs.songs.addAll(musicService.findAllMusic())
         }
 
-
-
         isInitialized = true
     }
 

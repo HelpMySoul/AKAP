@@ -1,6 +1,5 @@
 package screens
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,6 @@ import playlistMenu.controllers.SongSearchController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.GlobalManager
-import java.lang.ref.WeakReference
 
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
@@ -32,14 +32,16 @@ class CurrentPlaylist(
     private lateinit var songSearchController:  SongSearchController
     private lateinit var searchText:            EditText
     private lateinit var playlistNameText:      TextView
+    private lateinit var deletePlaylistsButton: ImageButton
     private var          playlist:              IPlaylist? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
 
-        songsRecyclerView   = view.findViewById(R.id.songsRecyclerView)
-        playlistNameText    = view.findViewById(R.id.playlistNameTextView)
-        searchText          = view.findViewById(R.id.searchText)
+        songsRecyclerView       = view.findViewById(R.id.songsRecyclerView)
+        playlistNameText        = view.findViewById(R.id.playlistNameTextView)
+        searchText              = view.findViewById(R.id.searchText)
+        deletePlaylistsButton   = view.findViewById(R.id.deletePlaylistButton)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -89,6 +91,11 @@ class CurrentPlaylist(
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        deletePlaylistsButton.setOnClickListener {
+            playlist?.name?.let { name -> playlistController.deletePlaylist(name) }
+            refresh()
+        }
 
         return view
     }

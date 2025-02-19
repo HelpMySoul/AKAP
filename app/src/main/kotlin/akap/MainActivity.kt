@@ -112,21 +112,12 @@ class MainActivity : AppCompatActivity() {
             "RESTART_APP"           to { restartApp()                                                                }
         )
     }
-    private fun createIntent() {
-        val intent = Intent(applicationContext, NotificationService::class.java).apply {
-            putExtra("show", false)
-        }
-
-        applicationContext.startService(intent)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        createIntent()
         broadcastManagerController.unregisterAll()
         mediaButtonHandler.release()
         finishAffinity()
-
 
         Log.e("NotificationServiceError","Destroyed MainAct")
     }

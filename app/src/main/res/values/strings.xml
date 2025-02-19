@@ -59,4 +59,7 @@
     <string name="now_playing_artist">Artist</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="Saved_Playlist">Saved</string>
+    <string name="Try_To_Delete_Playlist">You can\'t delete this playlist</string>
+    <string name="No_Playlists">Choose Playlists</string>
 </resources>

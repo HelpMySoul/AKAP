@@ -1,11 +1,13 @@
 package playlistMenu.controllers
 
 import android.content.Context
+import android.widget.Toast
+import com.example.akap.R
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.PlaylistManager
 
-class PlaylistController(context: Context) {
+class PlaylistController(var context: Context) {
 
     init {
         PlaylistManager.initialize(context)
@@ -35,7 +37,12 @@ class PlaylistController(context: Context) {
     }
 
     fun deletePlaylist(playlistName: String) {
-        PlaylistManager.deletePlaylist(playlistName)
+        if (playlistName != context.getString(R.string.all_songs)) {
+            PlaylistManager.deletePlaylist(playlistName)
+        } else {
+            Toast.makeText(context, context.getString(R.string.Try_To_Delete_Playlist), Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }
