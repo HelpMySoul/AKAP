@@ -9,10 +9,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import activities.TrimAudioActivity
+import android.util.Log
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
 import com.arthenica.ffmpegkit.Session
 import com.example.akap.R
+import playlistMenu.services.MusicFinderService
 
 class Tools : Fragment() {
     override fun onCreateView(
@@ -53,8 +55,11 @@ class Tools : Fragment() {
     }
 
     private fun openTrimActivity() {
+        Log.e("ToolsError", "test")
+
         val intent = Intent(requireContext(), TrimAudioActivity::class.java)
-        intent.putExtra("AUDIO_URI", Uri.parse("/storage/emulated/0/Music/sample.mp3")) // TODO: выбрать файл через File Picker
+        val music = MusicFinderService(requireContext()).findAllMusic()
+        intent.putExtra("AUDIO_URI", Uri.parse(music[0].filePath)) // TODO: выбрать файл через File Picker
         startActivity(intent)
     }
 

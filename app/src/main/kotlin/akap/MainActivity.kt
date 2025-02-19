@@ -74,6 +74,10 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_AUDIO), 1001)
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 5051)
+        }
+
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()

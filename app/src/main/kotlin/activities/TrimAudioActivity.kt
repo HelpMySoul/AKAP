@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
@@ -71,8 +72,10 @@ class TrimAudioActivity : AppCompatActivity() {
     }
 
     private fun trimAudio() {
-        val inputPath = File(audioUri!!.path!!).absolutePath
-        val outputPath = "${cacheDir.absolutePath}/trimmed_audio.mp3"
+        val inputPath = audioUri.toString()
+        val lastSlashIndex = inputPath.lastIndexOf('/')
+        val directoryPath = inputPath.substring(0, lastSlashIndex + 1)
+        val outputPath = "${directoryPath}trimmed_audio.mp3"
 
         val command = "-i $inputPath -ss ${startTime / 1000} -to ${endTime / 1000} -c copy $outputPath"
 
@@ -82,6 +85,9 @@ class TrimAudioActivity : AppCompatActivity() {
                 resultIntent.putExtra("TRIMMED_AUDIO", outputPath)
                 setResult(RESULT_OK, resultIntent)
                 finish()
+                Log.d("TrimAct", "Trimmed $outputPath")
+            } else {
+                Log.d("TrimAct", "Trimmed $outputPath")
             }
         }
     }
