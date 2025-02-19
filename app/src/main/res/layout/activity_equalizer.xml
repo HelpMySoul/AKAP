@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/btnSelectFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбрать аудиофайл"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/fileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Файл не выбран"
+        android:gravity="center"
+        android:layout_marginTop="12dp" />
+
+    <SeekBar
+        android:id="@+id/bassControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Бас (30-250 Гц)"
+        android:layout_marginTop="4dp" />
+
+    <SeekBar
+        android:id="@+id/midControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Середина (250-4000 Гц)"
+        android:layout_marginTop="4dp" />
+
+    <SeekBar
+        android:id="@+id/trebleControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Высокие (4000-20000 Гц)"
+        android:layout_marginTop="4dp" />
+
+    <Button
+        android:id="@+id/btnApplyEqualizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Применить эквалайзер"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginTop="12dp"
+        android:background="?attr/selectableItemBackground" />
+
+</LinearLayout>

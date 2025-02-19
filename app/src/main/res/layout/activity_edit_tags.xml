@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/btnSelectFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбрать аудиофайл"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/fileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Файл не выбран"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/titleInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Название"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:minHeight="48dp"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/artistInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Исполнитель"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:minHeight="48dp"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/albumInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Альбом"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:minHeight="48dp"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnSaveTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сохранить теги"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>
