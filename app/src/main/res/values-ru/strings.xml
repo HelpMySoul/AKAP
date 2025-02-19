@@ -60,4 +60,8 @@
     <string name="Saved_Playlist">Сохраненный</string>
     <string name="Try_To_Delete_Playlist">You can\'t delete this playlist</string>
     <string name="No_Playlists">Choose Playlists</string>
+    <string name="Edit_Playlist_Name">Edit Playlist Name</string>
+    <string name="Save">Save</string>
+    <string name="Playlist_Name_Empty">Playlist name can\'t be empty</string>
+    <string name="Cancel">Cancel</string>
 </resources>

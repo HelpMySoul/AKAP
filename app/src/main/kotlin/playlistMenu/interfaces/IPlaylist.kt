@@ -4,7 +4,7 @@ import java.io.Serializable
 
 
 interface IPlaylist {
-    val name:   String
+    var name:   String
     var songs:  MutableList<ISong>
 
     fun addSong(song: ISong)

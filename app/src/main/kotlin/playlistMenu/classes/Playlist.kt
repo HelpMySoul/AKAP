@@ -7,7 +7,7 @@ import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
-class Playlist(override val name: String, val isTemporary: Boolean = false) : IPlaylist {
+class Playlist(override var name: String, val isTemporary: Boolean = false) : IPlaylist {
     override var songs: MutableList<ISong> = mutableListOf()
     private var songIndex: Int = 0
 

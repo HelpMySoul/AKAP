@@ -1,5 +1,7 @@
 package screens
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import builders.EditPlaylistNameBuilder
 import com.example.akap.R
 import playlistMenu.adapters.SongAdapter
 import playlistMenu.controllers.BroadcastManagerController
@@ -26,15 +29,18 @@ import playlistMenu.managers.GlobalManager
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
-    private lateinit var songsRecyclerView:     RecyclerView
-    private lateinit var songAdapter:           SongAdapter
-    private lateinit var playlistController:    PlaylistController
-    private lateinit var songSearchController:  SongSearchController
-    private lateinit var searchText:            EditText
-    private lateinit var playlistNameText:      TextView
-    private lateinit var deletePlaylistsButton: ImageButton
-    private var          playlist:              IPlaylist? = null
+    private lateinit var songsRecyclerView:         RecyclerView
+    private lateinit var songAdapter:               SongAdapter
+    private lateinit var playlistController:        PlaylistController
+    private lateinit var songSearchController:      SongSearchController
+    private lateinit var searchText:                EditText
+    private lateinit var playlistNameText:          TextView
+    private lateinit var deletePlaylistsButton:     ImageButton
+    private lateinit var editPlaylistNameButton:    ImageButton
+    private lateinit var addSongsButton:            ImageButton
+    private var          playlist:                  IPlaylist? = null
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
 
@@ -42,6 +48,8 @@ class CurrentPlaylist(
         playlistNameText        = view.findViewById(R.id.playlistNameTextView)
         searchText              = view.findViewById(R.id.searchText)
         deletePlaylistsButton   = view.findViewById(R.id.deletePlaylistButton)
+        editPlaylistNameButton  = view.findViewById(R.id.editPlaylistNameButton)
+        addSongsButton          = view.findViewById(R.id.addSongsButton)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -95,6 +103,24 @@ class CurrentPlaylist(
         deletePlaylistsButton.setOnClickListener {
             playlist?.name?.let { name -> playlistController.deletePlaylist(name) }
             refresh()
+        }
+
+        editPlaylistNameButton.setOnClickListener {
+            EditPlaylistNameBuilder(
+                context     = requireContext(),
+                currentName = playlistNameText.text.toString(),
+                onSave      = { newName ->
+                    playlistNameText.text = newName
+
+                    playlist?.let { playlist ->
+                        playlistController.updatePlaylistName(playlist.name, newName)
+                    }
+
+                    songAdapter.notifyDataSetChanged()
+
+                    GlobalManager.updatePlaylistName(newName, requireContext())
+                }
+            ).built()
         }
 
         return view

@@ -149,5 +149,10 @@ object PlaylistManager {
         playlists.remove(getPlaylistByName(playlistName))
         savePlaylistsToPreferences()
     }
+
+    fun updatePlaylistName(name: String, newName: String) {
+        getPlaylistByName(name)?.name = newName
+        savePlaylistsToPreferences()
+    }
 }
 
