@@ -4,15 +4,17 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
 import com.example.akap.R
-import java.io.File
+
 
 class TrimAudioActivity : AppCompatActivity() {
 
@@ -67,12 +69,30 @@ class TrimAudioActivity : AppCompatActivity() {
         })
 
         btnTrimConfirm.setOnClickListener {
+            check()
             trimAudio()
         }
     }
 
-    private fun trimAudio() {
+    private  fun  check() {
         val inputPath = audioUri.toString()
+
+        val command = "-i $inputPath"
+
+        FFmpegKit.executeAsync(command) { session ->
+            val returnCode = session.returnCode
+            if (ReturnCode.isSuccess(returnCode)) {
+                Log.d("FFmpegKit", "Информация о файле: ${session.allLogsAsString}")
+            } else {
+                Log.e("FFmpegKit", "Ошибка: ${session.failStackTrace}")
+            }
+        }
+    }
+
+    private fun trimAudio() {
+        Toast.makeText(applicationContext, audioUri.toString(), Toast.LENGTH_SHORT).show()
+        val inputPath = audioUri.toString()
+
         val lastSlashIndex = inputPath.lastIndexOf('/')
         val directoryPath = inputPath.substring(0, lastSlashIndex + 1)
         val outputPath = "${directoryPath}trimmed_audio.mp3"
@@ -87,7 +107,7 @@ class TrimAudioActivity : AppCompatActivity() {
                 finish()
                 Log.d("TrimAct", "Trimmed $outputPath")
             } else {
-                Log.d("TrimAct", "Error")
+                Log.d("TrimAct", "Error $outputPath")
             }
         }
     }
