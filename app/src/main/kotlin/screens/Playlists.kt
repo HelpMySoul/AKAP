@@ -30,29 +30,32 @@ class Playlists : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_playlists, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         playlistController = PlaylistController(requireContext())
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlaylists)
-
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val view = inflater.inflate(R.layout.fragment_playlists, container, false)
 
         playlistAdapter = PlaylistAdapter(playlists) { playlist ->
             openCurrentPlaylist(playlist)
         }
-
-        recyclerView.adapter = playlistAdapter
 
         createPlaylistButton = view.findViewById(R.id.createPlaylistButton)
 
         createPlaylistButton.setOnClickListener {
             playlistController.createPlaylist(GlobalManager.getPlaylistName() + " Сохраненный", playlistController.getPlaylist(GlobalManager.getPlaylistName()))
         }
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlaylists)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        recyclerView.adapter = playlistAdapter
+
+        createPlaylistButton = view.findViewById(R.id.createPlaylistButton)
 
         loadPlaylists()
     }
@@ -60,19 +63,27 @@ class Playlists : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun loadPlaylists() {
         playlists.clear()
-        playlists.addAll(playlistController.getAllPlaylists())
+        val allPlaylists = playlistController.getAllPlaylists()
+        playlists.addAll(allPlaylists)
         playlistAdapter.notifyDataSetChanged()
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
+        val playlistName = GlobalManager.getPlaylistName()
         GlobalManager.updatePlaylistName(playlist.name, requireContext())
 
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {
-                putString("playlist_name", GlobalManager.getPlaylistName())
+                putString("playlist_name", playlistName)
             }
         }
 
-        MenuFragmentManager.openFragment(parentFragmentManager, R.id.songContainerFragment, GlobalManager.getPlaylistName(), { currentPlaylistFragment })
+        parentFragmentManager.let {
+            MenuFragmentManager.openFragment(it, R.id.songContainerFragment, playlistName) { currentPlaylistFragment }
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        playlists.clear()
     }
 }

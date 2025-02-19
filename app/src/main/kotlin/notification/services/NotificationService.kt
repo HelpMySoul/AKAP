@@ -29,24 +29,7 @@ class NotificationService : Service() {
         intentController       = IntentController(applicationContext)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        hideNotification()
-        Log.e("NotificationServiceErrors", "Destroyed NS")
-    }
 
-    fun updateNotification(title: String, artist: String) {
-        try {
-            val channelId = "NotificationService"
-            val notification = buildNotification(channelId, title, artist)
-
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.notify(notificationId, notification)
-
-        } catch (e: Exception) {
-            Log.e("NotificationServiceErrors", "Error updating notification", e)
-        }
-    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -82,13 +65,6 @@ class NotificationService : Service() {
         }
     }
 
-    fun hideNotification() {
-        stopForeground(STOP_FOREGROUND_REMOVE)
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.cancel(notificationId)
-        stopService(Intent(applicationContext, NotificationService::class.java))
-        stopSelf()
-    }
 
     private fun buildNotification(channelId: String, title: String, artist: String): Notification {
         val remoteViewsSmall = notificationController.createRemoteViews(R.layout.notification_small)
@@ -135,13 +111,11 @@ class NotificationService : Service() {
         if (show == true) {
             showNotification(title, artist)
         }
-
+        else {
+            stopForeground(true)
+            stopSelf()
+            Log.e("NotificationServiceErrors", "Service destroyed")
+        }
         return START_NOT_STICKY
-    }
-
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        super.onTaskRemoved(rootIntent)
-        hideNotification()
-        stopSelf()
     }
 }

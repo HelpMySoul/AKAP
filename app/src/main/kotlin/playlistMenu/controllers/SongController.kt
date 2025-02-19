@@ -46,19 +46,9 @@ class SongController(
     fun startPlaying() {
         playCurrentSong()
 
-        val intent = Intent(context, NotificationService::class.java).apply {
-            putExtra("title", currentSong?.title)
-            putExtra("artist", currentSong?.artist)
-            putExtra("show", true)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(intent)
-        } else {
-            context.startService(intent)
-        }
-
+        createIntent()
     }
+
 
     private fun setupSong(song: ISong) {
         PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let { playlist ->
@@ -86,8 +76,6 @@ class SongController(
     }
 
     private fun setupListeners() {
-
-
         currentTimeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             var wasPaused: Boolean = false
 
@@ -244,6 +232,22 @@ class SongController(
 
     fun unpauseSong() {
         SongManager.unpause()
+
+        createIntent()
+    }
+
+    private fun createIntent() {
+        val intent = Intent(context, NotificationService::class.java).apply {
+            putExtra("title",   currentSong?.title)
+            putExtra("artist",  currentSong?.artist)
+            putExtra("show", true)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
     }
 
     fun setRepeat(checked: Boolean) {
@@ -261,4 +265,5 @@ class SongController(
     fun setSong() {
         currentSong?.let { setupSong(it) }
     }
+
 }

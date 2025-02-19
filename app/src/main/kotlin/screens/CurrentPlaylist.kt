@@ -20,8 +20,8 @@ import playlistMenu.controllers.PlaylistController
 import playlistMenu.controllers.SongSearchController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
+import java.lang.ref.WeakReference
 
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
@@ -32,8 +32,7 @@ class CurrentPlaylist(
     private lateinit var songSearchController:  SongSearchController
     private lateinit var searchText:            EditText
     private lateinit var playlistNameText:      TextView
-    private var          playlist:              IPlaylist?              = null
-    private var          songPlayerListener:    ISongPlayerListener?    = null
+    private var          playlist:              IPlaylist? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
@@ -51,7 +50,7 @@ class CurrentPlaylist(
         playlist = playlistController.getPlaylist(playlistName)
 
         if (playlist != null) {
-            playlistNameText.text       = playlist!!.name
+            playlistNameText.text = playlist!!.name
 
             if (onSongClick == null) {
                 onSongClick = { song -> playSong(song) }
@@ -97,7 +96,10 @@ class CurrentPlaylist(
     private fun playSong(song: ISong) {
         playlist?.findSong(song)?.let {
             songAdapter.refresh()
-            songPlayerListener?.updateSong(it, playlist!!)
+
+            context?.let { context -> GlobalManager.updateSongID(song.id, context) }
+
+            context?.let { context -> BroadcastManagerController(context).sendBroadcast("UPDATE_SONG") }
         }
     }
 
@@ -109,38 +111,16 @@ class CurrentPlaylist(
         songAdapter.refresh()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (context is ISongPlayerListener) {
-            songPlayerListener = context
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-
-        songPlayerListener = null
-    }
-
-    fun playFirstInPlaylist() {
-        playlist?.getFirstSong()?.let {
-            songAdapter.refresh()
-            songPlayerListener?.updateSong(it, playlist!!)
-        }
-    }
-
     fun repeatSong() {
         songAdapter.refresh()
     }
 
     fun refresh() {
-        playlistNameText.text       = playlist!!.name
-        if (onSongClick == null) {
-            onSongClick = { song -> playSong(song) }
-        }
-        songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
-        songsRecyclerView.adapter   = songAdapter
+        playlistNameText.text = playlist!!.name
+        songsRecyclerView.adapter = songAdapter
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onSongClick = null
+    }
 }

@@ -29,7 +29,6 @@ import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
@@ -39,7 +38,7 @@ import topMenu.TopMenuManager
 import kotlin.system.exitProcess
 
 
-class MainActivity : AppCompatActivity(), ISongPlayerListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var broadcastManagerController: BroadcastManagerController
     private lateinit var playerEventController:      PlayerEventController
@@ -82,11 +81,8 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         transaction.replace(R.id.playerFrameLayout, PlayerMain())
         transaction.commit()
 
-
         mediaButtonHandler = MediaButtonHandler(this)
         mediaButtonHandler.initialize()
-
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
@@ -112,19 +108,27 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
             "PLAY_SONG"             to { playerEventController.onPlaySong()                                          },
             "STOP_SONG"             to { playerEventController.onStopSong()                                          },
             "PAUSE_SONG"            to { playerEventController.onPauseSong()                                         },
+            "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                        },
             "RESTART_APP"           to { restartApp()                                                                }
         )
+    }
+    private fun createIntent() {
+        val intent = Intent(applicationContext, NotificationService::class.java).apply {
+            putExtra("show", false)
+        }
+
+        applicationContext.startService(intent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        createIntent()
         broadcastManagerController.unregisterAll()
         mediaButtonHandler.release()
         finishAffinity()
-        stopService(Intent(this, NotificationService::class.java))
+
+
         Log.e("NotificationServiceError","Destroyed MainAct")
-
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -145,11 +149,5 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
         startActivity(mainIntent)
         exitProcess(0)
-    }
-
-    override fun updateSong(song: ISong?, playlist: IPlaylist) {
-        val playerFragment = supportFragmentManager.findFragmentById(R.id.playerFrameLayout) as? PlayerMain
-        playerFragment?.updateSongAndPlaylist(this, song, playlist)
-        playerFragment?.playSong()
     }
 }
