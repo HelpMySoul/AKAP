@@ -87,7 +87,7 @@ class TrimAudioActivity : AppCompatActivity() {
                 finish()
                 Log.d("TrimAct", "Trimmed $outputPath")
             } else {
-                Log.d("TrimAct", "Trimmed $outputPath")
+                Log.d("TrimAct", "Error")
             }
         }
     }
