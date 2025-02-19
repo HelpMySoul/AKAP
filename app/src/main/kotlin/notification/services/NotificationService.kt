@@ -44,7 +44,7 @@ class NotificationService : Service() {
                 val channel = NotificationChannel(
                     channelId,
                     "Notification Service",
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_HIGH
                 ).apply {
                     description = "Music playback controls"
                 }
