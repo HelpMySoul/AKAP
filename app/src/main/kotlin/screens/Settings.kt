@@ -11,6 +11,7 @@ import com.example.akap.R
 import locale.LanguageManager
 import playlistMenu.controllers.BroadcastManagerController
 import playlistMenu.managers.SongMetadataManager
+import playlistMenu.managers.ThemeManager
 import kotlin.system.exitProcess
 
 class Settings : Fragment() {
@@ -22,6 +23,9 @@ class Settings : Fragment() {
 
         val languageSpinner: Spinner = view.findViewById(R.id.languageSpinner)
         LanguageManager.setupLanguageSpinner(requireContext(), languageSpinner)
+
+        val themeSpinner: Spinner = view.findViewById(R.id.themeSpinner)
+        ThemeManager.setupThemeSpinner(requireContext(), themeSpinner)
 
         val deleteButton: Button = view.findViewById(R.id.delete_metadata_button)
         deleteButton.setOnClickListener {

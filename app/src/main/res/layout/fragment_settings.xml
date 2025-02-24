@@ -20,6 +20,10 @@
             android:id="@+id/settingCard"
             layout="@layout/item_setting_card"/>
 
+        <include
+            android:id="@+id/themeCard"
+            layout="@layout/item_theme_card"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"/>
