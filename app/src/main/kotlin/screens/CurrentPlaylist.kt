@@ -22,6 +22,7 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
+import playlistMenu.managers.SettingCardManager
 
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
@@ -51,12 +52,12 @@ class CurrentPlaylist(
         playlist = playlistController.getPlaylist(playlistName)
 
         if (playlist != null) {
-            playlistNameText.text       = playlist!!.name
+            playlistNameText.text = playlist!!.name
 
             if (onSongClick == null) {
                 onSongClick = { song -> playSong(song) }
             }
-            songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
+            songAdapter = getSongAdapter()
 
             songsRecyclerView.adapter   = songAdapter
 
@@ -68,7 +69,7 @@ class CurrentPlaylist(
             }
 
         } else {
-            playlistNameText.text       = context?.getString(R.string.No_Playlist) ?: ""
+            playlistNameText.text = context?.getString(R.string.No_Playlist) ?: ""
             Log.e("CurrentPlaylist", "null")
         }
 
@@ -139,8 +140,19 @@ class CurrentPlaylist(
         if (onSongClick == null) {
             onSongClick = { song -> playSong(song) }
         }
-        songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
+        songAdapter = getSongAdapter()
         songsRecyclerView.adapter   = songAdapter
     }
 
+    private fun getSongAdapter(): SongAdapter {
+        return SongAdapter(
+            playlist!!,
+            onSongClick = { song -> onSongClick?.invoke(song) },
+            onLongSongClick = {song -> showSongSettingCard(song)}
+        )
+    }
+
+    private fun showSongSettingCard(song: ISong) : (ISong) -> Unit {
+        return SettingCardManager.showSettingCard(song)
+    }
 }
