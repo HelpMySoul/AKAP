@@ -33,6 +33,7 @@ import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
+import playlistMenu.managers.ThemeManager
 import screens.CurrentPlaylist
 import screens.PlayerMain
 import topMenu.TopMenuManager
@@ -54,6 +55,8 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
 
         broadcastManagerController = BroadcastManagerController(this)
         localBroadcastManagerSetup()
+
+        ThemeManager.applyTheme(ThemeManager.getTheme(this), this)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -82,11 +85,8 @@ class MainActivity : AppCompatActivity(), ISongPlayerListener {
         transaction.replace(R.id.playerFrameLayout, PlayerMain())
         transaction.commit()
 
-
         mediaButtonHandler = MediaButtonHandler(this)
         mediaButtonHandler.initialize()
-
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)

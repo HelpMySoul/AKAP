@@ -8,6 +8,7 @@ import Tools
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
@@ -74,10 +75,11 @@ object TopMenuManager {
     }
 
     fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: FragmentManager) {
-        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment )
+        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment)
 
         for (button in buttons) {
-            val btn = Button(context).apply {
+            val styledContext = ContextThemeWrapper(context, R.style.AppButtonStyle)
+            val btn = Button(styledContext, null, 0).apply {
                 text = button.name
                 setOnClickListener { button.action() }
             }

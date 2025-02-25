@@ -2,12 +2,10 @@ package locale
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.akap.R
+import playlistMenu.listeners.LanguageSpinnerListener
 import java.util.Locale
 
 object LanguageManager {
@@ -24,13 +22,13 @@ object LanguageManager {
     }
 
     fun saveLanguage(context: Context, languageCode: String) {
-        val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("Language", languageCode).apply()
+        val pref = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        pref.edit().putString("Language", languageCode).apply()
     }
 
     fun getSavedLanguage(context: Context): String {
-        val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("Language", "en") ?: "en"
+        val pref = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        return pref.getString("Language", "en") ?: "en"
     }
 
     fun setupLanguageSpinner(context: Context, spinner: Spinner) {
@@ -45,22 +43,13 @@ object LanguageManager {
         val selectedIndex = languageCodes.indexOf(savedLanguage).takeIf { it >= 0 } ?: 0
         spinner.setSelection(selectedIndex)
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedLanguage = languageCodes[position]
-
-                if (selectedLanguage != getSavedLanguage(context)) {
-                    saveLanguage(context, selectedLanguage)
-                    setLocale(context, selectedLanguage)
-                    restartActivity(context as Activity)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+        spinner.onItemSelectedListener = LanguageSpinnerListener (
+            languageCodes = languageCodes,
+            context = context
+        )
     }
 
-    private fun restartActivity(activity: Activity) {
+    fun restartActivity(activity: Activity) {
         val intent = activity.intent
         activity.finish()
         activity.startActivity(intent)

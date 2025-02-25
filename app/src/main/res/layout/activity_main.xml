@@ -11,7 +11,7 @@
         android:id="@+id/backgroundView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
+        android:background="@color/colorOnPrimary"
         app:layout_constraintTop_toTopOf="@+id/playerFrameLayout"
         app:layout_constraintBottom_toBottomOf="@+id/playerFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +28,13 @@
 
         <LinearLayout
             android:id="@+id/topMenuLayout"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:divider="@drawable/button_divider"
+            android:showDividers="middle"/>
     </HorizontalScrollView>
 
     <FrameLayout
@@ -53,7 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

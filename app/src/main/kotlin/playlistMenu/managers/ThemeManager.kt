@@ -1,10 +1,72 @@
 package playlistMenu.managers
 
+import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentActivity
+import com.example.akap.R
+import playlistMenu.listeners.ThemeSpinnerListener
 
 object ThemeManager {
-    fun setupThemeSpinner(requireContext: Context, themeSpinner: Spinner) {
-        TODO()
+    private const val THEME_KEY = "selected_theme"
+
+    private fun getThemes(context: Context): List<String> {
+        return context.resources.getStringArray(R.array.app_themes).toList()
+    }
+
+    fun setupThemeSpinner(context: Context, themeSpinner: Spinner) {
+        val themes = getThemes(context)
+
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, themes)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        themeSpinner.adapter = adapter
+
+        val savedTheme = getTheme(context)
+        val savedThemeIndex = themes.indexOf(savedTheme)
+
+        if (savedThemeIndex != -1) {
+            themeSpinner.setSelection(savedThemeIndex)
+        } else {
+            themeSpinner.setSelection(0)
+        }
+
+        themeSpinner.onItemSelectedListener = ThemeSpinnerListener(
+            themes = themes,
+            context = context
+        )
+    }
+
+    fun applyTheme(theme: String, context: Context) {
+
+        when (theme) {
+            "Red Theme"     -> context.setTheme(R.style.RedTheme)
+            "Blue Theme"    -> context.setTheme(R.style.BlueTheme)
+            "White Theme"   -> context.setTheme(R.style.WhiteTheme)
+            "Dark Theme"    -> context.setTheme(R.style.DarkTheme)
+            else -> context.setTheme(R.style.AppTheme)
+        }
+
+        Log.e("ThemeE", "Applied theme: $theme")
+    }
+
+    fun saveTheme(context: Context, theme: String) {
+        val pref: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        pref.edit().putString(THEME_KEY, theme).apply()
+    }
+
+    fun getTheme(context: Context): String {
+        val pref: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return pref.getString(THEME_KEY, "White Theme") ?: "White Theme"
+    }
+
+    fun restartActivity(activity: Activity) {
+        val intent = activity.intent
+        activity.finish()
+        activity.startActivity(intent)
     }
 }

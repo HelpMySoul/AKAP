@@ -6,10 +6,18 @@
     android:layout_height="wrap_content">
 
     <View
+        android:id="@+id/topColorStrip"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
         android:id="@+id/backgroundView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="@+id/playerFrameLayout"
         app:layout_constraintBottom_toBottomOf="@+id/playerFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +49,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
+                android:textColor="?attr/colorPrimary"
                 android:text="@string/now_playing"
                 android:textAlignment="viewStart"
                 android:textSize="20sp"
@@ -52,12 +61,15 @@
                 android:id="@+id/pauseAndPlayButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                android:background="?attr/colorPrimary"
+                app:srcCompat="@android:drawable/ic_media_play"
+                android:layout_marginRight="8dp"/>
 
             <ImageButton
                 android:id="@+id/nextSongButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="?attr/colorPrimary"
                 app:srcCompat="@android:drawable/ic_media_next" />
         </LinearLayout>
 
