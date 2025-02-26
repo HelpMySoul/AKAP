@@ -9,6 +9,13 @@
         <item>ru</item>
     </string-array>
 
+    <string-array name="themes">
+        <item>Красная тема</item>
+        <item>Синяя тема</item>
+        <item>Белая тема</item>
+        <item>Темная тема</item>
+    </string-array>
+
     <string name="NowPlaying_S">Сейчас играет:</string>
     <string name="Language_S">Язык</string>
     <string name="Playlists_S">Все плейлисты</string>
@@ -41,7 +48,7 @@
     <string name="repeat">Повторять песню</string>
     <string name="No_Playlist">Нет плейлиста</string>
     <string name="permission_denied">Разрешение отклонено</string>
-    <string name="search_hint">Поиск песни или автора…</string>
+    <string name="search_hint">Найти…</string>
     <string name="found_by">Найдено по:</string>
     <string name="no_songs">Нет песен</string>
     <string name="set_intro_skip">Задать начало</string>
@@ -58,4 +65,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="Theme_S">Theme</string>
+    <string name="theme_red">Красная тема</string>
+    <string name="theme_blue">Синяя тема</string>
+    <string name="theme_white">Белая тема</string>
+    <string name="theme_dark">Темная тема</string>
 </resources>

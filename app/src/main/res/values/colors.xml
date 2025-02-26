@@ -21,11 +21,13 @@
     <color name="bluePrimary">#0000FF</color>
     <color name="bluePrimaryDark">#00003f</color>
 
-    <color name="whitePrimary">#FFFFFF</color>
-    <color name="whitePrimaryDark">#F5F5F5</color>
+    <color name="whitePrimary">#A0A0A0</color>
+    <color name="whitePrimaryDark">#1F1F1F</color>
+    <color name="whitePrimaryLight">#FFFFFF</color>
 
-    <color name="darkPrimary">#808080</color>
-    <color name="darkPrimaryDark">#606060</color>
-    <color name="darkBackground">#404040</color>
+    <color name="darkPrimary">#A0A0A0</color>
+    <color name="darkPrimaryDark">#1F1F1F</color>
+    <color name="darkBackground">#808080</color>
+    <color name="darkPrimaryLight">#FFFFFF</color>
 
 </resources>

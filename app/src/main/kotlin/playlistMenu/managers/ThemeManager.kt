@@ -12,31 +12,30 @@ import com.example.akap.R
 import playlistMenu.listeners.ThemeSpinnerListener
 
 object ThemeManager {
-    private const val THEME_KEY = "selected_theme"
 
     private fun getThemes(context: Context): List<String> {
         return context.resources.getStringArray(R.array.app_themes).toList()
     }
+    private fun getThemesNames(context: Context): List<String> {
+        return context.resources.getStringArray(R.array.themes).toList()
+    }
 
     fun setupThemeSpinner(context: Context, themeSpinner: Spinner) {
-        val themes = getThemes(context)
+        val themes      = getThemes(context)
+        val themesNames = getThemesNames(context)
 
-        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, themes)
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, themesNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         themeSpinner.adapter = adapter
 
-        val savedTheme = getTheme(context)
-        val savedThemeIndex = themes.indexOf(savedTheme)
+        val savedTheme      = getTheme(context)
+        val savedThemeIndex = themes.indexOf(savedTheme).takeIf { it >= 0 } ?: 0
 
-        if (savedThemeIndex != -1) {
-            themeSpinner.setSelection(savedThemeIndex)
-        } else {
-            themeSpinner.setSelection(0)
-        }
+        themeSpinner.setSelection(savedThemeIndex)
 
         themeSpinner.onItemSelectedListener = ThemeSpinnerListener(
-            themes = themes,
+            themes  = themes,
             context = context
         )
     }
@@ -48,20 +47,20 @@ object ThemeManager {
             "Blue Theme"    -> context.setTheme(R.style.BlueTheme)
             "White Theme"   -> context.setTheme(R.style.WhiteTheme)
             "Dark Theme"    -> context.setTheme(R.style.DarkTheme)
-            else -> context.setTheme(R.style.AppTheme)
+            else            -> context.setTheme(R.style.AppTheme)
         }
 
         Log.e("ThemeE", "Applied theme: $theme")
     }
 
     fun saveTheme(context: Context, theme: String) {
-        val pref: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        pref.edit().putString(THEME_KEY, theme).apply()
+        val pref: SharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        pref.edit().putString("Theme", theme).apply()
     }
 
     fun getTheme(context: Context): String {
-        val pref: SharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        return pref.getString(THEME_KEY, "White Theme") ?: "White Theme"
+        val pref: SharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        return pref.getString("Theme", "White Theme") ?: "White Theme"
     }
 
     fun restartActivity(activity: Activity) {

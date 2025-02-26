@@ -9,6 +9,13 @@
         <item>ru</item>
     </string-array>
 
+    <string-array name="themes">
+        <item>Red theme</item>
+        <item>Blue theme</item>
+        <item>White theme</item>
+        <item>Dark theme</item>
+    </string-array>
+
     <string name="NowPlaying_S">Now Playing:</string>
     <string name="Language_S">Language</string>
     <string name="Playlists_S">All playlists</string>
@@ -43,7 +50,7 @@
     <string name="repeat">Repeat song</string>
     <string name="No_Playlist">No playlist</string>
     <string name="permission_denied">Permission denied</string>
-    <string name="search_hint">Search for a song or author…</string>
+    <string name="search_hint">Search for…</string>
     <string name="found_by">Found by:</string>
     <string name="no_songs">No songs</string>
     <string name="set_intro_skip">Set intro time</string>
@@ -60,4 +67,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="Theme_S">Theme</string>
+    <string name="theme_red">Red Theme</string>
+    <string name="theme_blue">Blue Theme</string>
+    <string name="theme_white">White Theme</string>
+    <string name="theme_dark">Dark Theme</string>
 </resources>

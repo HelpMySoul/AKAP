@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <View
         android:id="@+id/topColorStrip"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,9 +17,10 @@
         android:id="@+id/backgroundView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@+id/playerFrameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/topColorStrip"
         app:layout_constraintBottom_toBottomOf="@+id/playerFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
@@ -28,7 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -49,13 +51,10 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textColor="?attr/colorPrimary"
                 android:text="@string/now_playing"
                 android:textAlignment="viewStart"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-
 
             <ImageButton
                 android:id="@+id/pauseAndPlayButton"
@@ -72,8 +71,6 @@
                 android:background="?attr/colorPrimary"
                 app:srcCompat="@android:drawable/ic_media_next" />
         </LinearLayout>
-
-
 
         <SeekBar
             android:id="@+id/currentTimeSeekBar"

@@ -20,7 +20,7 @@ class SongSearchController(private val context: Context, private val playlistCon
             origPlaylist = currentPlaylist
         }
 
-        val searchPlaylistName = "${context.getString(R.string.found_by)} $query"
+        val searchPlaylistName = context.getString(R.string.found_by)
         removeUnusedPlaylistsExcept(searchPlaylistName)
 
         val foundSongs = origPlaylist?.findSongByKeyword(query) ?: mutableListOf()
@@ -29,8 +29,14 @@ class SongSearchController(private val context: Context, private val playlistCon
             return origPlaylist
         }
 
-        playlistController.createPlaylist(searchPlaylistName, foundSongs)
-        tempPlaylists.add(searchPlaylistName)
+        if (playlistController.getPlaylist(searchPlaylistName) == null) {
+            playlistController.createPlaylist(searchPlaylistName, foundSongs)
+            tempPlaylists.add(searchPlaylistName)
+        }
+        else {
+            playlistController.getPlaylist(searchPlaylistName)!!.songs = foundSongs
+        }
+
         return playlistController.getPlaylist(searchPlaylistName)
     }
 

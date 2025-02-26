@@ -20,8 +20,6 @@ class ThemeSpinnerListener(private val themes: List<String>,
             ThemeManager.saveTheme(context, theme)
             restartActivity(context as Activity)
         }
-
     }
-
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 }
