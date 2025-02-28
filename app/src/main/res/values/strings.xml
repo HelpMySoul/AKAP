@@ -36,7 +36,7 @@
     <string name="hide_settings">Hide settings</string>
     <string name="show_settings">Show settings</string>
     <string name="hello_blank_fragment" translatable="false">test</string>
-    <string name="save_current_playlist">Save current playlist</string>
+    <string name="save_current_playlist">Save playlist</string>
     <string name="remove_song">Remove Song</string>
     <string name="add_song">Add Song</string>
     <string name="current_playlist_string">Playlist</string>

@@ -35,7 +35,7 @@
     <string name="skip_outro">Пропуск аутро</string>
     <string name="hide_settings">Скрыть настройки</string>
     <string name="show_settings">Показать настройки</string>
-    <string name="save_current_playlist">Сохранить текущий плейлист</string>
+    <string name="save_current_playlist">Сохранить плейлист</string>
     <string name="remove_song">Удалить пенсю</string>
     <string name="add_song">Добавить песню</string>
     <string name="current_playlist_string">Плейлист</string>
