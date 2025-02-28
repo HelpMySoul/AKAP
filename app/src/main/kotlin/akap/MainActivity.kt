@@ -120,9 +120,23 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         broadcastManagerController.unregisterAll()
         mediaButtonHandler.release()
-        finishAffinity()
 
+        stopNotification()
+
+        finishAffinity()
         Log.e("NotificationServiceError","Destroyed MainAct")
+    }
+
+    private fun stopNotification() {
+        val intent = Intent(this, NotificationService::class.java).apply {
+            putExtra("show", false)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.startForegroundService(intent)
+        } else {
+            this.startService(intent)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
