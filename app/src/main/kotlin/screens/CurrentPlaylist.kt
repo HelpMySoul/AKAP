@@ -135,12 +135,12 @@ class CurrentPlaylist(
     }
 
     fun refresh() {
-        playlistNameText.text       = playlist!!.name
+        playlistNameText.text = playlist!!.name
         if (onSongClick == null) {
             onSongClick = { song -> playSong(song) }
         }
         songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
-        songsRecyclerView.adapter   = songAdapter
+        songsRecyclerView.adapter = songAdapter
     }
 
 }
