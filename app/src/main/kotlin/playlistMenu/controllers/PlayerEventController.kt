@@ -1,6 +1,7 @@
 package playlistMenu.controllers
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.akap.R
@@ -16,6 +17,7 @@ class PlayerEventController(
     fun onPauseOrPlaySong() {
         if (SongManager.isPaused) {
             onUnpauseSong()
+            Log.e("PlayerEventController", SongManager.canPlay.toString())
         } else {
             onPauseSong()
         }
@@ -52,6 +54,7 @@ class PlayerEventController(
             getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
             getPlayerFragment()?.playSong()
         }
+        onPlaylistRefresh()
     }
 
     fun onPlaylistRefresh() {

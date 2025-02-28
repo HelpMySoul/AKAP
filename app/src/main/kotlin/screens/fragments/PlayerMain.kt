@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import broadcast.BroadcastManagerController
+import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
@@ -201,6 +202,10 @@ class PlayerMain : Fragment() {
     }
 
     fun unpauseSong() {
+        if (!SongManager.canPlay) {
+            songController?.setSong()
+        }
+
         songController?.unpauseSong()
         pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
     }

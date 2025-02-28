@@ -48,11 +48,4 @@ object LanguageManager {
             context       = context
         )
     }
-
-    fun restartActivity(activity: Activity) {
-        val intent = Intent(activity, activity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        activity.startActivity(intent)
-        activity.finish()
-    }
 }

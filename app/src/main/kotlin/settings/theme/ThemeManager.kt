@@ -1,5 +1,6 @@
 package settings.theme
 
+import akap.MainActivity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -59,12 +60,5 @@ object ThemeManager {
     fun getTheme(context: Context): String {
         val pref: SharedPreferences = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
         return pref.getString("Theme", "White Theme") ?: "White Theme"
-    }
-
-    fun restartActivity(activity: Activity) {
-        val intent = Intent(activity, activity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        activity.startActivity(intent)
-        activity.finish()
     }
 }

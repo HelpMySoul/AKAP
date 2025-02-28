@@ -91,7 +91,7 @@ class SongController(
                 }
 
                 if (!wasPaused) {
-                    SongManager.unpause()
+                    SongManager.unpause(context)
                 }
 
                 updateUI()
@@ -224,7 +224,7 @@ class SongController(
     }
 
     fun unpauseSong() {
-        SongManager.unpause()
+        SongManager.unpause(context)
         startHandler()
 
         createIntent()

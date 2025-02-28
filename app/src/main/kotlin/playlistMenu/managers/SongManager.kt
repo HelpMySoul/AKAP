@@ -48,15 +48,21 @@ object SongManager {
         currentSong = song
     }
 
-    fun unpause() {
-        mediaPlayer?.let { player ->
-            if (isPaused) {
-                player.start()
-                isPaused = false
+    fun unpause(context: Context) {
+        if (canPlay) {
+            mediaPlayer?.let { player ->
+                if (isPaused) {
+                    player.start()
+                    isPaused = false
+                }
+            } ?: run {
+                Log.e("SongManager", "MediaPlayer is not initialized in unpause")
             }
-        } ?: run {
-            Log.e("SongManager", "MediaPlayer is not initialized in unpause")
         }
+        else {
+            currentSong?.let { play(context, it) }
+        }
+
     }
 
     fun pause() {

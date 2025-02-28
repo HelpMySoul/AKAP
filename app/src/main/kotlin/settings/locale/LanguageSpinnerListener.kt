@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
+import settings.RestartManager
 import settings.theme.locale.LanguageManager.getSavedLanguage
-import settings.theme.locale.LanguageManager.restartActivity
 import settings.theme.locale.LanguageManager.saveLanguage
 import settings.theme.locale.LanguageManager.setLocale
 
@@ -19,7 +19,7 @@ class LanguageSpinnerListener (private val languageCodes: List<String>,
         if (language != getSavedLanguage(context)) {
             saveLanguage(context, language)
             setLocale(context, language)
-            restartActivity(context as Activity)
+            RestartManager.restartApplication(context)
         }
     }
 

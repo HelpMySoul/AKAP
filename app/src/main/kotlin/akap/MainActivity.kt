@@ -146,6 +146,5 @@ class MainActivity : AppCompatActivity() {
         val mainIntent    = Intent.makeRestartActivityTask(componentName)
 
         startActivity(mainIntent)
-        exitProcess(0)
     }
 }
