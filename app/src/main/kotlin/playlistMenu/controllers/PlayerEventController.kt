@@ -1,9 +1,13 @@
 package playlistMenu.controllers
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.akap.R
+import notification.services.NotificationService
+import playlistMenu.interfaces.ISong
 import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.SongManager
 import screens.CurrentPlaylist
@@ -45,7 +49,13 @@ class PlayerEventController(
     }
 
     fun onPlaylistShuffleClicked() {
-        getPlaylistFragment()?.playFirstInPlaylist()
+        var playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        if (playlist != null) {
+            playlist.shuffle()
+            var song = playlist.getCurrentSong()
+            getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
+            getPlayerFragment()?.playSong()
+        }
     }
 
     fun onPlaylistRefresh() {
@@ -53,22 +63,26 @@ class PlayerEventController(
     }
 
     fun onShowPlayer(playerFrameLayout: View) {
+        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        val song = playlist?.getCurrentSong()
+
+
+
         if (playerFrameLayout.visibility != View.VISIBLE) {
             playerFrameLayout.visibility = View.VISIBLE
             val playerFragment = getPlayerFragment()
 
-            val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
-
             if (playlist != null) {
-                val song = playlist.getCurrentSong()
+
+
                 playerFragment?.updateSongAndPlaylist(context, song, playlist)
             }
+
         }
     }
 
     fun onPlaySong() {
         getPlayerFragment()?.playSong()
-
     }
 
     private fun getPlayerFragment(): PlayerMain? {
@@ -91,5 +105,16 @@ class PlayerEventController(
 
     fun onUnpauseSong() {
         getPlayerFragment()?.unpauseSong()
+    }
+
+
+    fun onUpdateSong() {
+        var playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+
+        if (playlist != null) {
+            var song = playlist.getCurrentSong()
+            getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
+            getPlayerFragment()?.playSong()
+        }
     }
 }

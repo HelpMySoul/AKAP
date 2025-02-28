@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import playlistMenu.classes.Playlist
+import playlistMenu.classes.Song
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.SongManager
@@ -52,17 +53,14 @@ class MusicFinderService(private val context: Context) {
                 val duration    = it.getLong(durationColumn)
                 val path        = it.getString(pathColumn)
 
-                val song = object : ISong {
-                    override val id:            Long    = id
-                    override val title:         String  = title
-                    override val artist:        String  = artist
-                    override var duration:      Long    = duration
-                    override val filePath:      String  = path
-                    override var localVolume:   Int     = 75
-                    override var introDuration: Long    = 0
-                    override var outroDuration: Long    = 0
+                val song = Song(
+                    id          = id,
+                    title       = title,
+                    artist      = artist,
+                    filePath    = path,
+                    duration    = duration
+                )
 
-                }
                 SongMetadataManager.loadMetadata(context, song)
                 songs.add(song)
             }

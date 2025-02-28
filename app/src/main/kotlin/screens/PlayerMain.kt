@@ -17,10 +17,10 @@ import com.example.akap.R
 import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.controllers.BroadcastManagerController
+import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
-import playlistMenu.interfaces.ISongPlayerListener
 import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.SongManager
@@ -49,15 +49,6 @@ class PlayerMain : Fragment() {
     private lateinit var repeatSongCheckBox: CheckBox
 
     private var currentPlaylist:        IPlaylist?           = null
-    private var currentSong:            ISong?               = null
-    private var playerClickListener:    ISongPlayerListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is ISongPlayerListener) {
-            playerClickListener = context
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_player, container, false)
@@ -168,18 +159,11 @@ class PlayerMain : Fragment() {
 
     fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist) {
         if (song != null) {
-            updateSong(song, playlist)
+            currentPlaylist = playlist
             updateSongController(song, playlist)
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun updateSong(song: ISong?, playlist: IPlaylist) {
-        currentSong     = song
-        currentPlaylist = playlist
-
-        currentPlaylist?.getCurrentSong()?.let { GlobalManager.updateSongID(it.id, requireContext()) }
-    }
 
     private fun updateSongController(song: ISong?, playlist: IPlaylist) {
         songController?.release()
@@ -201,9 +185,10 @@ class PlayerMain : Fragment() {
         super.onDestroy()
         songController?.release()
     }
-    override fun onDetach() {
-        super.onDetach()
-        playerClickListener = null
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        songController?.release()
     }
 
     fun pauseSong() {

@@ -71,4 +71,11 @@
     <string name="theme_blue">Blue Theme</string>
     <string name="theme_white">White Theme</string>
     <string name="theme_dark">Dark Theme</string>
+    <string name="Saved_Playlist">Saved</string>
+    <string name="Try_To_Delete_Playlist">You can\'t delete this playlist</string>
+    <string name="No_Playlists">Choose Playlists</string>
+    <string name="Edit_Playlist_Name">Edit Playlist Name</string>
+    <string name="Save">Save</string>
+    <string name="Playlist_Name_Empty">Playlist name can\'t be empty</string>
+    <string name="Cancel">Cancel</string>
 </resources>
