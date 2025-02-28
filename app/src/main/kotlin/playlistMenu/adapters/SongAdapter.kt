@@ -27,8 +27,8 @@ class SongAdapter(
         holder.titleText.text  = song.title
         holder.artistText.text = song.artist
 
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
-        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorSongSelected)
+        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.colorSongDefault)
 
         val isSelected = (position == playlist.getIndex() &&
                           GlobalManager.getPlaylistName() == playlist.name)

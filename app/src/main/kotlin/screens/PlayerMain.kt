@@ -1,6 +1,5 @@
 package screens
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,14 +13,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import notification.services.NotificationService
-import playlistMenu.adapters.TimeAdapter
 import playlistMenu.controllers.BroadcastManagerController
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.PlayerSettingsManager
 import playlistMenu.managers.SongManager
 
@@ -110,7 +105,7 @@ class PlayerMain : Fragment() {
 
      fun nextSong() {
          if (currentPlaylist == null) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
          }
 
@@ -131,7 +126,7 @@ class PlayerMain : Fragment() {
 
     fun prevSong() {
         if (currentPlaylist == null) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -149,7 +144,7 @@ class PlayerMain : Fragment() {
 
     private fun shuffleCurrentPlaylist() {
         if (currentPlaylist == null) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.No_Playlist), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
         }
         currentPlaylist?.shuffle()

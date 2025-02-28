@@ -7,7 +7,6 @@ import Settings
 import Tools
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.LinearLayout
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import screens.CurrentPlaylist
 import com.example.akap.R
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.managers.GlobalManager
 import playlistMenu.managers.MenuFragmentManager
 
@@ -24,28 +22,28 @@ object TopMenuManager {
 
     private fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
-            TopMenuButton(context.getString(R.string.Current_playlist_S)) {
+            TopMenuButton(context.getString(R.string.current_playlist_string)) {
                 openCurrentPlaylist(context, fragmentManager, containerId)
             },
-            TopMenuButton(context.getString(R.string.Playlists_S)) {
+            TopMenuButton(context.getString(R.string.playlists_string)) {
                 openPlaylistsScreen(context, fragmentManager, containerId)
             },
-            TopMenuButton(context.getString(R.string.Recommendations_S)) {
+            TopMenuButton(context.getString(R.string.recommendations_string)) {
                 openFragment(fragmentManager, containerId, Recommendations::class.java.simpleName) {
                     Recommendations()
                 }
             },
-            TopMenuButton(context.getString(R.string.Settings_S)) {
+            TopMenuButton(context.getString(R.string.settings_string)) {
                 openFragment(fragmentManager, containerId, Settings::class.java.simpleName) {
                     Settings()
                 }
             },
-            TopMenuButton(context.getString(R.string.Tools_S)) {
+            TopMenuButton(context.getString(R.string.tools_string)) {
                 openFragment(fragmentManager, containerId, Tools::class.java.simpleName) {
                     Tools()
                 }
             },
-            TopMenuButton(context.getString(R.string.Account_S)) {
+            TopMenuButton(context.getString(R.string.account_string)) {
                 openFragment(fragmentManager, containerId, Account::class.java.simpleName) {
                     Account()
                 }

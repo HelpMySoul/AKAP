@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:textAlignment="center"
-            android:text="@string/currentSongTime" />
+            android:text="@string/current_song_time" />
 
         <Button
             android:id="@+id/toggleSettingsButton"

@@ -18,18 +18,18 @@ class EditPlaylistNameBuilder(
 
         input.setText(currentName)
 
-        dialogBuilder.setTitle(context.getString(R.string.Edit_Playlist_Name))
+        dialogBuilder.setTitle(context.getString(R.string.edit_playlist_name))
         dialogBuilder.setView(input)
 
-        dialogBuilder.setPositiveButton(context.getString(R.string.Save)) { _, _ ->
+        dialogBuilder.setPositiveButton(context.getString(R.string.save)) { _, _ ->
             val newName = input.text.toString()
             if (newName.isNotEmpty()) {
                 onSave(newName)
             } else {
-                Toast.makeText(context, context.getString(R.string.Playlist_Name_Empty), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.playlist_name_empty), Toast.LENGTH_SHORT).show()
             }
         }
-        dialogBuilder.setNegativeButton(context.getString(R.string.Cancel)) { dialog, _ -> dialog.cancel() }
+        dialogBuilder.setNegativeButton(context.getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
 
         val alertDialog = dialogBuilder.create()
         alertDialog.show()

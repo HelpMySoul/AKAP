@@ -2,7 +2,6 @@ package screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,7 @@ class Playlists : Fragment() {
 
         deletePlaylistsButton.setOnClickListener {
             if (playlistAdapter.getSelectedPlaylists().isEmpty()) {
-                Toast.makeText(context, context?.getString(R.string.No_Playlists), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.no_playlists), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             playlistAdapter.getSelectedPlaylists().forEach { playlist ->
@@ -62,7 +61,7 @@ class Playlists : Fragment() {
 
         createPlaylistButton.setOnClickListener {
             playlistController.createPlaylist(GlobalManager.getPlaylistName() + " " +
-                    (context?.getString(R.string.Saved_Playlist) ?: ""),
+                    (context?.getString(R.string.saved_playlist) ?: ""),
                 playlistController.getPlaylist(GlobalManager.getPlaylistName()))
             refresh()
         }

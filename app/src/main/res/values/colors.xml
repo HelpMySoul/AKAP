@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
 
-    <color name="song_selected">#D3D3D3</color>
+    <color name="colorSongSelected">#D3D3D3</color>
+    <color name="colorSongDefault">#00000000</color>
 
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
@@ -29,7 +30,6 @@
     <color name="darkBackground">#808080</color>
     <color name="darkPrimaryLight">#FFFFFF</color>
 
-    <color name="song_default">#00000000</color>
-    <color name="playlist_selected">#D3D3D3</color>
-    <color name="playlist_default">#00000000</color>
+    <color name="colorPlaylistSelected">#D3D3D3</color>
+    <color name="colorPlaylistDefault">#00000000</color>
 </resources>

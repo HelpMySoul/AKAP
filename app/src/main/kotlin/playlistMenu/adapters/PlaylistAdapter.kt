@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.akap.R
 import playlistMenu.holders.PlaylistViewHolder
 import playlistMenu.interfaces.IPlaylist
-import playlistMenu.managers.GlobalManager
 
 class PlaylistAdapter(
     private val playlists:           List<IPlaylist>,
@@ -29,15 +28,15 @@ class PlaylistAdapter(
 
         holder.playlistName.text = playlist.name
 
-        val songCountText     = holder.itemView.context.getString(R.string.song_S)
+        val songCountText     = holder.itemView.context.getString(R.string.song_string)
         holder.songCount.text = "$songCountText: ${playlist.songs.size}"
 
         val isSelected = (selectedPlaylists.contains(playlist))
 
         holder.itemView.isSelected = isSelected
 
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.playlist_selected)
-        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.playlist_default)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorPlaylistSelected)
+        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.colorPlaylistDefault)
 
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
 

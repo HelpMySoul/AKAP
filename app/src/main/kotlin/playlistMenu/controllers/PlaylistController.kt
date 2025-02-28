@@ -39,7 +39,7 @@ class PlaylistController(var context: Context) {
         if (playlistName != context.getString(R.string.all_songs)) {
             PlaylistManager.deletePlaylist(playlistName)
         } else {
-            Toast.makeText(context, context.getString(R.string.Try_To_Delete_Playlist), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.try_to_delete_playlist), Toast.LENGTH_SHORT).show()
         }
     }
 
