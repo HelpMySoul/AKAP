@@ -7,18 +7,20 @@ import android.widget.Toast
 import com.example.akap.R
 
 class EditPlaylistNameBuilder(
-    private val context:        Context,
-    private val currentName:    String,
-    private val onSave:         (String) -> Unit
+    private val context:     Context,
+    private val currentName: String,
+    private val onSave:      (String) -> Unit
 ) {
 
     fun built() {
         val dialogBuilder = AlertDialog.Builder(context)
-        val input = EditText(context)
+        val input         = EditText(context)
+
         input.setText(currentName)
 
         dialogBuilder.setTitle(context.getString(R.string.Edit_Playlist_Name))
         dialogBuilder.setView(input)
+
         dialogBuilder.setPositiveButton(context.getString(R.string.Save)) { _, _ ->
             val newName = input.text.toString()
             if (newName.isNotEmpty()) {

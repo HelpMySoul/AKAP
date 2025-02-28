@@ -15,27 +15,25 @@ import java.io.IOException
 
 object SongManager {
 
-    private var mediaPlayer:    MediaPlayer?    = null
-    private var currentSong:    ISong?          = null
+    private var mediaPlayer: MediaPlayer? = null
+    private var currentSong: ISong?       = null
 
-    var canPlay:                Boolean         = false
-    var isPaused:               Boolean         = true
-    var isRepeating:            Boolean         = false
-    var skipTheIntro:           Boolean         = false
-    var skipTheOutro:           Boolean         = false
+    var isPaused:     Boolean = true
+    var canPlay:      Boolean = false
+    var isRepeating:  Boolean = false
+    var skipTheIntro: Boolean = false
+    var skipTheOutro: Boolean = false
 
     fun play(context: Context, song: ISong) {
-
         mediaPlayer?.setOnPreparedListener {
             it.start()
-            canPlay = true
-            isPaused  = false
+            canPlay  = true
+            isPaused = false
             setLocalVolume(song.localVolume / 100f)
             if (skipTheIntro) {
                 it.seekTo(song.introDuration.toInt())
             }
         }
-
         PlayerSettingsManager.saveSettings(context)
 
         BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
@@ -49,9 +47,7 @@ object SongManager {
         }
 
         initializeMediaPlayer(context, song)
-
         currentSong = song
-
     }
 
     fun unpause() {
@@ -165,9 +161,9 @@ object SongManager {
 
     fun release() {
         mediaPlayer?.release()
-        mediaPlayer     = null
-        canPlay         = false
-        isPaused        = true
+        mediaPlayer = null
+        canPlay     = false
+        isPaused    = true
     }
 
     private fun initializeMediaPlayer(context: Context, song: ISong) {
@@ -194,7 +190,7 @@ object SongManager {
         currentSong?.let { song ->
             mediaPlayer?.let { player ->
                 val currentPosition = player.currentPosition
-                val outroTime  = song.duration - song.outroDuration
+                val outroTime       = song.duration - song.outroDuration
 
                 if (currentPosition >= outroTime) {
                     if (isRepeating){

@@ -2,6 +2,6 @@ package mediaReceiver
 
 import android.view.KeyEvent
 
-interface MediaButtonHandlerCallback {
+interface IMediaButtonHandlerCallback {
     fun onMediaButtonEvent(keyEvent: KeyEvent)
 }

@@ -8,8 +8,8 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 
 class Playlist(override var name: String, val isTemporary: Boolean = false) : IPlaylist {
-    override var songs: MutableList<ISong> = mutableListOf()
-    private var songIndex: Int = 0
+    override var songs:     MutableList<ISong> = mutableListOf()
+    private  var songIndex: Int = 0
 
     override fun addSong(song: ISong) {
         songs.add(song)
@@ -115,7 +115,7 @@ class Playlist(override var name: String, val isTemporary: Boolean = false) : IP
 
     companion object {
         fun fromJson(json: JSONObject): Playlist {
-            val playlist = Playlist(json.getString("name"))
+            val playlist   = Playlist(json.getString("name"))
             val songsArray = json.getJSONArray("songs")
 
             for (i in 0 until songsArray.length()) {

@@ -33,9 +33,9 @@ class SongController(
     private val repeatSongCheckBox: CheckBox
 ) {
 
-    private val handler             = Handler(Looper.getMainLooper())
-    private val updateSeekBarTask   = Runnable { updateSongTime() }
-    private val checkOutroSkip      = Runnable { outroSkip() }
+    private val handler           = Handler(Looper.getMainLooper())
+    private val updateSeekBarTask = Runnable { updateSongTime() }
+    private val checkOutroSkip    = Runnable { outroSkip() }
 
     init {
         setSong()
@@ -45,10 +45,8 @@ class SongController(
 
     fun startPlaying() {
         playCurrentSong()
-
         createIntent()
     }
-
 
     private fun setupSong(song: ISong) {
         PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let { playlist ->
@@ -63,7 +61,6 @@ class SongController(
     }
 
     private fun playSong(song: ISong) {
-
         SongManager.play(context, song)
         playNextListenerSetup()
 
@@ -139,7 +136,6 @@ class SongController(
         }
 
         repeatSongCheckBox.isChecked = SongManager.isRepeating
-
         playNextListenerSetup()
     }
 
@@ -165,12 +161,11 @@ class SongController(
 
     fun updateUI(updateSongTitle: Boolean = false) {
         if (updateSongTitle) {
-            currentSongTitle.text   = getSongName()
+            currentSongTitle.text = getSongName()
         }
 
         currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
         currentTimeSeekBar.progress = SongManager.getCurrentPosition()
-
         currentTimeText.text        = "${TimeAdapter.formatTime(SongManager.getCurrentPosition())} / " +
                 "${
                     currentSong?.duration?.let {
@@ -179,11 +174,11 @@ class SongController(
                 }"
 
         currentSongTitle.isSelected = true
-
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
     }
 
     private fun startHandler() {
+        stopHandler()
         handler.post(updateSeekBarTask)
         handler.post(checkOutroSkip)
     }
@@ -204,16 +199,15 @@ class SongController(
 
     private  fun updateSongTimeText(currentTime: Int) {
         currentTimeText.text = "${TimeAdapter.formatTime(currentTime)} / " +
-                "${
-                    currentSong?.duration?.let {
-                        TimeAdapter.formatTime(it.toInt())
-                    }
-                }"
+            "${
+                currentSong?.duration?.let {
+                    TimeAdapter.formatTime(it.toInt())
+                }
+            }"
     }
 
     private fun outroSkip() {
         SongManager.checkAndSkipOutro(context)
-
         handler.postDelayed(checkOutroSkip, 1000)
     }
 
@@ -232,15 +226,16 @@ class SongController(
 
     fun unpauseSong() {
         SongManager.unpause()
+        startHandler()
 
         createIntent()
     }
 
     private fun createIntent() {
         val intent = Intent(context, NotificationService::class.java).apply {
-            putExtra("title",   currentSong?.title)
-            putExtra("artist",  currentSong?.artist)
-            putExtra("show", true)
+            putExtra("title",  currentSong?.title)
+            putExtra("artist", currentSong?.artist)
+            putExtra("show",true)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

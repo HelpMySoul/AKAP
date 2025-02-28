@@ -29,8 +29,6 @@ class NotificationService : Service() {
         intentController       = IntentController(applicationContext)
     }
 
-
-
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -59,7 +57,6 @@ class NotificationService : Service() {
             notificationManager.notify(notificationId, notification)
 
             startForeground(notificationId, notification)
-
         } catch (e: Exception) {
             Log.e("NotificationServiceErrors", "Error showing notification", e)
         }

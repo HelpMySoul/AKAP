@@ -14,8 +14,8 @@ import screens.CurrentPlaylist
 import screens.PlayerMain
 
 class PlayerEventController(
-    private val context:            Context,
-    private val fragmentManager:    FragmentManager
+    private val context:         Context,
+    private val fragmentManager: FragmentManager
 ) {
     fun onPauseOrPlaySong() {
         if (SongManager.isPaused) {
@@ -66,18 +66,14 @@ class PlayerEventController(
         val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
         val song = playlist?.getCurrentSong()
 
-
-
         if (playerFrameLayout.visibility != View.VISIBLE) {
             playerFrameLayout.visibility = View.VISIBLE
             val playerFragment = getPlayerFragment()
 
             if (playlist != null) {
 
-
                 playerFragment?.updateSongAndPlaylist(context, song, playlist)
             }
-
         }
     }
 
@@ -93,8 +89,6 @@ class PlayerEventController(
         return fragmentManager.findFragmentById(R.id.songContainerFragment) as? CurrentPlaylist
     }
 
-
-
     fun onStopSong() {
         getPlayerFragment()?.stopSong()
     }
@@ -106,7 +100,6 @@ class PlayerEventController(
     fun onUnpauseSong() {
         getPlayerFragment()?.unpauseSong()
     }
-
 
     fun onUpdateSong() {
         var playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())

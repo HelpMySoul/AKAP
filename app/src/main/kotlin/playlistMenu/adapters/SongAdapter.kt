@@ -12,8 +12,9 @@ import playlistMenu.interfaces.ISong
 import playlistMenu.managers.GlobalManager
 
 class SongAdapter(
-    private var playlist: IPlaylist,
-    private val onSongClick: (ISong) -> Unit) : RecyclerView.Adapter<SongHolder>() {
+    private var playlist:    IPlaylist,
+    private val onSongClick: (ISong) -> Unit
+                 ) : RecyclerView.Adapter<SongHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
@@ -22,13 +23,16 @@ class SongAdapter(
 
     override fun onBindViewHolder(holder: SongHolder, position: Int) {
         val song = playlist.songs[position]
-        holder.titleText.text   = song.title
-        holder.artistText.text  = song.artist
 
-        val selectedColor       = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
-        val defaultColor        = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
+        holder.titleText.text  = song.title
+        holder.artistText.text = song.artist
 
-        val isSelected = (position == playlist.getIndex() && GlobalManager.getPlaylistName() == playlist.name)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.song_selected)
+        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.song_default)
+
+        val isSelected = (position == playlist.getIndex() &&
+                          GlobalManager.getPlaylistName() == playlist.name)
+
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
 
         holder.itemView.setOnClickListener {

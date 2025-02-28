@@ -23,5 +23,5 @@ class LanguageSpinnerListener (private val languageCodes: List<String>,
         }
     }
 
-    override fun onNothingSelected(p0: AdapterView<*>?) {}
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 }

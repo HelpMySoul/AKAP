@@ -10,11 +10,9 @@ import android.media.session.MediaSession
 import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
-import androidx.core.app.ServiceCompat.STOP_FOREGROUND_DETACH
-import androidx.core.app.ServiceCompat.stopForeground
 import playlistMenu.controllers.BroadcastManagerController
 
-class MediaButtonHandler(context: Context): MediaButtonHandlerCallback {
+class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
 
     private val appContext: Context = context.applicationContext
 
@@ -27,9 +25,9 @@ class MediaButtonHandler(context: Context): MediaButtonHandlerCallback {
     }
 
     fun release() {
-        Log.e("NotificationServiceError","Destroyed MBH")
         unregisterReceiver()
         releaseSession()
+        Log.e("NotificationServiceError","Destroyed MBH")
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
@@ -89,7 +87,6 @@ class MediaButtonHandler(context: Context): MediaButtonHandlerCallback {
     private fun handleEvent(keyEvent: KeyEvent) {
         Log.d("MediaEvent", "Event: ${keyEvent.keyCode}")
         when (keyEvent.keyCode) {
-
             KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
                 BroadcastManagerController(appContext).sendBroadcast("PAUSE_OR_PLAY_SONG")
             }

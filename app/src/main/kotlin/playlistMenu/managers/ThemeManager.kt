@@ -43,14 +43,14 @@ object ThemeManager {
     fun applyTheme(theme: String, context: Context) {
 
         when (theme) {
-            "Red Theme"     -> context.setTheme(R.style.RedTheme)
-            "Blue Theme"    -> context.setTheme(R.style.BlueTheme)
-            "White Theme"   -> context.setTheme(R.style.WhiteTheme)
-            "Dark Theme"    -> context.setTheme(R.style.DarkTheme)
-            else            -> context.setTheme(R.style.AppTheme)
+            "Red Theme"   -> context.setTheme(R.style.RedTheme)
+            "Blue Theme"  -> context.setTheme(R.style.BlueTheme)
+            "White Theme" -> context.setTheme(R.style.WhiteTheme)
+            "Dark Theme"  -> context.setTheme(R.style.DarkTheme)
+            else          -> context.setTheme(R.style.AppTheme)
         }
 
-        Log.e("ThemeE", "Applied theme: $theme")
+        Log.d("ThemeDebug", "Applied theme: $theme")
     }
 
     fun saveTheme(context: Context, theme: String) {

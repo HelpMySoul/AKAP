@@ -42,13 +42,11 @@ object PlaylistManager {
             allSongs.songs.clear()
             allSongs.songs.addAll(musicService.findAllMusic())
         }
-
         isInitialized = true
     }
 
     private fun getAllNames(context: Context): Set<String> {
-        val names = mutableSetOf<String>()
-
+        val names   = mutableSetOf<String>()
         val locales = context.resources.assets.locales
 
         for (locale in locales) {
@@ -60,7 +58,6 @@ object PlaylistManager {
             val name = contextLocale.getString(R.string.all_songs)
             names.add(name)
         }
-
         return names
     }
 
@@ -116,7 +113,7 @@ object PlaylistManager {
             playlists.remove(existingPlaylist)
         }
 
-        var newPlaylist: IPlaylist = Playlist(name, isTemporary)
+        val newPlaylist: IPlaylist = Playlist(name, isTemporary)
 
         playlist.songs.let { songs ->
             songs.forEach { song ->

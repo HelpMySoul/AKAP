@@ -11,6 +11,7 @@ class NotificationController(private val context: Context) {
 
     fun buildNotification(
         channelId: String,
+
         smallContentView: RemoteViews,
         bigContentView: RemoteViews
     ): Notification {
@@ -28,8 +29,10 @@ class NotificationController(private val context: Context) {
 
     fun setRemoteViewsText(
         remoteViews:    RemoteViews,
+
         titleResId:     Int,
         artistResId:    Int,
+
         titleText:      String,
         artistText:     String
     ) {

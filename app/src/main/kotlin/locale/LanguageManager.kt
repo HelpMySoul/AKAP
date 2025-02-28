@@ -14,7 +14,7 @@ object LanguageManager {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
 
-        val resources = context.resources
+        val resources     = context.resources
         val configuration = resources.configuration
 
         configuration.setLocale(locale)
@@ -32,7 +32,7 @@ object LanguageManager {
     }
 
     fun setupLanguageSpinner(context: Context, spinner: Spinner) {
-        val languages = context.resources.getStringArray(R.array.languages).toList()
+        val languages     = context.resources.getStringArray(R.array.languages).toList()
         val languageCodes = context.resources.getStringArray(R.array.languages_codes).toList()
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, languages)
@@ -45,7 +45,7 @@ object LanguageManager {
 
         spinner.onItemSelectedListener = LanguageSpinnerListener (
             languageCodes = languageCodes,
-            context = context
+            context       = context
         )
     }
 

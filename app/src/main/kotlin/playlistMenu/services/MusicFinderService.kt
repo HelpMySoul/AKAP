@@ -40,32 +40,31 @@ class MusicFinderService(private val context: Context) {
         )
 
         cursor?.use {
-            val idColumn        = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val titleColumn     = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-            val artistColumn    = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-            val durationColumn  = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-            val pathColumn      = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val idColumn       = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+            val titleColumn    = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val artistColumn   = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val durationColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+            val pathColumn     = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             while (it.moveToNext()) {
-                val id          = it.getLong(idColumn)
-                val title       = it.getString(titleColumn)
-                val artist      = it.getString(artistColumn)
-                val duration    = it.getLong(durationColumn)
-                val path        = it.getString(pathColumn)
+                val id       = it.getLong(idColumn)
+                val title    = it.getString(titleColumn)
+                val artist   = it.getString(artistColumn)
+                val duration = it.getLong(durationColumn)
+                val path     = it.getString(pathColumn)
 
                 val song = Song(
-                    id          = id,
-                    title       = title,
-                    artist      = artist,
-                    filePath    = path,
-                    duration    = duration
+                    id       = id,
+                    title    = title,
+                    artist   = artist,
+                    filePath = path,
+                    duration = duration
                 )
 
                 SongMetadataManager.loadMetadata(context, song)
                 songs.add(song)
             }
         }
-
         return songs
     }
 }

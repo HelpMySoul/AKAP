@@ -29,32 +29,32 @@ import playlistMenu.managers.GlobalManager
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
-    private lateinit var songsRecyclerView:         RecyclerView
-    private lateinit var songAdapter:               SongAdapter
-    private lateinit var playlistController:        PlaylistController
-    private lateinit var songSearchController:      SongSearchController
-    private lateinit var searchText:                EditText
-    private lateinit var playlistNameText:          TextView
-    private lateinit var deletePlaylistsButton:     ImageButton
-    private lateinit var editPlaylistNameButton:    ImageButton
-    private lateinit var addSongsButton:            ImageButton
-    private var          playlist:                  IPlaylist? = null
+    private lateinit var songsRecyclerView:      RecyclerView
+    private lateinit var songAdapter:            SongAdapter
+    private lateinit var playlistController:     PlaylistController
+    private lateinit var songSearchController:   SongSearchController
+    private lateinit var searchText:             EditText
+    private lateinit var playlistNameText:       TextView
+    private lateinit var deletePlaylistsButton:  ImageButton
+    private lateinit var editPlaylistNameButton: ImageButton
+    private lateinit var addSongsButton:         ImageButton
+    private var          playlist:               IPlaylist? = null
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
 
-        songsRecyclerView       = view.findViewById(R.id.songsRecyclerView)
-        playlistNameText        = view.findViewById(R.id.playlistNameTextView)
-        searchText              = view.findViewById(R.id.searchText)
-        deletePlaylistsButton   = view.findViewById(R.id.deletePlaylistButton)
-        editPlaylistNameButton  = view.findViewById(R.id.editPlaylistNameButton)
-        addSongsButton          = view.findViewById(R.id.addSongsButton)
+        songsRecyclerView      = view.findViewById(R.id.songsRecyclerView)
+        playlistNameText       = view.findViewById(R.id.playlistNameTextView)
+        searchText             = view.findViewById(R.id.searchText)
+        deletePlaylistsButton  = view.findViewById(R.id.deletePlaylistButton)
+        editPlaylistNameButton = view.findViewById(R.id.editPlaylistNameButton)
+        addSongsButton         = view.findViewById(R.id.addSongsButton)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        playlistController      = PlaylistController(requireContext())
-        songSearchController    = SongSearchController(requireContext(), playlistController)
+        playlistController   = PlaylistController(requireContext())
+        songSearchController = SongSearchController(requireContext(), playlistController)
 
         val playlistName = GlobalManager.getPlaylistName()
         playlist = playlistController.getPlaylist(playlistName)
@@ -85,8 +85,8 @@ class CurrentPlaylist(
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query   = s?.toString() ?: ""
-                playlist    = songSearchController.search(query, playlist)
+                val query = s?.toString() ?: ""
+                playlist  = songSearchController.search(query, playlist)
 
                 songAdapter.updatePlaylist(playlist)
 
@@ -94,7 +94,7 @@ class CurrentPlaylist(
 
                 BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
-                GlobalManager.updatePlaylistName(playlist?.name ?: playlistName, requireContext())
+                GlobalManager.updatePlaylistName(playlist?.name ?: playlistName)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -118,7 +118,7 @@ class CurrentPlaylist(
 
                     songAdapter.notifyDataSetChanged()
 
-                    GlobalManager.updatePlaylistName(newName, requireContext())
+                    GlobalManager.updatePlaylistName(newName)
                 }
             ).built()
         }

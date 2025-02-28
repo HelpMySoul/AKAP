@@ -41,14 +41,13 @@ class Playlists : Fragment() {
             onPlaylistClick = { playlist ->
                 openCurrentPlaylist(playlist)
             },
-            onPlaylistLongClick = { playlist ->
+            onPlaylistLongClick = {
                 true
             }
         )
 
-        createPlaylistButton    = view.findViewById(R.id.createPlaylistButton)
-
-        deletePlaylistsButton   = view.findViewById(R.id.deletePlaylistsButton)
+        createPlaylistButton  = view.findViewById(R.id.createPlaylistButton)
+        deletePlaylistsButton = view.findViewById(R.id.deletePlaylistsButton)
 
         deletePlaylistsButton.setOnClickListener {
             if (playlistAdapter.getSelectedPlaylists().isEmpty()) {
@@ -87,8 +86,7 @@ class Playlists : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPlaylists)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        recyclerView.adapter = playlistAdapter
+        recyclerView.adapter       = playlistAdapter
 
         createPlaylistButton = view.findViewById(R.id.createPlaylistButton)
 
@@ -105,7 +103,7 @@ class Playlists : Fragment() {
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
         val playlistName = GlobalManager.getPlaylistName()
-        GlobalManager.updatePlaylistName(playlist.name, requireContext())
+        GlobalManager.updatePlaylistName(playlist.name)
 
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {

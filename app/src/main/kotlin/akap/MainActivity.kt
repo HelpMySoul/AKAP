@@ -101,18 +101,18 @@ class MainActivity : AppCompatActivity() {
         broadcastManagerController  = BroadcastManagerController(applicationContext)
 
         broadcastManagerController.registerReceivers(
-            "NEXT_SONG"             to { playerEventController.onNextSong()                                          },
-            "REPEAT_SONG"           to { playerEventController.onRepeatSong()                                        },
-            "PAUSE_OR_PLAY_SONG"    to { playerEventController.onPauseOrPlaySong()                                   },
-            "PREVIOUS_SONG"         to { playerEventController.onPreviousSong()                                      },
-            "SHUFFLE_PLAYLIST"      to { playerEventController.onPlaylistShuffleClicked()                            },
-            "REFRESH_PLAYLIST"      to { playerEventController.onPlaylistRefresh()                                   },
-            "SHOW_PLAYER"           to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout))    },
-            "PLAY_SONG"             to { playerEventController.onPlaySong()                                          },
-            "STOP_SONG"             to { playerEventController.onStopSong()                                          },
-            "PAUSE_SONG"            to { playerEventController.onPauseSong()                                         },
-            "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                        },
-            "RESTART_APP"           to { restartApp()                                                                }
+            "NEXT_SONG"             to { playerEventController.onNextSong()                                       },
+            "REPEAT_SONG"           to { playerEventController.onRepeatSong()                                     },
+            "PAUSE_OR_PLAY_SONG"    to { playerEventController.onPauseOrPlaySong()                                },
+            "PREVIOUS_SONG"         to { playerEventController.onPreviousSong()                                   },
+            "SHUFFLE_PLAYLIST"      to { playerEventController.onPlaylistShuffleClicked()                         },
+            "REFRESH_PLAYLIST"      to { playerEventController.onPlaylistRefresh()                                },
+            "SHOW_PLAYER"           to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout)) },
+            "PLAY_SONG"             to { playerEventController.onPlaySong()                                       },
+            "STOP_SONG"             to { playerEventController.onStopSong()                                       },
+            "PAUSE_SONG"            to { playerEventController.onPauseSong()                                      },
+            "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                     },
+            "RESTART_APP"           to { restartApp()                                                             }
         )
     }
 
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun restartApp() {
         val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        val mainIntent    = Intent.makeRestartActivityTask(componentName)
 
         startActivity(mainIntent)
         exitProcess(0)

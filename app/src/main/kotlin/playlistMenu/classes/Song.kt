@@ -17,30 +17,30 @@ open class Song (
 ) : ISong {
     fun toJson(): JSONObject {
         val json = JSONObject()
-        json.put("id",              id)
-        json.put("duration",        duration)
-        json.put("introDuration",   introDuration)
-        json.put("outroDuration",   outroDuration)
-        json.put("title",           title)
-        json.put("artist",          artist)
-        json.put("filePath",        filePath)
-        json.put("localVolume",     localVolume)
+        json.put("id",            id)
+        json.put("duration",      duration)
+        json.put("introDuration", introDuration)
+        json.put("outroDuration", outroDuration)
+        json.put("title",         title)
+        json.put("artist",        artist)
+        json.put("filePath",      filePath)
+        json.put("localVolume",   localVolume)
         return json
     }
 
     companion object {
         fun fromJson(json: JSONObject): Song {
             return Song(
-                id              = json.getLong("id"),
-                duration        = json.getLong("duration"),
-                introDuration   = json.getLong("introDuration"),
-                outroDuration   = json.getLong("outroDuration"),
+                id            = json.getLong("id"),
+                duration      = json.getLong("duration"),
+                introDuration = json.getLong("introDuration"),
+                outroDuration = json.getLong("outroDuration"),
 
-                title           = json.getString("title"),
-                artist          = json.getString("artist"),
-                filePath        = json.getString("filePath"),
+                title         = json.getString("title"),
+                artist        = json.getString("artist"),
+                filePath      = json.getString("filePath"),
 
-                localVolume     = json.getInt("localVolume")
+                localVolume   = json.getInt("localVolume")
             )
         }
     }

@@ -9,8 +9,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import playlistMenu.managers.PlayerSettingsManager
 
 class BroadcastManagerController(context: Context) {
-    private val localBroadcastManager   = LocalBroadcastManager.getInstance(context)
-    private val receivers               = mutableMapOf<String, () -> Unit>()
+    private val localBroadcastManager = LocalBroadcastManager.getInstance(context)
+    private val receivers             = mutableMapOf<String, () -> Unit>()
 
     fun unregisterAll() {
         receivers.keys.forEach { _ ->

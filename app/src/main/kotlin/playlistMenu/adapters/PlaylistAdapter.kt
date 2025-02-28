@@ -11,10 +11,10 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.managers.GlobalManager
 
 class PlaylistAdapter(
-    private val playlists: List<IPlaylist>,
-    private val onPlaylistClick: (IPlaylist) -> Unit,
+    private val playlists:           List<IPlaylist>,
+    private val onPlaylistClick:     (IPlaylist) -> Unit,
     private val onPlaylistLongClick: (IPlaylist) -> Boolean
-) : RecyclerView.Adapter<PlaylistViewHolder>() {
+                     ) : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     private val selectedPlaylists = mutableListOf<IPlaylist>()
 
@@ -29,15 +29,15 @@ class PlaylistAdapter(
 
         holder.playlistName.text = playlist.name
 
-        val songCountText = holder.itemView.context.getString(R.string.song_S)
+        val songCountText     = holder.itemView.context.getString(R.string.song_S)
         holder.songCount.text = "$songCountText: ${playlist.songs.size}"
 
         val isSelected = (selectedPlaylists.contains(playlist))
 
         holder.itemView.isSelected = isSelected
 
-        val selectedColor   = ContextCompat.getColor(holder.itemView.context, R.color.playlist_selected)
-        val defaultColor    = ContextCompat.getColor(holder.itemView.context, R.color.playlist_default)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.playlist_selected)
+        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.playlist_default)
 
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
 

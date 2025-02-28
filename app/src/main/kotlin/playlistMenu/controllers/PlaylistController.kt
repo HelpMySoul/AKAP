@@ -17,7 +17,6 @@ class PlaylistController(var context: Context) {
         return PlaylistManager.getPlaylists()
     }
 
-
     fun getPlaylist(name: String): IPlaylist? {
         return PlaylistManager.getPlaylistByName(name)
     }
@@ -42,11 +41,9 @@ class PlaylistController(var context: Context) {
         } else {
             Toast.makeText(context, context.getString(R.string.Try_To_Delete_Playlist), Toast.LENGTH_SHORT).show()
         }
-
     }
 
     fun updatePlaylistName(name: String, newName: String) {
         PlaylistManager.updatePlaylistName(name, newName)
     }
-
 }

@@ -4,22 +4,22 @@ import java.io.Serializable
 
 
 interface IPlaylist {
-    var name:   String
-    var songs:  MutableList<ISong>
+    var name:  String
+    var songs: MutableList<ISong>
 
     fun addSong(song: ISong)
     fun removeSong(song: ISong)
 
     fun shuffle()
 
-    fun getIndex():             Int
+    fun getIndex():            Int
 
-    fun findSong(song: ISong):  ISong?
-    fun getSongAt(index: Int):  ISong?
-    fun getNext():              ISong?
-    fun getBefore():            ISong?
-    fun getFirstSong():         ISong?
-    fun getCurrentSong():       ISong?
+    fun findSong(song: ISong): ISong?
+    fun getSongAt(index: Int): ISong?
+    fun getNext():             ISong?
+    fun getBefore():           ISong?
+    fun getFirstSong():        ISong?
+    fun getCurrentSong():      ISong?
 
     fun findSongByKeyword(keyword: String): MutableList<ISong>
 
