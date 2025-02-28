@@ -4,15 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,66 +26,48 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <Space
+        <EditText
+            android:id="@+id/searchText"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1" />
 
         <LinearLayout
+            android:id="@+id/editLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/editPlaylistNameButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/colorPrimary"
                 app:srcCompat="@android:drawable/ic_menu_edit" />
 
             <ImageButton
                 android:id="@+id/addSongsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/colorPrimary"
                 app:srcCompat="@android:drawable/ic_menu_add" />
 
             <ImageButton
                 android:id="@+id/deletePlaylistButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/searchText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/search_hint"
-        android:inputType="text"
-        android:imeOptions="actionSearch"
-        android:maxLines="1" />
-        <TextView
-            android:id="@+id/playlistNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/Current_playlist_S"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp"/>
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"/>
 
     </LinearLayout>
 
