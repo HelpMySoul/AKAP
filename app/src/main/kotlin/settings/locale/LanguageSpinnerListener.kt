@@ -1,13 +1,13 @@
-package playlistMenu.listeners
+package settings.theme.locale
 
 import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
-import locale.LanguageManager.getSavedLanguage
-import locale.LanguageManager.restartActivity
-import locale.LanguageManager.saveLanguage
-import locale.LanguageManager.setLocale
+import settings.theme.locale.LanguageManager.getSavedLanguage
+import settings.theme.locale.LanguageManager.restartActivity
+import settings.theme.locale.LanguageManager.saveLanguage
+import settings.theme.locale.LanguageManager.setLocale
 
 class LanguageSpinnerListener (private val languageCodes: List<String>,
                                private val context: Context

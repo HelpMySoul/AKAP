@@ -1,11 +1,8 @@
 package playlistMenu.controllers
 
 import android.content.Context
-import android.os.Bundle
 import com.example.akap.R
 import playlistMenu.interfaces.IPlaylist
-import playlistMenu.managers.GlobalManager
-import screens.CurrentPlaylist
 
 class SongSearchController(private val context: Context, private val playlistController: PlaylistController) {
     private var origPlaylist:   IPlaylist?          = null

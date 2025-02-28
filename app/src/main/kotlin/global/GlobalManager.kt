@@ -1,4 +1,4 @@
-package playlistMenu.managers
+package global
 
 import android.content.Context
 import android.util.Log

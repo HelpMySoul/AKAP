@@ -1,16 +1,14 @@
 package playlistMenu.managers
 
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import com.example.akap.R
-import notification.services.NotificationService
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 import playlistMenu.interfaces.ISong
+import settings.player.PlayerSettingsManager
 import java.io.IOException
 
 object SongManager {

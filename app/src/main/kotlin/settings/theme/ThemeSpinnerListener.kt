@@ -1,12 +1,11 @@
-package playlistMenu.listeners
+package settings.theme
 
 import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
-import playlistMenu.managers.ThemeManager
-import playlistMenu.managers.ThemeManager.getTheme
-import playlistMenu.managers.ThemeManager.restartActivity
+import settings.theme.ThemeManager.getTheme
+import settings.theme.ThemeManager.restartActivity
 
 class ThemeSpinnerListener(private val themes: List<String>,
                            private val context: Context

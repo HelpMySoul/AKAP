@@ -8,10 +8,9 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.CheckBox
-import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import notification.controllers.NotificationController
+import broadcast.BroadcastManagerController
 import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist

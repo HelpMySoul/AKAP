@@ -78,4 +78,7 @@
     <string name="save">Save</string>
     <string name="playlist_name_empty">Playlist name can\'t be empty</string>
     <string name="cancel">Cancel</string>
+    <string name="set_playlist_name">Set playlist name</string>
+    <string name="create">Create</string>
+    <string name="new_playlist">New playlist</string>
 </resources>

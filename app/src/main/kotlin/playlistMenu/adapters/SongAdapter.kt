@@ -9,7 +9,7 @@ import com.example.akap.R
 import playlistMenu.holders.SongHolder
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.GlobalManager
+import global.GlobalManager
 
 class SongAdapter(
     private var playlist:    IPlaylist,

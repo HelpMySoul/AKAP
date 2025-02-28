@@ -1,4 +1,4 @@
-package screens
+package screens.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,13 +11,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import builders.SetNewPlaylistBuilder
 
 import com.example.akap.R
 import playlistMenu.adapters.PlaylistAdapter
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
-import playlistMenu.managers.GlobalManager
-import playlistMenu.managers.MenuFragmentManager
+import global.GlobalManager
+import screens.MenuFragmentManager
 
 class Playlists : Fragment() {
 
@@ -60,9 +61,13 @@ class Playlists : Fragment() {
         }
 
         createPlaylistButton.setOnClickListener {
-            playlistController.createPlaylist(GlobalManager.getPlaylistName() + " " +
-                    (context?.getString(R.string.saved_playlist) ?: ""),
-                playlistController.getPlaylist(GlobalManager.getPlaylistName()))
+            SetNewPlaylistBuilder(
+                context     = requireContext(),
+                currentName = requireContext().getString(R.string.new_playlist),
+                onCreate    = { newName ->
+                    playlistController.createPlaylist(newName, playlistController.getPlaylist(newName))
+                }
+            ).built()
             refresh()
         }
         return view
@@ -111,7 +116,11 @@ class Playlists : Fragment() {
         }
 
         parentFragmentManager.let {
-            MenuFragmentManager.openFragment(it, R.id.songContainerFragment, playlistName) { currentPlaylistFragment }
+            MenuFragmentManager.openFragment(
+                it,
+                R.id.songContainerFragment,
+                playlistName
+            ) { currentPlaylistFragment }
         }
     }
     override fun onDestroyView() {

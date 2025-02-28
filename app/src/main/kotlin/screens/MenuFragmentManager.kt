@@ -1,4 +1,4 @@
-package playlistMenu.managers
+package screens
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

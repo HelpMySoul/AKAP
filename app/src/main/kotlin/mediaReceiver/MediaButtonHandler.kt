@@ -10,7 +10,7 @@ import android.media.session.MediaSession
 import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 
 class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
 

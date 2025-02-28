@@ -1,4 +1,4 @@
-package screens
+package screens.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -13,11 +13,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.PlayerSettingsManager
+import settings.player.PlayerSettingsManager
 import playlistMenu.managers.SongManager
 
 class PlayerMain : Fragment() {

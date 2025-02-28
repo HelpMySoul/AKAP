@@ -1,18 +1,16 @@
-import android.content.Intent
+package screens.fragments
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import locale.LanguageManager
-import playlistMenu.controllers.BroadcastManagerController
+import settings.theme.locale.LanguageManager
 import playlistMenu.managers.SongMetadataManager
-import playlistMenu.managers.ThemeManager
-import kotlin.system.exitProcess
+import settings.theme.ThemeManager
 
 class Settings : Fragment() {
     override fun onCreateView(

@@ -1,17 +1,13 @@
 package playlistMenu.controllers
 
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.akap.R
-import notification.services.NotificationService
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.GlobalManager
+import global.GlobalManager
 import playlistMenu.managers.SongManager
-import screens.CurrentPlaylist
-import screens.PlayerMain
+import screens.fragments.CurrentPlaylist
+import screens.fragments.PlayerMain
 
 class PlayerEventController(
     private val context:         Context,

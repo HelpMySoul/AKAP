@@ -1,15 +1,13 @@
-package playlistMenu.managers
+package settings.theme
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.FragmentActivity
 import com.example.akap.R
-import playlistMenu.listeners.ThemeSpinnerListener
 
 object ThemeManager {
 
@@ -54,18 +52,19 @@ object ThemeManager {
     }
 
     fun saveTheme(context: Context, theme: String) {
-        val pref: SharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val pref: SharedPreferences = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
         pref.edit().putString("Theme", theme).apply()
     }
 
     fun getTheme(context: Context): String {
-        val pref: SharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val pref: SharedPreferences = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
         return pref.getString("Theme", "White Theme") ?: "White Theme"
     }
 
     fun restartActivity(activity: Activity) {
-        val intent = activity.intent
-        activity.finish()
+        val intent = Intent(activity, activity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         activity.startActivity(intent)
+        activity.finish()
     }
 }

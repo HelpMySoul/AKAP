@@ -1,4 +1,4 @@
-package screens
+package screens.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import builders.EditPlaylistNameBuilder
 import com.example.akap.R
 import playlistMenu.adapters.SongAdapter
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.controllers.SongSearchController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.GlobalManager
+import global.GlobalManager
 
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null

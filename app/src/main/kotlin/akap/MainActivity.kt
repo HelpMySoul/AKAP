@@ -1,13 +1,8 @@
 package akap
 
 import android.Manifest
-import android.app.ActivityManager
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,21 +15,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.akap.R
-import kotlinx.coroutines.delay
-import locale.LanguageManager
+import settings.theme.locale.LanguageManager
 import mediaReceiver.MediaButtonHandler
-import mediaReceiver.MediaButtonReceiver
 import notification.services.NotificationService
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 import playlistMenu.controllers.PlayerEventController
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.PlayerSettingsManager
+import settings.player.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
-import playlistMenu.managers.SongManager
-import playlistMenu.managers.ThemeManager
-import screens.CurrentPlaylist
-import screens.PlayerMain
+import settings.theme.ThemeManager
+import screens.fragments.CurrentPlaylist
+import screens.fragments.PlayerMain
 import topMenu.TopMenuManager
 import kotlin.system.exitProcess
 

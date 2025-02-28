@@ -1,9 +1,10 @@
-package playlistMenu.managers
+package settings.player
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
+import global.GlobalManager
+import playlistMenu.managers.SongManager
 
 object PlayerSettingsManager {
 
@@ -20,8 +21,8 @@ object PlayerSettingsManager {
         val prefs  = getPreferences(context)
         val editor = prefs.edit()
 
-        editor.putBoolean(KEY_SKIP_INTRO,  SongManager.skipTheIntro)
-        editor.putBoolean(KEY_SKIP_OUTRO,  SongManager.skipTheOutro)
+        editor.putBoolean(KEY_SKIP_INTRO, SongManager.skipTheIntro)
+        editor.putBoolean(KEY_SKIP_OUTRO, SongManager.skipTheOutro)
         editor.putBoolean(KEY_REPEAT_SONG, SongManager.isRepeating)
 
         editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getPlaylistName())
@@ -42,7 +43,7 @@ object PlayerSettingsManager {
 
         SongManager.skipTheIntro = prefs.getBoolean(KEY_SKIP_INTRO,  false)
         SongManager.skipTheOutro = prefs.getBoolean(KEY_SKIP_OUTRO,  false)
-        SongManager.isRepeating  = prefs.getBoolean(KEY_REPEAT_SONG, false)
+        SongManager.isRepeating = prefs.getBoolean(KEY_REPEAT_SONG, false)
 
         GlobalManager.updatePlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
 

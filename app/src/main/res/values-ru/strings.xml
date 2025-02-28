@@ -74,6 +74,9 @@
     <string name="no_playlists">Выберите плейлисты</string>
     <string name="edit_playlist_name">Изменить имя плейлиста</string>
     <string name="save">Сохранить</string>
-    <string name="playlist_name_empty">Плейлист не может быть пустым</string>
+    <string name="playlist_name_empty">Название плейлиста не может быть пустым</string>
     <string name="cancel">Отмена</string>
+    <string name="set_playlist_name">Задайте имя плейлиста</string>
+    <string name="create">Создать</string>
+    <string name="new_playlist">Новый плейлист</string>
 </resources>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import org.json.JSONArray
 import org.json.JSONObject
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 import playlistMenu.interfaces.ISong
 
 object SongMetadataManager {

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import playlistMenu.controllers.BroadcastManagerController
+import broadcast.BroadcastManagerController
 
 class MediaReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

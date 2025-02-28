@@ -1,4 +1,4 @@
-package playlistMenu.controllers
+package broadcast
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import playlistMenu.managers.PlayerSettingsManager
 
 class BroadcastManagerController(context: Context) {
     private val localBroadcastManager = LocalBroadcastManager.getInstance(context)

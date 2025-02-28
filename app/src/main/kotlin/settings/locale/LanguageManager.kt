@@ -1,11 +1,11 @@
-package locale
+package settings.theme.locale
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.akap.R
-import playlistMenu.listeners.LanguageSpinnerListener
 import java.util.Locale
 
 object LanguageManager {
@@ -22,12 +22,12 @@ object LanguageManager {
     }
 
     fun saveLanguage(context: Context, languageCode: String) {
-        val pref = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val pref = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
         pref.edit().putString("Language", languageCode).apply()
     }
 
     fun getSavedLanguage(context: Context): String {
-        val pref = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val pref = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
         return pref.getString("Language", "en") ?: "en"
     }
 
@@ -50,8 +50,9 @@ object LanguageManager {
     }
 
     fun restartActivity(activity: Activity) {
-        val intent = activity.intent
-        activity.finish()
+        val intent = Intent(activity, activity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         activity.startActivity(intent)
+        activity.finish()
     }
 }

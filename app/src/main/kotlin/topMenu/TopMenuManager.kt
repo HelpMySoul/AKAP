@@ -1,10 +1,10 @@
 package topMenu
 
-import Account
-import screens.Playlists
-import Recommendations
-import Settings
-import Tools
+import screens.fragments.Account
+import screens.fragments.Playlists
+import screens.fragments.Recommendations
+import screens.fragments.Settings
+import screens.fragments.Tools
 import android.content.Context
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -12,10 +12,10 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import screens.CurrentPlaylist
+import screens.fragments.CurrentPlaylist
 import com.example.akap.R
-import playlistMenu.managers.GlobalManager
-import playlistMenu.managers.MenuFragmentManager
+import global.GlobalManager
+import screens.MenuFragmentManager
 
 
 object TopMenuManager {
