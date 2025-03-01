@@ -55,8 +55,14 @@ class Playlists : Fragment() {
                 return@setOnClickListener
             }
             playlistAdapter.getSelectedPlaylists().forEach { playlist ->
-                playlistController.deletePlaylist(playlist.name)
+                if (playlist == playlistController.getPlaylist(GlobalManager.getPlaylistName())){
+                    Toast.makeText(context, context?.getString(R.string.delete_current_playlist), Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    playlistController.deletePlaylist(playlist.name)
+                }
             }
+            playlistAdapter.clearSelection()
             refresh()
         }
 
@@ -65,10 +71,10 @@ class Playlists : Fragment() {
                 context     = requireContext(),
                 currentName = requireContext().getString(R.string.new_playlist),
                 onCreate    = { newName ->
-                    playlistController.createPlaylist(newName, playlistController.getPlaylist(newName))
+                    playlistController.createPlaylist(newName, playlistController.getPlaylist(GlobalManager.getPlaylistName()))
+                    refresh()
                 }
             ).built()
-            refresh()
         }
         return view
     }
@@ -106,8 +112,8 @@ class Playlists : Fragment() {
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
-        val playlistName = GlobalManager.getPlaylistName()
         GlobalManager.updatePlaylistName(playlist.name)
+        val playlistName = GlobalManager.getPlaylistName()
 
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {
@@ -123,6 +129,7 @@ class Playlists : Fragment() {
             ) { currentPlaylistFragment }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         playlists.clear()

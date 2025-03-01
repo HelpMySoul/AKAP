@@ -81,4 +81,5 @@
     <string name="set_playlist_name">Set playlist name</string>
     <string name="create">Create</string>
     <string name="new_playlist">New playlist</string>
+    <string name="delete_current_playlist">To delete current playlist open it</string>
 </resources>

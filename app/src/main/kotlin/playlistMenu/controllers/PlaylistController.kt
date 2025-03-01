@@ -46,4 +46,8 @@ class PlaylistController(var context: Context) {
     fun updatePlaylistName(name: String, newName: String) {
         PlaylistManager.updatePlaylistName(name, newName)
     }
+
+    fun savePlaylists() {
+        PlaylistManager.savePlaylistsToPreferences()
+    }
 }

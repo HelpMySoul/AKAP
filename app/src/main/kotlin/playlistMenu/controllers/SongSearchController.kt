@@ -17,7 +17,7 @@ class SongSearchController(private val context: Context, private val playlistCon
             origPlaylist = currentPlaylist
         }
 
-        val searchPlaylistName = context.getString(R.string.found_by)
+        val searchPlaylistName = context.getString(R.string.found_by) + " " + query
         removeUnusedPlaylistsExcept(searchPlaylistName)
 
         val foundSongs = origPlaylist?.findSongByKeyword(query) ?: mutableListOf()

@@ -97,11 +97,14 @@ class MainActivity : AppCompatActivity() {
             "PREVIOUS_SONG"         to { playerEventController.onPreviousSong()                                   },
             "SHUFFLE_PLAYLIST"      to { playerEventController.onPlaylistShuffleClicked()                         },
             "REFRESH_PLAYLIST"      to { playerEventController.onPlaylistRefresh()                                },
+            "CLOSE_PLAYLIST"        to { playerEventController.onClosePlaylist()                                  },
             "SHOW_PLAYER"           to { playerEventController.onShowPlayer(findViewById(R.id.playerFrameLayout)) },
+            "HIDE_PLAYER"           to { playerEventController.onHidePlayer(findViewById(R.id.playerFrameLayout)) },
             "PLAY_SONG"             to { playerEventController.onPlaySong()                                       },
             "STOP_SONG"             to { playerEventController.onStopSong()                                       },
             "PAUSE_SONG"            to { playerEventController.onPauseSong()                                      },
             "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                     },
+            "STOP_NOTIFICATION"     to { stopNotification()                                                       },
             "RESTART_APP"           to { restartApp()                                                             }
         )
     }
@@ -146,5 +149,6 @@ class MainActivity : AppCompatActivity() {
         val mainIntent    = Intent.makeRestartActivityTask(componentName)
 
         startActivity(mainIntent)
+        exitProcess(0)
     }
 }

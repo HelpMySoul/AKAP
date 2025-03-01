@@ -72,7 +72,7 @@ object PlaylistManager {
         }
     }
 
-    private fun savePlaylistsToPreferences() {
+    fun savePlaylistsToPreferences() {
         val playlistsArray = JSONArray()
         playlists.forEach { playlist ->
             if (playlist is Playlist && !playlist.isTemporary) {
@@ -143,6 +143,10 @@ object PlaylistManager {
     }
 
     fun deletePlaylist(playlistName: String) {
+        if (getPlaylistByName(playlistName) == null) {
+            return
+        }
+
         playlists.remove(getPlaylistByName(playlistName))
         savePlaylistsToPreferences()
     }

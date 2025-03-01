@@ -57,50 +57,69 @@ class CurrentPlaylist(
         val playlistName = GlobalManager.getPlaylistName()
         playlist = playlistController.getPlaylist(playlistName)
 
-        if (playlist != null) {
-            playlistNameText.text = playlist!!.name
-
-            if (onSongClick == null) {
-                onSongClick = { song -> playSong(song) }
-            }
-            songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
-
-            songsRecyclerView.adapter   = songAdapter
-
-            Log.e("CurrentPlaylist", "${GlobalManager.getSongID()} ${GlobalManager.getSongID() != (-1).toLong()} ${(-1).toLong()} $context")
-
-            if (GlobalManager.getSongID() != (-1).toLong()) {
-                playlist!!.findSongByID(GlobalManager.getSongID())?.let { songAdapter.setCurrentSong(it) }
-                BroadcastManagerController(requireContext()).sendBroadcast("SHOW_PLAYER")
-            }
-
-        } else {
-            playlistNameText.text       = context?.getString(R.string.no_playlist) ?: ""
-            Log.e("CurrentPlaylist", "null")
+        if (playlist == null) {
+            playlistNameText.text = context?.getString(R.string.no_playlist) ?: ""
+            return view
         }
+
+        playlistNameText.text = playlist!!.name
+
+        if (onSongClick == null) {
+            onSongClick = { song -> playSong(song) }
+        }
+
+        songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
+
+        songsRecyclerView.adapter = songAdapter
+
+        if (GlobalManager.getSongID() == (-1).toLong()) {
+            val song = playlist!!.getFirstSong()
+
+            context?.let { context ->
+                if (song != null) {
+                    GlobalManager.updateSongID(song.id, context)
+                }
+            }
+        }
+        playlist!!.getSongAt(playlist!!.getIndex()).let { song ->
+            if (song != null) {
+                songAdapter.setCurrentSong(song)
+            }
+        }
+
+        Log.d("CurrentPlaylist", "${GlobalManager.getSongID()} ${GlobalManager.getSongID() != (-1).toLong()} ${(-1).toLong()} $context")
+
+        BroadcastManagerController(requireContext()).sendBroadcast("SHOW_PLAYER")
 
         searchText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (playlist == null) {
+                    return
+                }
+
                 val query = s?.toString() ?: ""
-                playlist  = songSearchController.search(query, playlist)
+                playlist = songSearchController.search(query, playlist)
 
-                songAdapter.updatePlaylist(playlist)
-
-                songsRecyclerView.adapter = songAdapter
-
-                BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
-
-                GlobalManager.updatePlaylistName(playlist?.name ?: playlistName)
+                updatePlaylist(playlistName)
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
         deletePlaylistsButton.setOnClickListener {
-            playlist?.name?.let { name -> playlistController.deletePlaylist(name) }
+            playlist?.name?.let { name ->
+                playlistController.deletePlaylist(name)
+            }
+            playlist = null
             refresh()
+            context?.let { context ->
+                BroadcastManagerController(context).sendBroadcast("HIDE_PLAYER")
+                BroadcastManagerController(context).sendBroadcast("STOP_SONG")
+                BroadcastManagerController(context).sendBroadcast("STOP_NOTIFICATION")
+                BroadcastManagerController(context).sendBroadcast("CLOSE_PLAYLIST")
+            }
         }
 
         editPlaylistNameButton.setOnClickListener {
@@ -122,6 +141,16 @@ class CurrentPlaylist(
         }
 
         return view
+    }
+
+    private fun updatePlaylist(playlistName: String) {
+        songAdapter.updatePlaylist(playlist)
+
+        songsRecyclerView.adapter = songAdapter
+
+        BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
+
+        GlobalManager.updatePlaylistName(playlist?.name ?: playlistName)
     }
 
     private fun playSong(song: ISong) {
@@ -147,13 +176,21 @@ class CurrentPlaylist(
     }
 
     fun refresh() {
-        playlistNameText.text = playlist!!.name
+        playlistNameText.text = playlist?.name ?: context?.getString(R.string.no_playlist) ?: ""
+
         if (onSongClick == null) {
             onSongClick = { song -> playSong(song) }
         }
+
+        if (playlist == null) {
+            songsRecyclerView.adapter = null
+            return
+        }
+
         songAdapter = SongAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
         songsRecyclerView.adapter = songAdapter
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         onSongClick = null

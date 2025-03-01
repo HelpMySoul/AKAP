@@ -33,8 +33,6 @@ object SongManager {
             }
         }
         PlayerSettingsManager.saveSettings(context)
-
-        BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
     fun setSong(context: Context, song: ISong) {

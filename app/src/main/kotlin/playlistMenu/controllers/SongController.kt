@@ -17,6 +17,7 @@ import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
+import settings.player.PlayerSettingsManager
 
 @SuppressLint("SetTextI18n")
 class SongController(
@@ -45,6 +46,7 @@ class SongController(
     fun startPlaying() {
         playCurrentSong()
         createIntent()
+        BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
     private fun setupSong(song: ISong) {
@@ -258,6 +260,13 @@ class SongController(
 
     fun setSong() {
         currentSong?.let { setupSong(it) }
+    }
+
+    fun updateSong(song: ISong?, playlist: IPlaylist) {
+        currentSong     = song
+        currentPlaylist = playlist
+        setSong()
+        updateUI(true)
     }
 
 }

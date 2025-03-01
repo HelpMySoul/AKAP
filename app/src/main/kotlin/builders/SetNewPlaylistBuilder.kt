@@ -11,7 +11,6 @@ class SetNewPlaylistBuilder(
     private val currentName: String,
     private val onCreate:    (String) -> Unit
 ) {
-
     fun built() {
         val dialogBuilder = AlertDialog.Builder(context)
         val input         = EditText(context)

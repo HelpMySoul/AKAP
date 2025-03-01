@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
+import broadcast.BroadcastManagerController
 import com.example.akap.R
 import global.GlobalManager
 import playlistMenu.managers.SongManager
@@ -47,13 +48,14 @@ class PlayerEventController(
     }
 
     fun onPlaylistShuffleClicked() {
-        var playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+
         if (playlist != null) {
             playlist.shuffle()
-            var song = playlist.getCurrentSong()
-            getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
+            BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
             getPlayerFragment()?.playSong()
         }
+
         onPlaylistRefresh()
     }
 
@@ -62,6 +64,7 @@ class PlayerEventController(
     }
 
     fun onShowPlayer(playerFrameLayout: View) {
+
         val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
         val song = playlist?.getCurrentSong()
 
@@ -73,6 +76,14 @@ class PlayerEventController(
 
                 playerFragment?.updateSongAndPlaylist(context, song, playlist)
             }
+        }
+    }
+
+    fun onHidePlayer(playerFrameLayout: View) {
+        if (playerFrameLayout.visibility == View.VISIBLE) {
+            playerFrameLayout.visibility = View.GONE
+            val playerFragment = getPlayerFragment()
+            playerFragment?.updateSongAndPlaylist(context, null, null)
         }
     }
 
@@ -109,4 +120,10 @@ class PlayerEventController(
             getPlayerFragment()?.playSong()
         }
     }
+
+    fun onClosePlaylist() {
+        getPlayerFragment()?.closePlaylist()
+    }
+
+
 }

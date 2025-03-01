@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import broadcast.BroadcastManagerController
-import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
@@ -148,42 +147,39 @@ class PlayerMain : Fragment() {
             Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
         }
-        currentPlaylist?.shuffle()
-
-        currentPlaylist!!.getFirstSong()?.let { song ->
-            updateSongAndPlaylist(requireContext(), song, currentPlaylist!!)
-        }
 
         BroadcastManagerController(requireContext()).sendBroadcast("SHUFFLE_PLAYLIST")
     }
 
-    fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist) {
+    fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist?) {
         if (song != null) {
             currentPlaylist = playlist
-            updateSongController(song, playlist)
+            if (playlist != null) {
+                updateSongController(song, playlist)
+            }
+            else {
+                songController?.release()
+            }
         }
     }
 
-
     private fun updateSongController(song: ISong?, playlist: IPlaylist) {
-        songController?.release()
-
-        songController = SongController(
-            context            = requireContext(),
-            currentSong        = song,
-            currentPlaylist    = playlist,
-            currentSongTitle   = currentSongTitle,
-            currentTimeSeekBar = currentTimeSeekBar,
-            localVolumeSeekBar = localVolumeSeekBar,
-            skipIntroCheckBox  = skipIntroCheckBox,
-            skipOutroCheckBox  = skipOutroCheckBox,
-            currentTimeText    = currentTimeText,
-            repeatSongCheckBox = repeatSongCheckBox
-        )
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        songController?.release()
+        if (songController == null) {
+            songController = SongController(
+                context            = requireContext(),
+                currentSong        = song,
+                currentPlaylist    = playlist,
+                currentSongTitle   = currentSongTitle,
+                currentTimeText    = currentTimeText,
+                currentTimeSeekBar = currentTimeSeekBar,
+                localVolumeSeekBar = localVolumeSeekBar,
+                skipIntroCheckBox  = skipIntroCheckBox,
+                skipOutroCheckBox  = skipOutroCheckBox,
+                repeatSongCheckBox = repeatSongCheckBox
+            )
+        } else {
+            songController?.updateSong(song, playlist)
+        }
     }
 
     override fun onDestroyView() {
@@ -201,6 +197,11 @@ class PlayerMain : Fragment() {
         pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
     }
 
+    fun closePlaylist() {
+        currentPlaylist = null
+        songController?.release()
+    }
+
     fun unpauseSong() {
         if (!SongManager.canPlay) {
             songController?.setSong()
@@ -209,5 +210,4 @@ class PlayerMain : Fragment() {
         songController?.unpauseSong()
         pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
     }
-
 }
