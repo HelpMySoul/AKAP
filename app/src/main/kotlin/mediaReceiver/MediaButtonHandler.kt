@@ -5,16 +5,20 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioDeviceCallback
+import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.media.session.MediaSession
 import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
 import broadcast.BroadcastManagerController
+import playlistMenu.managers.SongManager
 
 class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
 
     private val appContext: Context = context.applicationContext
+    private var startApp:   Boolean = true
 
     private lateinit var mediaButtonReceiver: MediaButtonReceiver
     private lateinit var mediaSession:        MediaSession
@@ -65,6 +69,28 @@ class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
         audioManager.registerMediaButtonEventReceiver(
             ComponentName(appContext, MediaButtonReceiver::class.java)
         )
+
+        audioManager.registerAudioDeviceCallback(object : AudioDeviceCallback() {
+            override fun onAudioDevicesAdded(addedDevices: Array<AudioDeviceInfo>) {
+                handleAudioDeviceChange()
+            }
+
+            override fun onAudioDevicesRemoved(removedDevices: Array<AudioDeviceInfo>) {
+                handleAudioDeviceChange()
+            }
+        }, null)
+    }
+
+    private fun handleAudioDeviceChange() {
+        if (!startApp) {
+            startApp = true
+            SongManager.release()
+            BroadcastManagerController(appContext).sendBroadcast("RESTART_APP")
+        } else {
+            startApp = false
+        }
+
+        Log.e("NotificationServiceError", "DeviceChanged")
     }
 
     private fun releaseSession() {
@@ -73,11 +99,11 @@ class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
             audioManager.unregisterMediaButtonEventReceiver(
                 ComponentName(appContext, MediaButtonReceiver::class.java)
             )
+            audioManager.unregisterAudioDeviceCallback(null);
 
             mediaSession.isActive = false
             mediaSession.release()
         }
-
     }
 
     override fun onMediaButtonEvent(keyEvent: KeyEvent) {

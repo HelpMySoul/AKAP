@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/local_volume"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp" />
 
     <SeekBar
         android:id="@+id/localVolumeSeekBar"
