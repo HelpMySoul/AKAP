@@ -1,4 +1,6 @@
-package activities
+package com.example.akap.activities
+
+
 
 import android.app.Activity
 import android.content.Intent

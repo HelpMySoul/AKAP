@@ -4,7 +4,7 @@ import Account
 import screens.Playlists
 import Recommendations
 import Settings
-import Tools
+import screens.Tools
 import android.content.Context
 import android.os.Bundle
 import android.util.Log

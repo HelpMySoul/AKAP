@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
@@ -36,13 +37,34 @@ class TrimAudioActivity : AppCompatActivity() {
         txtStart = findViewById(R.id.txtStart)
         txtEnd = findViewById(R.id.txtEnd)
 
-        // Получаем путь к файлу из Intent
-        audioUri = intent.getParcelableExtra("AUDIO_URI")
+        // Получаем URI аудиофайла из Intent
+        val uriString = intent.getStringExtra("AUDIO_URI")
+        if (uriString == null) {
+            Toast.makeText(this, "Ошибка: аудиофайл не передан", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        if (audioUri != null) {
+        audioUri = Uri.parse(uriString)
+        if (audioUri == null) {
+            Toast.makeText(this, "Ошибка: неверный URI аудиофайла", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        try {
             mediaPlayer = MediaPlayer.create(this, audioUri)
+            if (mediaPlayer.duration <= 0) {
+                Toast.makeText(this, "Ошибка: неверный формат аудиофайла", Toast.LENGTH_SHORT).show()
+                finish()
+                return
+            }
+
             seekBarEnd.max = mediaPlayer.duration
             seekBarEnd.progress = mediaPlayer.duration
+        } catch (e: Exception) {
+            Toast.makeText(this, "Ошибка загрузки аудиофайла", Toast.LENGTH_SHORT).show()
+            finish()
         }
 
         seekBarStart.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -71,18 +93,42 @@ class TrimAudioActivity : AppCompatActivity() {
     }
 
     private fun trimAudio() {
-        val inputPath = File(audioUri!!.path!!).absolutePath
-        val outputPath = "${cacheDir.absolutePath}/trimmed_audio.mp3"
+        try {
+            val inputStream = contentResolver.openInputStream(audioUri!!)
+            val outputPath = "${cacheDir.absolutePath}/trimmed_audio.mp3"
 
-        val command = "-i $inputPath -ss ${startTime / 1000} -to ${endTime / 1000} -c copy $outputPath"
-
-        FFmpegKit.executeAsync(command) { session ->
-            if (ReturnCode.isSuccess(session.returnCode)) {
-                val resultIntent = Intent()
-                resultIntent.putExtra("TRIMMED_AUDIO", outputPath)
-                setResult(RESULT_OK, resultIntent)
-                finish()
+            // Копируем файл во временный каталог
+            inputStream?.use { input ->
+                File(outputPath).outputStream().use { output ->
+                    input.copyTo(output)
+                }
             }
+
+            val command = "-i $outputPath -ss ${startTime / 1000} -to ${endTime / 1000} -c copy $outputPath"
+
+            FFmpegKit.executeAsync(command) { session ->
+                if (ReturnCode.isSuccess(session.returnCode)) {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("TRIMMED_AUDIO", outputPath)
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this, "Ошибка обрезки аудио", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            runOnUiThread {
+                Toast.makeText(this, "Ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::mediaPlayer.isInitialized) {
+            mediaPlayer.release()
         }
     }
 }

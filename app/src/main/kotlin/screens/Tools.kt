@@ -1,4 +1,6 @@
+package screens
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,87 +9,93 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import activities.TrimAudioActivity
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.ReturnCode
-import com.arthenica.ffmpegkit.Session
 import com.example.akap.R
+import activities.TrimAudioActivity
 
 class Tools : Fragment() {
+
+    private var selectedAudioUri: Uri? = null
+
+    // Лаунчер для выбора аудиофайла
+    private lateinit var pickAudioLauncher: ActivityResultLauncher<Intent>
+
+    // Лаунчер для получения результата от TrimAudioActivity
+    private lateinit var trimAudioLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_tools, container, false)
 
-        val btnTrim: Button = view.findViewById(R.id.btnTrim)
-        val btnMerge: Button = view.findViewById(R.id.btnMerge)
-        val btnSplit: Button = view.findViewById(R.id.btnSplit)
-        val btnVolume: Button = view.findViewById(R.id.btnVolume)
-        val btnConvert: Button = view.findViewById(R.id.btnConvert)
-        val btnEditTags: Button = view.findViewById(R.id.btnEditTags)
-        val btnEqualizer: Button = view.findViewById(R.id.btnEqualizer)
-        val btnVocalProcessing: Button = view.findViewById(R.id.btnVocalProcessing)
+        val btnTrim = view.findViewById<Button>(R.id.btnTrim)
+        val btnMerge = view.findViewById<Button>(R.id.btnMerge)
+        val btnSplit = view.findViewById<Button>(R.id.btnSplit)
+        val btnVolume = view.findViewById<Button>(R.id.btnVolume)
+        val btnConvert = view.findViewById<Button>(R.id.btnConvert)
+        val btnEditTags = view.findViewById<Button>(R.id.btnEditTags)
+        val btnEqualizer = view.findViewById<Button>(R.id.btnEqualizer)
+        val btnVocalProcessing = view.findViewById<Button>(R.id.btnVocalProcessing)
 
-        btnTrim.setOnClickListener { openTrimActivity() }
-        btnMerge.setOnClickListener { mergeAudio() }
-        btnSplit.setOnClickListener { splitAudio() }
-        btnVolume.setOnClickListener { changeVolume() }
-        btnConvert.setOnClickListener { convertAudio() }
-        btnEditTags.setOnClickListener { editTags() }
-        btnEqualizer.setOnClickListener { openEqualizer() }
-        btnVocalProcessing.setOnClickListener { processVocal() }
+        // Инициализация лаунчеров
+        setupActivityResultLaunchers()
+
+        btnTrim.setOnClickListener { pickAudioFile() }
+
+        btnMerge.setOnClickListener { showToast("Функция объединения в разработке") }
+        btnSplit.setOnClickListener { showToast("Функция разделения в разработке") }
+        btnVolume.setOnClickListener { showToast("Функция изменения громкости в разработке") }
+        btnConvert.setOnClickListener { showToast("Функция конвертации в разработке") }
+        btnEditTags.setOnClickListener { showToast("Функция редактирования тегов в разработке") }
+        btnEqualizer.setOnClickListener { showToast("Функция эквалайзера в разработке") }
+        btnVocalProcessing.setOnClickListener { showToast("Функция обработки вокала в разработке") }
 
         return view
     }
 
-    private fun executeFFmpegCommand(command: String, successMessage: String, errorMessage: String) {
-        FFmpegKit.executeAsync(command) { session: Session ->
-            if (ReturnCode.isSuccess(session.returnCode)) {
-                Toast.makeText(requireContext(), successMessage, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+    private fun setupActivityResultLaunchers() {
+        // Лаунчер выбора аудиофайла
+        pickAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri != null) {
+                    selectedAudioUri = uri
+                    openTrimAudioActivity()
+                } else {
+                    showToast("Файл не выбран")
+                }
+            }
+        }
+
+        // Лаунчер для обрезки аудио
+        trimAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val trimmedAudioPath = result.data?.getStringExtra("TRIMMED_AUDIO")
+                showToast("Аудио обрезано: $trimmedAudioPath")
             }
         }
     }
 
-    private fun openTrimActivity() {
-        val intent = Intent(requireContext(), TrimAudioActivity::class.java)
-        intent.putExtra("AUDIO_URI", Uri.parse("/storage/emulated/0/Music/sample.mp3")) // TODO: выбрать файл через File Picker
-        startActivity(intent)
+    private fun pickAudioFile() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"
+        }
+        pickAudioLauncher.launch(intent)
     }
 
-    private fun mergeAudio() {
-        val command = "-i concat:input1.mp3|input2.mp3 -c copy output.mp3"
-        executeFFmpegCommand(command, "Аудио успешно объединено", "Ошибка объединения аудио")
+    private fun openTrimAudioActivity() {
+        selectedAudioUri?.let { uri ->
+            val intent = Intent(requireContext(), TrimAudioActivity::class.java)
+            intent.putExtra("AUDIO_URI", uri.toString())
+            trimAudioLauncher.launch(intent)
+        } ?: showToast("Сначала выберите аудиофайл")
     }
 
-    private fun splitAudio() {
-        val command = "-i input.mp3 -f segment -segment_time 10 -c copy output%03d.mp3"
-        executeFFmpegCommand(command, "Аудио успешно разделено", "Ошибка разделения аудио")
-    }
-
-    private fun changeVolume() {
-        val command = "-i input.mp3 -filter:a volume=1.5 output.mp3"
-        executeFFmpegCommand(command, "Громкость успешно изменена", "Ошибка изменения громкости")
-    }
-
-    private fun convertAudio() {
-        val command = "-i input.mp3 output.wav"
-        executeFFmpegCommand(command, "Аудио успешно конвертировано", "Ошибка конвертации аудио")
-    }
-
-    private fun editTags() {
-        Toast.makeText(requireContext(), "Функция редактирования тегов пока не реализована", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun openEqualizer() {
-        Toast.makeText(requireContext(), "Функция эквалайзера пока не реализована", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun processVocal() {
-        val command = "-i input.mp3 -af \"highpass=f=200, lowpass=f=3000\" output.mp3"
-        executeFFmpegCommand(command, "Вокал успешно обработан", "Ошибка обработки вокала")
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
