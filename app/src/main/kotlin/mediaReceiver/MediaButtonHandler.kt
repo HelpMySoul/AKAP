@@ -84,8 +84,6 @@ class MediaButtonHandler(context: Context): IMediaButtonHandlerCallback {
     private fun handleAudioDeviceChange() {
         if (!startApp) {
             startApp = true
-            SongManager.release()
-            BroadcastManagerController(appContext).sendBroadcast("RESTART_APP")
         } else {
             startApp = false
         }

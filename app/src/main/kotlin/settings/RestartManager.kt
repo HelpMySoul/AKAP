@@ -11,4 +11,8 @@ object RestartManager {
     fun restartApplication(context: Context) {
         BroadcastManagerController(context).sendBroadcast("RESTART_APP")
     }
+
+    fun restartActivity(context: Context) {
+        BroadcastManagerController(context).sendBroadcast("RESTART_ACTIVITY")
+    }
 }

@@ -109,7 +109,7 @@ class NotificationService : Service() {
             showNotification(title, artist)
         }
         else {
-            stopForeground(true)
+            stopForeground(STOP_FOREGROUND_REMOVE)
             stopSelf()
             Log.e("NotificationServiceErrors", "Service destroyed")
         }

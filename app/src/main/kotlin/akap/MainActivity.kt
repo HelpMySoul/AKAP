@@ -1,6 +1,7 @@
 package akap
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -105,33 +106,22 @@ class MainActivity : AppCompatActivity() {
             "STOP_SONG"             to { playerEventController.onStopSong()                                       },
             "PAUSE_SONG"            to { playerEventController.onPauseSong()                                      },
             "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                     },
-            "STOP_NOTIFICATION"     to { stopNotification()                                                       },
-            "RESTART_APP"           to { restartApp()                                                             }
+            "STOP_NOTIFICATION"     to { playerEventController.stopNotification(this)                      },
+            "RESTART_APP"           to { restartApp()                                                             },
+            "RESTART_ACTIVITY"      to { restartActivity()                                                        }
         )
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        BroadcastManagerController(this).sendBroadcast("STOP_NOTIFICATION")
         broadcastManagerController.unregisterAll()
         if (::mediaButtonHandler.isInitialized) {
             mediaButtonHandler.release()
         }
 
-        stopNotification()
         finishAffinity()
         Log.e("NotificationServiceError","Destroyed MainAct")
-    }
-
-    private fun stopNotification() {
-        val intent = Intent(this, NotificationService::class.java).apply {
-            putExtra("show", false)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.startForegroundService(intent)
-        } else {
-            this.startService(intent)
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -152,5 +142,12 @@ class MainActivity : AppCompatActivity() {
 
         startActivity(mainIntent)
         exitProcess(0)
+    }
+
+    @SuppressLint("UnsafeIntentLaunch")
+    private fun restartActivity() {
+        val intent = intent
+        finish()
+        startActivity(intent)
     }
 }
