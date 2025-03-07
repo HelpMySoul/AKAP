@@ -24,6 +24,13 @@
         <activity
             android:name="activities.TrimAudioActivity"
             android:exported="true" />
+        <activity
+            android:name="activities.MergeAudioActivity"
+            android:exported="true"/>
+        <activity
+            android:name="activities.SplitAudioActivity"
+            android:exported="true"/>
+
 
 
 
