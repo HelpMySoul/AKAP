@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +17,25 @@ import com.example.akap.R
 import activities.MergeAudioActivity
 import activities.TrimAudioActivity
 import activities.SplitAudioActivity
+import activities.ChangeVolumeActivity
+import activities.ConvertAudioActivity
 
 class Tools : Fragment() {
 
     private var selectedAudioUri: Uri? = null
     private val selectedAudioUris = mutableListOf<Uri>()
+    private var isSplitRequest = false
 
     private lateinit var pickAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var pickMultipleAudioLauncher: ActivityResultLauncher<Intent>
+    private lateinit var pickVolumeAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var trimAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var mergeAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var splitAudioLauncher: ActivityResultLauncher<Intent>
+    private lateinit var changeVolumeLauncher: ActivityResultLauncher<Intent>
+    private lateinit var convertAudioLauncher: ActivityResultLauncher<Intent>
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +57,8 @@ class Tools : Fragment() {
         btnTrim.setOnClickListener { pickAudioFileForTrim() }
         btnMerge.setOnClickListener { pickMultipleAudioFilesForMerge() }
         btnSplit.setOnClickListener { pickAudioFileForSplit() }
-        btnVolume.setOnClickListener { showToast("Функция изменения громкости в разработке") }
-        btnConvert.setOnClickListener { showToast("Функция конвертации в разработке") }
+        btnVolume.setOnClickListener { pickAudioFileForVolumeChange() }
+        btnConvert.setOnClickListener { pickAudioFileForConversion() }
         btnEditTags.setOnClickListener { showToast("Функция редактирования тегов в разработке") }
         btnEqualizer.setOnClickListener { showToast("Функция эквалайзера в разработке") }
         btnVocalProcessing.setOnClickListener { showToast("Функция обработки вокала в разработке") }
@@ -60,20 +69,55 @@ class Tools : Fragment() {
     private fun setupActivityResultLaunchers() {
         pickAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val uri = result.data?.data
-                if (uri != null) {
+                result.data?.data?.let { uri ->
                     selectedAudioUri = uri
-                    openTrimAudioActivity()
-                } else {
-                    showToast("Файл не выбран")
-                }
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    Log.d("Tools", "📂 Выбранный файл: $uri")
+                    if (isSplitRequest) {
+                        openSplitAudioActivity()
+                    } else {
+                        openTrimAudioActivity()
+                    }
+                } ?: showToast("⚠️ Файл не выбран")
             }
         }
+
+        pickVolumeAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    selectedAudioUri = uri
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    Log.d("Tools", "📂 Выбранный файл для громкости: $uri")
+                    openChangeVolumeActivity()
+                } ?: showToast("⚠️ Файл не выбран")
+            }
+        }
+
+        convertAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    selectedAudioUri = uri
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    Log.d("Tools", "📂 Выбранный файл для конвертации: $uri")
+                    openConvertAudioActivity()
+                } ?: showToast("⚠️ Файл не выбран")
+            }
+        }
+
 
         trimAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val trimmedAudioPath = result.data?.getStringExtra("TRIMMED_AUDIO")
-                showToast("Аудио обрезано: $trimmedAudioPath")
+                showToast("✂️ Аудио обрезано: $trimmedAudioPath")
             }
         }
 
@@ -92,25 +136,42 @@ class Tools : Fragment() {
                 if (selectedAudioUris.size > 1) {
                     openMergeAudioActivity()
                 } else {
-                    showToast("Выберите минимум 2 файла")
+                    showToast("⚠️ Выберите минимум 2 файла")
                 }
             }
         }
 
+
         mergeAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                showToast("Аудио успешно объединено")
+                showToast("🔀 Аудио успешно объединено")
             }
         }
 
         splitAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                showToast("Аудио успешно разделено")
+                showToast("✂️ Аудио успешно разделено")
             }
         }
+
+        changeVolumeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                showToast("🔊 Громкость успешно изменена")
+            }
+        }
+
+        convertAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                showToast("🎵 Аудио успешно конвертировано")
+            }
+        }
+
     }
 
+
+
     private fun pickAudioFileForTrim() {
+        isSplitRequest = false
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "audio/*"
@@ -128,16 +189,38 @@ class Tools : Fragment() {
     }
 
     private fun pickAudioFileForSplit() {
-        val intent = Intent(requireContext(), SplitAudioActivity::class.java)
-        splitAudioLauncher.launch(intent)
+        isSplitRequest = true
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"
+        }
+        pickAudioLauncher.launch(intent)
     }
+
+    private fun pickAudioFileForVolumeChange() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"
+        }
+        pickVolumeAudioLauncher.launch(intent)
+    }
+
+    private fun pickAudioFileForConversion() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"
+        }
+        convertAudioLauncher.launch(intent)
+    }
+
 
     private fun openTrimAudioActivity() {
         selectedAudioUri?.let { uri ->
-            val intent = Intent(requireContext(), TrimAudioActivity::class.java)
-            intent.putExtra("AUDIO_URI", uri.toString())
+            val intent = Intent(requireContext(), TrimAudioActivity::class.java).apply {
+                putExtra("AUDIO_URI", uri.toString())
+            }
             trimAudioLauncher.launch(intent)
-        } ?: showToast("Сначала выберите аудиофайл")
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
     }
 
     private fun openMergeAudioActivity() {
@@ -146,6 +229,34 @@ class Tools : Fragment() {
         }
         mergeAudioLauncher.launch(intent)
     }
+
+    private fun openSplitAudioActivity() {
+        selectedAudioUri?.let { uri ->
+            val intent = Intent(requireContext(), SplitAudioActivity::class.java).apply {
+                putExtra("AUDIO_URI", uri.toString())
+            }
+            splitAudioLauncher.launch(intent)
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
+    }
+
+    private fun openChangeVolumeActivity() {
+        selectedAudioUri?.let { uri ->
+            val intent = Intent(requireContext(), ChangeVolumeActivity::class.java).apply {
+                putExtra("AUDIO_URI", uri)
+            }
+            changeVolumeLauncher.launch(intent)
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
+    }
+
+    private fun openConvertAudioActivity() {
+        selectedAudioUri?.let { uri ->
+            val intent = Intent(requireContext(), ConvertAudioActivity::class.java).apply {
+                putExtra("AUDIO_URI", uri.toString())
+            }
+            convertAudioLauncher.launch(intent)
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
+    }
+
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

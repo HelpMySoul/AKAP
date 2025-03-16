@@ -3,65 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
-    android:background="@color/white">
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvSelectedFile"
-        android:layout_width="match_parent"
+        android:id="@+id/txtInfo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Файл не выбран"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textColor="@color/black" />
+        android:text="Длительность: 00:00"
+        android:textSize="18sp"
+        android:paddingBottom="8dp" />
 
-    <Button
-        android:id="@+id/btnSelectFile"
+    <SeekBar
+        android:id="@+id/seekBarDuration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выбрать аудиофайл"
-        android:backgroundTint="@color/black"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_marginTop="10dp" />
-
-    <EditText
-        android:id="@+id/etSegmentDuration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Длительность сегмента (секунды)"
-        android:inputType="number"
-        android:padding="12dp"
-        android:background="@android:drawable/edit_text"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp" />
+        android:max="60"
+        android:progress="30" />
 
     <Button
         android:id="@+id/btnSplit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Разделить"
-        android:backgroundTint="@color/teal_700"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_marginTop="10dp" />
+        android:text="Разделить аудио"
+        android:layout_marginTop="16dp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="16sp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp" />
 </LinearLayout>

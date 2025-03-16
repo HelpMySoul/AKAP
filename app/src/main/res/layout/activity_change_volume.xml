@@ -3,25 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
-    <Button
-        android:id="@+id/btnSelectFile"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выбрать аудиофайл" />
+        android:text="Изменение громкости аудио"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="10dp" />
 
-    <SeekBar
-        android:id="@+id/seekBarVolume"
+    <EditText
+        android:id="@+id/editTextVolume"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="200"
-        android:progress="100" />
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:hint="Введите громкость (1.0 = 100%)"
+        android:inputType="numberDecimal"
+        android:background="@android:drawable/editbox_background"
+        android:textSize="16sp" />
+
 
     <Button
         android:id="@+id/btnChangeVolume"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Изменить громкость" />
+        android:text="Изменить громкость"
+        android:textSize="18sp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
 
 </LinearLayout>

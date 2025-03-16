@@ -30,6 +30,12 @@
         <activity
             android:name="activities.SplitAudioActivity"
             android:exported="true"/>
+        <activity
+            android:name="activities.ChangeVolumeActivity"
+            android:exported="true"/>
+        <activity
+            android:name="activities.ConvertAudioActivity"
+            android:exported="true"/>
 
 
 
