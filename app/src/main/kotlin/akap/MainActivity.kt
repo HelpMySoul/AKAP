@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var broadcastManagerController: BroadcastManagerController
     private lateinit var playerEventController:      PlayerEventController
     private lateinit var mediaButtonHandler:         MediaButtonHandler
+    private var          restartApp:                 Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,13 +115,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        BroadcastManagerController(this).sendBroadcast("STOP_NOTIFICATION")
-        broadcastManagerController.unregisterAll()
-        if (::mediaButtonHandler.isInitialized) {
-            mediaButtonHandler.release()
+        if (!restartApp) {
+            BroadcastManagerController(this).sendBroadcast("STOP_NOTIFICATION")
+            broadcastManagerController.unregisterAll()
+            if (::mediaButtonHandler.isInitialized) {
+                mediaButtonHandler.release()
+            }
+
+            finishAffinity()
+            restartApp = false
         }
 
-        finishAffinity()
         Log.e("NotificationServiceError","Destroyed MainAct")
     }
 
@@ -138,14 +143,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun restartApp() {
         val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        val mainIntent    = Intent.makeRestartActivityTask(componentName)
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
 
         startActivity(mainIntent)
-        exitProcess(0)
+
+        finish()
     }
 
     @SuppressLint("UnsafeIntentLaunch")
     private fun restartActivity() {
+        restartApp = true
         val intent = intent
         finish()
         startActivity(intent)
