@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Разрешения -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
 
     <application
         android:allowBackup="true"
@@ -20,25 +20,25 @@
         tools:targetApi="31"
         android:requestLegacyExternalStorage="true">
 
-
+        <!-- Активности -->
         <activity
             android:name="activities.TrimAudioActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name="activities.MergeAudioActivity"
-            android:exported="true"/>
+            android:exported="false" />
         <activity
             android:name="activities.SplitAudioActivity"
-            android:exported="true"/>
+            android:exported="false" />
         <activity
             android:name="activities.ChangeVolumeActivity"
-            android:exported="true"/>
+            android:exported="false" />
         <activity
             android:name="activities.ConvertAudioActivity"
-            android:exported="true"/>
-
-
-
+            android:exported="false" />
+        <activity
+            android:name="activities.EditTagsActivity"
+            android:exported="false" />
 
 
         <activity
@@ -50,5 +50,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -17,6 +17,17 @@
         android:textColor="#333"
         android:layout_marginBottom="20dp" />
 
+    <!-- Кнопка для выбора файла -->
+    <Button
+        android:id="@+id/btnSelectFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбрать аудиофайл"
+        android:backgroundTint="#FFC107"
+        android:textColor="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
     <Button
         android:id="@+id/btnSelectFolder"
         android:layout_width="match_parent"
