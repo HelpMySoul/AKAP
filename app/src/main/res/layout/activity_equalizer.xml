@@ -1,75 +1,271 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnSelectFile"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выбрать аудиофайл"
-        android:minHeight="48dp"
-        android:padding="12dp"
-        android:background="?attr/selectableItemBackground" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/fileInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Файл не выбран"
-        android:gravity="center"
-        android:layout_marginTop="12dp" />
+        <!-- Кнопка выбора файла -->
+        <Button
+            android:id="@+id/btnSelectFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Выбрать аудиофайл" />
 
-    <SeekBar
-        android:id="@+id/bassControl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:layout_marginTop="12dp" />
+        <!-- Информация о выбранном файле -->
+        <TextView
+            android:id="@+id/fileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Файл не выбран"
+            android:textSize="16sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Бас (30-250 Гц)"
-        android:layout_marginTop="4dp" />
+        <!-- Спиннер для выбора пресета -->
+        <Spinner
+            android:id="@+id/presetSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
 
-    <SeekBar
-        android:id="@+id/midControl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:layout_marginTop="12dp" />
+        <!-- Кнопка воспроизведения/паузы -->
+        <Button
+            android:id="@+id/btnPlayPause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Воспроизвести" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Середина (250-4000 Гц)"
-        android:layout_marginTop="4dp" />
+        <!-- Блок для эквалайзера -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Эквалайзер"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <SeekBar
-        android:id="@+id/trebleControl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:layout_marginTop="12dp" />
+        <!-- Bass Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Высокие (4000-20000 Гц)"
-        android:layout_marginTop="4dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Bass (100 Hz)" />
 
-    <Button
-        android:id="@+id/btnApplyEqualizer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Применить эквалайзер"
-        android:minHeight="48dp"
-        android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:background="?attr/selectableItemBackground" />
+            <TextView
+                android:id="@+id/bassValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/bassControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
 
-</LinearLayout>
+        <!-- Low Mid Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Low Mid (500 Hz)" />
+
+            <TextView
+                android:id="@+id/lowMidValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/lowMidControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- Mid Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mid (2000 Hz)" />
+
+            <TextView
+                android:id="@+id/midValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/midControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- High Mid Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="High Mid (6000 Hz)" />
+
+            <TextView
+                android:id="@+id/highMidValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/highMidControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- Treble Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Treble (12000 Hz)" />
+
+            <TextView
+                android:id="@+id/trebleValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/trebleControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- Presence Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Presence (16000 Hz)" />
+
+            <TextView
+                android:id="@+id/presenceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/presenceControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- Volume Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Громкость" />
+
+            <TextView
+                android:id="@+id/volumeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/volumeControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <!-- Balance Control -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Баланс" />
+
+            <TextView
+                android:id="@+id/balanceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <SeekBar
+            android:id="@+id/balanceControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="20" />
+
+        <!-- Кнопка применения эквалайзера -->
+        <Button
+            android:id="@+id/btnApplyEqualizer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Применить эквалайзер" />
+    </LinearLayout>
+</ScrollView>

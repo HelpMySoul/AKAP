@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 
     <application
         android:allowBackup="true"
@@ -31,7 +33,7 @@
             android:name="activities.SplitAudioActivity"
             android:exported="false" />
         <activity
-            android:name="activities.ChangeVolumeActivity"
+            android:name="activities.RecordAudioActivity"
             android:exported="false" />
         <activity
             android:name="activities.ConvertAudioActivity"
@@ -39,6 +41,10 @@
         <activity
             android:name="activities.EditTagsActivity"
             android:exported="false" />
+        <activity
+            android:name="activities.EqualizerActivity"
+            android:exported="false" />
+
 
 
         <activity

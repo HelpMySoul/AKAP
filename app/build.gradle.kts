@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation ("org.jaudiotagger:jaudiotagger:2.0.1")
     implementation ("com.arthenica:ffmpeg-kit-full:6.0-2.LTS")
+    implementation ("com.google.android.exoplayer:exoplayer:2.18.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

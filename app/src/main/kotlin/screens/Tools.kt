@@ -14,12 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import activities.MergeAudioActivity
-import activities.TrimAudioActivity
-import activities.SplitAudioActivity
-import activities.ChangeVolumeActivity
-import activities.ConvertAudioActivity
-import activities.EditTagsActivity
+import activities.*
 
 class Tools : Fragment() {
 
@@ -29,7 +24,6 @@ class Tools : Fragment() {
 
     private lateinit var pickAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var pickMultipleAudioLauncher: ActivityResultLauncher<Intent>
-    private lateinit var pickVolumeAudioLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +34,20 @@ class Tools : Fragment() {
         val btnTrim = view.findViewById<Button>(R.id.btnTrim)
         val btnMerge = view.findViewById<Button>(R.id.btnMerge)
         val btnSplit = view.findViewById<Button>(R.id.btnSplit)
-        val btnVolume = view.findViewById<Button>(R.id.btnVolume)
         val btnConvert = view.findViewById<Button>(R.id.btnConvert)
-        val btnEditTags = view.findViewById<Button>(R.id.btnEditTags) // Кнопка редактирования тегов
+        val btnEditTags = view.findViewById<Button>(R.id.btnEditTags)
+        val btnEqualizer = view.findViewById<Button>(R.id.btnEqualizer)
+        val btnRecord = view.findViewById<Button>(R.id.btnRecord) // Кнопка для записи звука
 
         setupActivityResultLaunchers()
 
         btnTrim.setOnClickListener { pickAudioFileForTrim() }
         btnMerge.setOnClickListener { pickMultipleAudioFilesForMerge() }
         btnSplit.setOnClickListener { pickAudioFileForSplit() }
-        btnVolume.setOnClickListener { pickAudioFileForVolumeChange() }
         btnConvert.setOnClickListener { openConvertAudioActivity() }
-        btnEditTags.setOnClickListener { openEditTagsActivity() } // Прямой переход к редактированию тегов
+        btnEditTags.setOnClickListener { openEditTagsActivity() }
+        btnEqualizer.setOnClickListener { openEqualizerActivity() }
+        btnRecord.setOnClickListener { openRecordAudioActivity() } // Запуск записи звука
 
         return view
     }
@@ -74,26 +70,6 @@ class Tools : Fragment() {
                     Log.e("Tools", "⚠️ Файл не выбран")
                     showToast("⚠️ Файл не выбран")
                 }
-            } else {
-                Log.e("Tools", "⚠️ Результат не RESULT_OK")
-            }
-        }
-
-        pickVolumeAudioLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.data?.let { uri ->
-                    selectedAudioUri = uri
-                    requireContext().contentResolver.takePersistableUriPermission(
-                        uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                    Log.d("Tools", "📂 Выбранный файл для громкости: $uri")
-                    openChangeVolumeActivity()
-                } ?: run {
-                    Log.e("Tools", "⚠️ Файл не выбран")
-                    showToast("⚠️ Файл не выбран")
-                }
-            } else {
-                Log.e("Tools", "⚠️ Результат не RESULT_OK")
             }
         }
 
@@ -114,8 +90,6 @@ class Tools : Fragment() {
                     Log.e("Tools", "⚠️ Выберите минимум 2 файла")
                     showToast("⚠️ Выберите минимум 2 файла")
                 }
-            } else {
-                Log.e("Tools", "⚠️ Результат не RESULT_OK")
             }
         }
     }
@@ -147,14 +121,6 @@ class Tools : Fragment() {
         pickAudioLauncher.launch(intent)
     }
 
-    private fun pickAudioFileForVolumeChange() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "audio/*"
-        }
-        pickVolumeAudioLauncher.launch(intent)
-    }
-
     private fun openTrimAudioActivity() {
         selectedAudioUri?.let { uri ->
             Log.d("Tools", "✂️ Запуск TrimAudioActivity с файлом: $uri")
@@ -162,10 +128,7 @@ class Tools : Fragment() {
                 putExtra("AUDIO_URI", uri.toString())
             }
             startActivity(intent)
-        } ?: run {
-            Log.e("Tools", "⚠️ Сначала выберите аудиофайл")
-            showToast("⚠️ Сначала выберите аудиофайл")
-        }
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
     }
 
     private fun openMergeAudioActivity() {
@@ -176,7 +139,6 @@ class Tools : Fragment() {
             }
             startActivity(intent)
         } else {
-            Log.e("Tools", "⚠️ Выберите минимум 2 файла")
             showToast("⚠️ Выберите минимум 2 файла")
         }
     }
@@ -188,27 +150,10 @@ class Tools : Fragment() {
                 putExtra("AUDIO_URI", uri.toString())
             }
             startActivity(intent)
-        } ?: run {
-            Log.e("Tools", "⚠️ Сначала выберите аудиофайл")
-            showToast("⚠️ Сначала выберите аудиофайл")
-        }
-    }
-
-    private fun openChangeVolumeActivity() {
-        selectedAudioUri?.let { uri ->
-            Log.d("Tools", "🔊 Запуск ChangeVolumeActivity с файлом: $uri")
-            val intent = Intent(requireContext(), ChangeVolumeActivity::class.java).apply {
-                putExtra("AUDIO_URI", uri.toString())
-            }
-            startActivity(intent)
-        } ?: run {
-            Log.e("Tools", "⚠️ Сначала выберите аудиофайл")
-            showToast("⚠️ Сначала выберите аудиофайл")
-        }
+        } ?: showToast("⚠️ Сначала выберите аудиофайл")
     }
 
     private fun openEditTagsActivity() {
-        // Убрана проверка на selectedAudioUri
         Log.d("Tools", "🏷️ Запуск EditTagsActivity")
         val intent = Intent(requireContext(), EditTagsActivity::class.java)
         startActivity(intent)
@@ -217,6 +162,18 @@ class Tools : Fragment() {
     private fun openConvertAudioActivity() {
         Log.d("Tools", "🎵 Запуск ConvertAudioActivity")
         val intent = Intent(requireContext(), ConvertAudioActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openEqualizerActivity() {
+        Log.d("Tools", "🎚️ Запуск EqualizerActivity")
+        val intent = Intent(requireContext(), EqualizerActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openRecordAudioActivity() {
+        Log.d("Tools", "🎙️ Запуск RecordAudioActivity")
+        val intent = Intent(requireContext(), RecordAudioActivity::class.java)
         startActivity(intent)
     }
 
