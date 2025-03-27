@@ -8,14 +8,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Кнопка выбора файла -->
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"/>
+
+        <!-- File Selection Button -->
         <Button
             android:id="@+id/btnSelectFile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Выбрать аудиофайл" />
 
-        <!-- Информация о выбранном файле -->
+        <!-- File Info -->
         <TextView
             android:id="@+id/fileInfo"
             android:layout_width="match_parent"
@@ -24,18 +34,18 @@
             android:text="Файл не выбран"
             android:textSize="16sp" />
 
-        <!-- Спиннер для выбора пресета -->
+        <!-- Preset Spinner -->
         <Spinner
             android:id="@+id/presetSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="12dp"
             android:layout_marginTop="16dp"
             android:background="@android:drawable/btn_dropdown"
+            android:minHeight="48dp"
+            android:padding="12dp"
             android:spinnerMode="dropdown" />
 
-        <!-- Кнопка воспроизведения/паузы -->
+        <!-- Play/Pause Button -->
         <Button
             android:id="@+id/btnPlayPause"
             android:layout_width="match_parent"
@@ -43,7 +53,7 @@
             android:layout_marginTop="16dp"
             android:text="Воспроизвести" />
 
-        <!-- Блок для эквалайзера -->
+        <!-- Equalizer Section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,21 +66,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bass (100 Hz)" />
+                android:text="Bass (60 Hz)" />
 
             <TextView
                 android:id="@+id/bassValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/bassControl"
@@ -82,21 +92,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Low Mid (500 Hz)" />
+                android:text="Low Mid (230 Hz)" />
 
             <TextView
                 android:id="@+id/lowMidValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/lowMidControl"
@@ -108,21 +118,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mid (2000 Hz)" />
+                android:text="Mid (910 Hz)" />
 
             <TextView
                 android:id="@+id/midValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/midControl"
@@ -134,21 +144,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="High Mid (6000 Hz)" />
+                android:text="High Mid (3600 Hz)" />
 
             <TextView
                 android:id="@+id/highMidValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/highMidControl"
@@ -160,21 +170,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Treble (12000 Hz)" />
+                android:text="Treble (14000 Hz)" />
 
             <TextView
                 android:id="@+id/trebleValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/trebleControl"
@@ -186,8 +196,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -199,8 +209,8 @@
                 android:id="@+id/presenceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/presenceControl"
@@ -212,8 +222,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -225,21 +235,22 @@
                 android:id="@+id/volumeValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="1.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/volumeControl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100" />
+            android:max="200"
+            android:progress="100" />
 
         <!-- Balance Control -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -251,16 +262,17 @@
                 android:id="@+id/balanceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.0"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                android:text="0.0" />
         </LinearLayout>
         <SeekBar
             android:id="@+id/balanceControl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="20" />
+            android:max="20"
+            android:progress="10" />
 
-        <!-- Кнопка применения эквалайзера -->
+        <!-- Apply Button -->
         <Button
             android:id="@+id/btnApplyEqualizer"
             android:layout_width="match_parent"

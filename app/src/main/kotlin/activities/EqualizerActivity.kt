@@ -1,32 +1,28 @@
 package activities
 
-import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
+import android.media.audiofx.BassBoost
+import android.media.audiofx.Equalizer
+import android.media.audiofx.Virtualizer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.ReturnCode
 import com.example.akap.R
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import java.io.File
-import java.io.IOException
-import java.util.Locale
 
 class EqualizerActivity : AppCompatActivity() {
 
-    private var audioUri: Uri? = null
-    private var tempFile: File? = null
-    private lateinit var fileInfo: TextView
+    // UI элементы
     private lateinit var btnSelectFile: Button
-    private lateinit var btnApplyEqualizer: Button
     private lateinit var btnPlayPause: Button
+    private lateinit var btnApplyEqualizer: Button
+    private lateinit var fileInfo: TextView
+    private lateinit var progressBar: ProgressBar
     private lateinit var presetSpinner: Spinner
+
+    // SeekBars
     private lateinit var bassControl: SeekBar
     private lateinit var lowMidControl: SeekBar
     private lateinit var midControl: SeekBar
@@ -35,6 +31,8 @@ class EqualizerActivity : AppCompatActivity() {
     private lateinit var presenceControl: SeekBar
     private lateinit var volumeControl: SeekBar
     private lateinit var balanceControl: SeekBar
+
+    // Значения
     private lateinit var bassValue: TextView
     private lateinit var lowMidValue: TextView
     private lateinit var midValue: TextView
@@ -43,112 +41,43 @@ class EqualizerActivity : AppCompatActivity() {
     private lateinit var presenceValue: TextView
     private lateinit var volumeValue: TextView
     private lateinit var balanceValue: TextView
-    private lateinit var player: ExoPlayer
+
+    // Аудио компоненты
+    private lateinit var mediaPlayer: MediaPlayer
+    private var equalizer: Equalizer? = null
+    private var bassBoost: BassBoost? = null
+    private var virtualizer: Virtualizer? = null
+
+    // Состояние
     private var isPlaying = false
+    private var currentFileUri: Uri? = null
+    private var audioSessionId = 0
 
-    private val presets = mapOf(
-        "Обычный" to floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f),
-        "Рок" to floatArrayOf(5f, 4f, 3f, 2f, 1f, 0f),
-        "Поп" to floatArrayOf(3f, 2f, 1f, 1f, 2f, 3f),
-        "Джаз" to floatArrayOf(2f, 3f, 4f, 3f, 2f, 1f),
-        "Классика" to floatArrayOf(0f, 1f, 2f, 3f, 4f, 5f)
-    )
-
-    private val selectAudioFileLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            data?.data?.let { uri ->
-                audioUri = uri
-                fileInfo.text = getString(R.string.selected_file, uri.toString())
-                Log.d("EqualizerActivity", "Audio file selected: $audioUri")
-
-                // Save temp file
-                tempFile = File(cacheDir, "temp_audio.mp3")
-                try {
-                    contentResolver.openInputStream(uri)?.use { inputStream ->
-                        tempFile?.outputStream()?.use { outputStream ->
-                            inputStream.copyTo(outputStream)
-                        }
-                    }
-                    Log.d("EqualizerActivity", "Temp file created: ${tempFile?.absolutePath}")
-                    playAudio(tempFile!!)
-                } catch (e: IOException) {
-                    Log.e("EqualizerActivity", "Error while saving temp file", e)
-                }
-            }
-        }
+    companion object {
+        private const val FILE_SELECT_CODE = 100
+        private const val TAG = "EqualizerActivity"
+        private const val SHORT_MAX = 32767
+        private const val SHORT_MIN = -32768
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equalizer)
 
-        // Initialize Views
-        initializeViews()
-
-        // Initialize ExoPlayer
-        player = ExoPlayer.Builder(this).build()
-
-        // Button Click Handlers
-        btnSelectFile.setOnClickListener { selectAudioFile() }
-        btnApplyEqualizer.setOnClickListener { applyEqualizer() }
-        btnPlayPause.setOnClickListener {
-            if (isPlaying) {
-                player.pause()
-                btnPlayPause.text = "Воспроизвести"
-            } else {
-                player.play()
-                btnPlayPause.text = "Пауза"
-            }
-            isPlaying = !isPlaying
-        }
-
-        // Setup Preset Spinner
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, presets.keys.toList())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        presetSpinner.adapter = adapter
-
-        presetSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                val selectedPreset = presets.values.toList()[position]
-                bassControl.progress = (selectedPreset[0] * 10).toInt()
-                lowMidControl.progress = (selectedPreset[1] * 10).toInt()
-                midControl.progress = (selectedPreset[2] * 10).toInt()
-                highMidControl.progress = (selectedPreset[3] * 10).toInt()
-                trebleControl.progress = (selectedPreset[4] * 10).toInt()
-                presenceControl.progress = (selectedPreset[5] * 10).toInt()
-                updateValues()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        // Update volume and balance values dynamically
-        volumeControl.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                volumeValue.text = String.format(Locale.getDefault(), "%d", progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        balanceControl.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                balanceValue.text = String.format(Locale.getDefault(), "%d", progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        initViews()
+        setupListeners()
+        setupSpinner()
+        initMediaPlayer()
     }
 
-    private fun initializeViews() {
+    private fun initViews() {
         btnSelectFile = findViewById(R.id.btnSelectFile)
-        btnApplyEqualizer = findViewById(R.id.btnApplyEqualizer)
         btnPlayPause = findViewById(R.id.btnPlayPause)
+        btnApplyEqualizer = findViewById(R.id.btnApplyEqualizer)
         fileInfo = findViewById(R.id.fileInfo)
+        progressBar = findViewById(R.id.progressBar)
         presetSpinner = findViewById(R.id.presetSpinner)
+
         bassControl = findViewById(R.id.bassControl)
         lowMidControl = findViewById(R.id.lowMidControl)
         midControl = findViewById(R.id.midControl)
@@ -157,6 +86,7 @@ class EqualizerActivity : AppCompatActivity() {
         presenceControl = findViewById(R.id.presenceControl)
         volumeControl = findViewById(R.id.volumeControl)
         balanceControl = findViewById(R.id.balanceControl)
+
         bassValue = findViewById(R.id.bassValue)
         lowMidValue = findViewById(R.id.lowMidValue)
         midValue = findViewById(R.id.midValue)
@@ -165,86 +95,331 @@ class EqualizerActivity : AppCompatActivity() {
         presenceValue = findViewById(R.id.presenceValue)
         volumeValue = findViewById(R.id.volumeValue)
         balanceValue = findViewById(R.id.balanceValue)
+
+        setupSeekBarListeners()
     }
 
-    private fun selectAudioFile() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "audio/*"
-        selectAudioFileLauncher.launch(intent)
+    private fun setupSeekBarListeners() {
+        bassControl.setOnSeekBarChangeListener(createSeekBarListener(bassValue, 1f) { applyEqualizerSettings() })
+        lowMidControl.setOnSeekBarChangeListener(createSeekBarListener(lowMidValue, 1f) { applyEqualizerSettings() })
+        midControl.setOnSeekBarChangeListener(createSeekBarListener(midValue, 1f) { applyEqualizerSettings() })
+        highMidControl.setOnSeekBarChangeListener(createSeekBarListener(highMidValue, 1f) { applyEqualizerSettings() })
+        trebleControl.setOnSeekBarChangeListener(createSeekBarListener(trebleValue, 1f) { applyEqualizerSettings() })
+        presenceControl.setOnSeekBarChangeListener(createSeekBarListener(presenceValue, 1f) { applyEqualizerSettings() })
+
+        volumeControl.setOnSeekBarChangeListener(createSeekBarListener(volumeValue, 0.01f, 100) { applyVolume() })
+        balanceControl.setOnSeekBarChangeListener(createBalanceSeekBarListener())
     }
 
-    private fun applyEqualizer() {
-        if (audioUri == null) {
+    private fun createSeekBarListener(
+        textView: TextView,
+        multiplier: Float,
+        offset: Int = 0,
+        callback: () -> Unit
+    ): SeekBar.OnSeekBarChangeListener {
+        return object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                val value = (progress - offset) * multiplier
+                textView.text = "%.1f".format(value)
+                if (fromUser) callback()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) { callback() }
+        }
+    }
+
+    private fun createBalanceSeekBarListener(): SeekBar.OnSeekBarChangeListener {
+        return object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                val balance = (progress - 10) / 10f
+                balanceValue.text = "%.1f".format(balance)
+                if (fromUser) applyBalance()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) { applyBalance() }
+        }
+    }
+
+    private fun setupListeners() {
+        btnSelectFile.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "audio/*"
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            startActivityForResult(intent, FILE_SELECT_CODE)
+        }
+
+        btnPlayPause.setOnClickListener {
+            if (isPlaying) {
+                pauseAudio()
+            } else {
+                playAudio()
+            }
+        }
+
+        btnApplyEqualizer.setOnClickListener {
+            applyAllAudioSettings()
+            Toast.makeText(this, "Настройки применены", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupSpinner() {
+        val presets = arrayOf(
+            "Плоский", "Поп", "Рок", "Джаз", "Классика", "Бас", "Голос"
+        )
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            presets
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        presetSpinner.adapter = adapter
+
+        presetSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                applyPreset(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun initMediaPlayer() {
+        mediaPlayer = MediaPlayer()
+        mediaPlayer.setOnCompletionListener {
+            isPlaying = false
+            btnPlayPause.text = "Воспроизвести"
+        }
+
+        mediaPlayer.setOnPreparedListener {
+            initAudioEffects()
+            progressBar.visibility = android.view.View.GONE
+            isPlaying = true
+            btnPlayPause.text = "Пауза"
+            mediaPlayer.start()
+        }
+    }
+
+    private fun initAudioEffects() {
+        releaseAudioEffects()
+        audioSessionId = mediaPlayer.audioSessionId
+
+        try {
+            equalizer = Equalizer(0, audioSessionId).apply {
+                enabled = true
+            }
+
+            bassBoost = BassBoost(0, audioSessionId).apply {
+                enabled = true
+            }
+
+            virtualizer = Virtualizer(0, audioSessionId).apply {
+                enabled = true
+            }
+
+            applyAllAudioSettings()
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Audio effects initialization failed", e)
+            Toast.makeText(this, "Аудио эффекты не поддерживаются", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun applyAllAudioSettings() {
+        applyEqualizerSettings()
+        applyVolume()
+        applyBalance()
+    }
+
+    private fun applyEqualizerSettings() {
+        equalizer?.let { eq ->
+            val minLevel = eq.bandLevelRange[0].toInt()
+            val maxLevel = eq.bandLevelRange[1].toInt()
+            val range = maxLevel - minLevel
+
+            setBandLevel(eq, 60f, bassControl.progress, minLevel, range)
+            setBandLevel(eq, 230f, lowMidControl.progress, minLevel, range)
+            setBandLevel(eq, 910f, midControl.progress, minLevel, range)
+            setBandLevel(eq, 3600f, highMidControl.progress, minLevel, range)
+            setBandLevel(eq, 14000f, trebleControl.progress, minLevel, range)
+            setBandLevel(eq, 16000f, presenceControl.progress, minLevel, range)
+        }
+    }
+
+    private fun setBandLevel(eq: Equalizer, freq: Float, progress: Int, minLevel: Int, range: Int) {
+        val band = findBandForFrequency(eq, freq)
+        if (band != -1) {
+            val level = (minLevel + (progress * range / 100))
+                .coerceIn(SHORT_MIN, SHORT_MAX)
+                .toInt()
+                .toShort()
+            eq.setBandLevel(band.toShort(), level)
+        }
+    }
+
+    private fun findBandForFrequency(eq: Equalizer, freq: Float): Int {
+        for (i in 0 until eq.numberOfBands) {
+            val bandFreq = eq.getCenterFreq(i.toShort())
+            if (bandFreq.toFloat() >= freq) {
+                return i
+            }
+        }
+        return eq.numberOfBands - 1
+    }
+
+    private fun applyVolume() {
+        val volume = (volumeControl.progress / 100f).coerceIn(0f, 2f)
+        mediaPlayer.setVolume(volume, volume)
+    }
+
+    private fun applyBalance() {
+        val balance = (balanceControl.progress - 10) / 10f
+
+        try {
+            val strength = (balance * 1000)
+                .toInt()
+                .coerceIn(SHORT_MIN, SHORT_MAX)
+                .toShort()
+            virtualizer?.setStrength(strength)
+        } catch (e: Exception) {
+            mediaPlayer.setVolume(
+                1f - balance.coerceAtLeast(0f),
+                1f + balance.coerceAtMost(0f)
+            )
+        }
+    }
+
+    private fun applyPreset(position: Int) {
+        when (position) {
+            0 -> resetEqualizer()
+            1 -> setPopPreset()
+            2 -> setRockPreset()
+            3 -> setJazzPreset()
+            4 -> setClassicPreset()
+            5 -> setBassPreset()
+            6 -> setVoicePreset()
+        }
+        applyEqualizerSettings()
+    }
+
+    private fun resetEqualizer() {
+        bassControl.progress = 50
+        lowMidControl.progress = 50
+        midControl.progress = 50
+        highMidControl.progress = 50
+        trebleControl.progress = 50
+        presenceControl.progress = 50
+    }
+
+    private fun setPopPreset() {
+        bassControl.progress = 60
+        lowMidControl.progress = 45
+        midControl.progress = 55
+        highMidControl.progress = 65
+        trebleControl.progress = 60
+        presenceControl.progress = 50
+    }
+
+    private fun setRockPreset() {
+        bassControl.progress = 70
+        lowMidControl.progress = 60
+        midControl.progress = 50
+        highMidControl.progress = 40
+        trebleControl.progress = 50
+        presenceControl.progress = 45
+    }
+
+    private fun setJazzPreset() {
+        bassControl.progress = 55
+        lowMidControl.progress = 60
+        midControl.progress = 65
+        highMidControl.progress = 55
+        trebleControl.progress = 50
+        presenceControl.progress = 45
+    }
+
+    private fun setClassicPreset() {
+        bassControl.progress = 40
+        lowMidControl.progress = 45
+        midControl.progress = 50
+        highMidControl.progress = 55
+        trebleControl.progress = 60
+        presenceControl.progress = 65
+    }
+
+    private fun setBassPreset() {
+        bassControl.progress = 90
+        lowMidControl.progress = 70
+        midControl.progress = 40
+        highMidControl.progress = 30
+        trebleControl.progress = 35
+        presenceControl.progress = 30
+    }
+
+    private fun setVoicePreset() {
+        bassControl.progress = 40
+        lowMidControl.progress = 55
+        midControl.progress = 70
+        highMidControl.progress = 65
+        trebleControl.progress = 50
+        presenceControl.progress = 45
+    }
+
+    private fun playAudio() {
+        if (currentFileUri == null) {
             Toast.makeText(this, "Выберите аудиофайл", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val progressDialog = AlertDialog.Builder(this)
-            .setMessage("Применение эквалайзера...")
-            .setCancelable(false)
-            .create()
-        progressDialog.show()
+        try {
+            progressBar.visibility = android.view.View.VISIBLE
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(this, currentFileUri!!)
+            mediaPlayer.prepareAsync()
 
-        val outputFile = File(getExternalFilesDir(null), "equalized_audio.mp3")
-        if (outputFile.exists()) outputFile.delete()
+        } catch (e: Exception) {
+            progressBar.visibility = android.view.View.GONE
+            Log.e(TAG, "Ошибка воспроизведения", e)
+            Toast.makeText(this, "Ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        // Нормализация громкости (от 0 до 1)
-        val volume = volumeControl.progress / 100f
+    private fun pauseAudio() {
+        mediaPlayer.pause()
+        isPlaying = false
+        btnPlayPause.text = "Воспроизвести"
+    }
 
-        // Нормализация баланса (от -1 до 1)
-        val balance = (balanceControl.progress - 50) / 50f
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK) {
+            data?.data?.let { uri ->
+                currentFileUri = uri
+                val fileName = uri.lastPathSegment ?: "Неизвестный файл"
+                fileInfo.text = "Выбран файл: $fileName"
 
-        // Команда FFmpeg с эквалайзером, громкостью и балансом
-        val command = "-y -i ${tempFile!!.absolutePath} -af " +
-                "\"equalizer=f=100:t=q:w=1:g=${bassControl.progress / 10f}," +
-                "equalizer=f=200:t=q:w=1:g=${lowMidControl.progress / 10f}," +
-                "equalizer=f=1000:t=q:w=1:g=${midControl.progress / 10f}," +
-                "equalizer=f=3000:t=q:w=1:g=${highMidControl.progress / 10f}," +
-                "equalizer=f=6000:t=q:w=1:g=${trebleControl.progress / 10f}," +
-                "equalizer=f=12000:t=q:w=1:g=${presenceControl.progress / 10f}," +
-                "volume=${volume}," +
-                "pan=stereo|c0=${1 - balance}|c1=${1 + balance}\" ${outputFile.absolutePath}"
-
-        Log.d("EqualizerActivity", "FFmpeg Command: $command")
-
-        FFmpegKit.executeAsync(command) { session ->
-            runOnUiThread {
-                progressDialog.dismiss()
-                if (ReturnCode.isSuccess(session.returnCode)) {
-                    Toast.makeText(this@EqualizerActivity, "Эквалайзер успешно применён", Toast.LENGTH_SHORT).show()
-                    Log.d("EqualizerActivity", "Filter applied successfully!")
-                    playAudio(outputFile)
-                } else {
-                    Toast.makeText(this@EqualizerActivity, "Ошибка применения эквалайзера", Toast.LENGTH_SHORT).show()
-                    Log.e("EqualizerActivity", "Error applying filter: ${session.returnCode}")
-                }
+                isPlaying = false
+                btnPlayPause.text = "Воспроизвести"
             }
         }
     }
 
-    private fun playAudio(file: File) {
-        val mediaItem = MediaItem.fromUri(Uri.fromFile(file))
-        player.setMediaItem(mediaItem)
-        player.prepare()
-        player.play()
-        btnPlayPause.text = "Пауза"
-        isPlaying = true
-        Log.d("EqualizerActivity", "Playing audio: ${file.absolutePath}")
-    }
+    private fun releaseAudioEffects() {
+        equalizer?.release()
+        bassBoost?.release()
+        virtualizer?.release()
 
-    private fun updateValues() {
-        bassValue.text = String.format(Locale.getDefault(), "%d", bassControl.progress)
-        lowMidValue.text = String.format(Locale.getDefault(), "%d", lowMidControl.progress)
-        midValue.text = String.format(Locale.getDefault(), "%d", midControl.progress)
-        highMidValue.text = String.format(Locale.getDefault(), "%d", highMidControl.progress)
-        trebleValue.text = String.format(Locale.getDefault(), "%d", trebleControl.progress)
-        presenceValue.text = String.format(Locale.getDefault(), "%d", presenceControl.progress)
-        volumeValue.text = String.format(Locale.getDefault(), "%d", volumeControl.progress)
-        balanceValue.text = String.format(Locale.getDefault(), "%d", balanceControl.progress)
+        equalizer = null
+        bassBoost = null
+        virtualizer = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        player.release()
+        mediaPlayer.release()
+        releaseAudioEffects()
     }
 }

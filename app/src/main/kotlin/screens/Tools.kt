@@ -1,9 +1,14 @@
 package screens
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +17,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import activities.*
@@ -24,6 +31,8 @@ class Tools : Fragment() {
 
     private lateinit var pickAudioLauncher: ActivityResultLauncher<Intent>
     private lateinit var pickMultipleAudioLauncher: ActivityResultLauncher<Intent>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestManageStorageLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +47,7 @@ class Tools : Fragment() {
         val btnEditTags = view.findViewById<Button>(R.id.btnEditTags)
         val btnEqualizer = view.findViewById<Button>(R.id.btnEqualizer)
         val btnRecord = view.findViewById<Button>(R.id.btnRecord) // Кнопка для записи звука
+        val btnVocalRemoval = view.findViewById<Button>(R.id.btnVocalProcessing) // Кнопка для удаления вокала
 
         setupActivityResultLaunchers()
 
@@ -48,6 +58,7 @@ class Tools : Fragment() {
         btnEditTags.setOnClickListener { openEditTagsActivity() }
         btnEqualizer.setOnClickListener { openEqualizerActivity() }
         btnRecord.setOnClickListener { openRecordAudioActivity() } // Запуск записи звука
+        btnVocalRemoval.setOnClickListener { checkPermissionsAndOpenVocalRemoval() } // Запуск удаления вокала
 
         return view
     }
@@ -87,9 +98,28 @@ class Tools : Fragment() {
                 if (selectedAudioUris.size > 1) {
                     openMergeAudioActivity()
                 } else {
-                    Log.e("Tools", "⚠️ Выберите минимум 2 файла")
                     showToast("⚠️ Выберите минимум 2 файла")
                 }
+            }
+        }
+
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                openVocalRemovalActivity()
+            } else {
+                showToast("⚠️ Разрешение на чтение файлов не предоставлено")
+            }
+        }
+
+        requestManageStorageLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
+                openVocalRemovalActivity()
+            } else {
+                showToast("⚠️ Разрешение на доступ ко всем файлам не предоставлено")
             }
         }
     }
@@ -175,6 +205,61 @@ class Tools : Fragment() {
         Log.d("Tools", "🎙️ Запуск RecordAudioActivity")
         val intent = Intent(requireContext(), RecordAudioActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun openVocalRemovalActivity() {
+        selectedAudioUri?.let { uri ->
+            Log.d("Tools", "🎤 Запуск VocalProcessingActivity с файлом: $uri")
+            val intent = Intent(requireContext(), VocalProcessingActivity::class.java).apply {
+                putExtra("AUDIO_URI", uri.toString())
+            }
+            startActivity(intent)
+        } ?: showToast("⚠️ Сначала выберите аудиофайл для удаления вокала")
+    }
+
+    private fun checkPermissionsAndOpenVocalRemoval() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Для Android 11 и выше
+            if (Environment.isExternalStorageManager()) {
+                openVocalRemovalActivity()
+            } else {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:${requireContext().packageName}")
+                requestManageStorageLauncher.launch(intent)
+            }
+        } else {
+            // Для Android 6.0 - 10
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openVocalRemovalActivity()
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    showPermissionRationale()
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
+        }
+    }
+
+    private fun showPermissionRationale() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Разрешение на доступ к файлам")
+            .setMessage("Для обработки аудиофайлов необходимо предоставить доступ к файловой системе.")
+            .setPositiveButton("OK") { _, _ ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                    intent.data = Uri.parse("package:${requireContext().packageName}")
+                    requestManageStorageLauncher.launch(intent)
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
+            .setNegativeButton("Отмена", null)
+            .show()
     }
 
     private fun showToast(message: String) {

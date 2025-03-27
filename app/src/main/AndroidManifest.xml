@@ -44,6 +44,9 @@
         <activity
             android:name="activities.EqualizerActivity"
             android:exported="false" />
+        <activity
+            android:name="activities.VocalProcessingActivity"
+            android:exported="false" />
 
 
 
