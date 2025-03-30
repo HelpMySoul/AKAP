@@ -4,7 +4,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.media.audiofx.BassBoost
 import android.media.audiofx.Equalizer
-import android.media.audiofx.Virtualizer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -46,7 +45,6 @@ class EqualizerActivity : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private var equalizer: Equalizer? = null
     private var bassBoost: BassBoost? = null
-    private var virtualizer: Virtualizer? = null
 
     // Состояние
     private var isPlaying = false
@@ -56,8 +54,6 @@ class EqualizerActivity : AppCompatActivity() {
     companion object {
         private const val FILE_SELECT_CODE = 100
         private const val TAG = "EqualizerActivity"
-        private const val SHORT_MAX = 32767
-        private const val SHORT_MIN = -32768
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -200,6 +196,7 @@ class EqualizerActivity : AppCompatActivity() {
             isPlaying = true
             btnPlayPause.text = "Пауза"
             mediaPlayer.start()
+            applyAllAudioSettings() // Применяем настройки после начала воспроизведения
         }
     }
 
@@ -213,10 +210,6 @@ class EqualizerActivity : AppCompatActivity() {
             }
 
             bassBoost = BassBoost(0, audioSessionId).apply {
-                enabled = true
-            }
-
-            virtualizer = Virtualizer(0, audioSessionId).apply {
                 enabled = true
             }
 
@@ -252,10 +245,7 @@ class EqualizerActivity : AppCompatActivity() {
     private fun setBandLevel(eq: Equalizer, freq: Float, progress: Int, minLevel: Int, range: Int) {
         val band = findBandForFrequency(eq, freq)
         if (band != -1) {
-            val level = (minLevel + (progress * range / 100))
-                .coerceIn(SHORT_MIN, SHORT_MAX)
-                .toInt()
-                .toShort()
+            val level = (minLevel + (progress * range / 100)).toShort()
             eq.setBandLevel(band.toShort(), level)
         }
     }
@@ -271,25 +261,26 @@ class EqualizerActivity : AppCompatActivity() {
     }
 
     private fun applyVolume() {
-        val volume = (volumeControl.progress / 100f).coerceIn(0f, 2f)
-        mediaPlayer.setVolume(volume, volume)
+        applyBalance() // Всегда обновляем баланс при изменении громкости
     }
 
     private fun applyBalance() {
-        val balance = (balanceControl.progress - 10) / 10f
+        val balance = (balanceControl.progress - 10) / 10f // -1.0 (лево) до 1.0 (право)
+        val masterVolume = volumeControl.progress / 100f
 
-        try {
-            val strength = (balance * 1000)
-                .toInt()
-                .coerceIn(SHORT_MIN, SHORT_MAX)
-                .toShort()
-            virtualizer?.setStrength(strength)
-        } catch (e: Exception) {
-            mediaPlayer.setVolume(
-                1f - balance.coerceAtLeast(0f),
-                1f + balance.coerceAtMost(0f)
-            )
+        val leftVolume = when {
+            balance < 0 -> 1f
+            balance > 0 -> 1f - balance
+            else -> 1f
         }
+
+        val rightVolume = when {
+            balance > 0 -> 1f
+            balance < 0 -> 1f + balance
+            else -> 1f
+        }
+
+        mediaPlayer.setVolume(leftVolume * masterVolume, rightVolume * masterVolume)
     }
 
     private fun applyPreset(position: Int) {
@@ -380,6 +371,10 @@ class EqualizerActivity : AppCompatActivity() {
             mediaPlayer.setDataSource(this, currentFileUri!!)
             mediaPlayer.prepareAsync()
 
+            // Сброс баланса при выборе нового файла
+            balanceControl.progress = 10
+            balanceValue.text = "0.0"
+
         } catch (e: Exception) {
             progressBar.visibility = android.view.View.GONE
             Log.e(TAG, "Ошибка воспроизведения", e)
@@ -410,11 +405,9 @@ class EqualizerActivity : AppCompatActivity() {
     private fun releaseAudioEffects() {
         equalizer?.release()
         bassBoost?.release()
-        virtualizer?.release()
 
         equalizer = null
         bassBoost = null
-        virtualizer = null
     }
 
     override fun onDestroy() {

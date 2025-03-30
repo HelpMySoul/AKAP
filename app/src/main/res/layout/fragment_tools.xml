@@ -60,15 +60,6 @@
         android:layout_marginTop="10dp" />
 
     <Button
-        android:id="@+id/btnVocalProcessing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🎵 Обработка вокала"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="10dp" />
-
-    <Button
         android:id="@+id/btnRecord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
