@@ -28,11 +28,6 @@ object TopMenuManager {
             TopMenuButton(context.getString(R.string.Playlists_S)) {
                 openPlaylistsScreen(context, fragmentManager, containerId)
             },
-            TopMenuButton(context.getString(R.string.Recommendations_S)) {
-                openFragment(fragmentManager, containerId, Recommendations::class.java.simpleName) {
-                    Recommendations()
-                }
-            },
             TopMenuButton(context.getString(R.string.Settings_S)) {
                 openFragment(fragmentManager, containerId, Settings::class.java.simpleName) {
                     Settings()
@@ -41,11 +36,6 @@ object TopMenuManager {
             TopMenuButton(context.getString(R.string.Tools_S)) {
                 openFragment(fragmentManager, containerId, Tools::class.java.simpleName) {
                     Tools()
-                }
-            },
-            TopMenuButton(context.getString(R.string.Account_S)) {
-                openFragment(fragmentManager, containerId, Account::class.java.simpleName) {
-                    Account()
                 }
             }
         )
