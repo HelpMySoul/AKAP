@@ -50,7 +50,7 @@
     <string name="create_playlist">Create Playlist</string>
     <string name="remove_song">Remove Song</string>
     <string name="add_song">Add Song</string>
-    <string name="Current_playlist_S">Playlist</string>
+    <string name="current_playlist_string">Playlist</string>
     <string name="song_title">Song Title</string>
     <string name="artist">Artist</string>
     <string name="currentSongTime">0 / 0</string>
@@ -73,4 +73,21 @@
     <string name="outro_set_successfully">Outro set successfully</string>
     <string name="current_language_text">Current language</string>
     <string name="delete_metadata">Delete metadata</string>
+    <string name="edit_playlist_name">New name</string>
+    <string name="save">Save</string>
+    <string name="playlist_name_empty">Wrong playlist name</string>
+    <string name="cancel">Cancel</string>
+    <string name="song_string">Songs:</string>
+    <string name="try_to_delete_playlist">Can\'t delete playlist</string>
+    <string name="no_playlist">No playlist</string>
+    <string name="no_playlists">No playlists</string>
+    <string name="delete_current_playlist">Can\'t delete current playlist</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="save_current_playlist">Save playlist</string>
+    <string name="theme_string">Theme</string>
+    <string name="now_playing_title">Title</string>
+    <string name="now_playing_artist">Artist</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="shuffle_song_button">Shuffle</string>
 </resources>

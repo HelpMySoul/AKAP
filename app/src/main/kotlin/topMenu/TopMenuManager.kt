@@ -7,23 +7,22 @@ import screens.fragments.Settings
 import screens.fragments.Tools
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import screens.CurrentPlaylist
+import screens.fragments.CurrentPlaylist
 import com.example.akap.R
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.managers.GlobalManager
-import playlistMenu.managers.MenuFragmentManager
+import global.GlobalManager
+import screens.MenuFragmentManager
 
 
 object TopMenuManager {
 
     private fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
-            TopMenuButton(context.getString(R.string.Current_playlist_S)) {
+            TopMenuButton(context.getString(R.string.current_playlist_string)) {
                 openCurrentPlaylist(context, fragmentManager, containerId)
             },
             TopMenuButton(context.getString(R.string.Playlists_S)) {
@@ -77,7 +76,8 @@ object TopMenuManager {
         val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment )
 
         for (button in buttons) {
-            val btn = Button(context).apply {
+            val styledContext = ContextThemeWrapper(context, R.style.AppButtonStyle)
+            val btn = Button(styledContext, null, 0).apply {
                 text = button.name
                 setOnClickListener { button.action() }
             }

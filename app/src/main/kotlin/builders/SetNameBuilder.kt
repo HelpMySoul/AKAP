@@ -6,10 +6,10 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.akap.R
 
-class EditPlaylistNameBuilder(
+class SetNameBuilder(
     private val context:     Context,
     private val currentName: String,
-    private val onSave:      (String) -> Unit
+    private val onChange:      (String) -> Unit
 ) {
 
     fun built() {
@@ -24,7 +24,7 @@ class EditPlaylistNameBuilder(
         dialogBuilder.setPositiveButton(context.getString(R.string.save)) { _, _ ->
             val newName = input.text.toString()
             if (newName.isNotEmpty()) {
-                onSave(newName)
+                onChange(newName)
             } else {
                 Toast.makeText(context, context.getString(R.string.playlist_name_empty), Toast.LENGTH_SHORT).show()
             }

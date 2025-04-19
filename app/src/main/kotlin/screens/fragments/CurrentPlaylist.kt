@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import builders.EditPlaylistNameBuilder
+import builders.SetNameBuilder
 import com.example.akap.R
 import playlistMenu.adapters.SongAdapter
 import broadcast.BroadcastManagerController
@@ -131,10 +131,10 @@ class CurrentPlaylist(
         }
 
         editPlaylistNameButton.setOnClickListener {
-            EditPlaylistNameBuilder(
+            SetNameBuilder(
                 context     = requireContext(),
                 currentName = playlistNameText.text.toString(),
-                onSave      = { newName ->
+                onChange      = { newName ->
                     playlistNameText.text = newName
 
                     playlist?.let { playlist ->

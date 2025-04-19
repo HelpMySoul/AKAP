@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import builders.SetNewPlaylistBuilder
+import builders.SetNameBuilder
 
 import com.example.akap.R
 import playlistMenu.adapters.PlaylistAdapter
@@ -67,10 +67,10 @@ class Playlists : Fragment() {
         }
 
         createPlaylistButton.setOnClickListener {
-            SetNewPlaylistBuilder(
+            SetNameBuilder(
                 context     = requireContext(),
                 currentName = requireContext().getString(R.string.new_playlist),
-                onCreate    = { newName ->
+                onChange    = { newName ->
                     playlistController.createPlaylist(newName, playlistController.getPlaylist(GlobalManager.getPlaylistName()))
                     refresh()
                 }
