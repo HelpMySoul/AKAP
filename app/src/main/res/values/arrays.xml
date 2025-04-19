@@ -6,4 +6,8 @@
         <item>White Theme</item>
         <item>Dark Theme</item>
     </string-array>
+    <array name="default_values">
+        <item>0</item>
+        <item>100</item>
+    </array>
 </resources>

@@ -32,4 +32,16 @@
 
     <color name="colorPlaylistSelected">#D3D3D3</color>
     <color name="colorPlaylistDefault">#00000000</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="song_selected">#D3D3D3</color>
+    <color name="song_default">#00000000</color>
+    <color name="primary">#6200EE</color>
+    <color name="primary_light">#BB86FC</color>
+    <color name="teal_700">#018786</color>
+    <color name="teal_200">#80CBC4</color>
+    <color name="gray">#BDBDBD</color>
+    <color name="purple_500">#FF6200EE</color>
+
+
 </resources>

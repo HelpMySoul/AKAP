@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Кнопка для выбора файла -->
+    <Button
+        android:id="@+id/btnSelectFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выбрать файл"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        android:padding="16dp"
+        android:textAllCaps="false"
+        android:elevation="4dp" />
+
+    <!-- Кнопки для выбора эффектов -->
+    <Button
+        android:id="@+id/btnAddReverb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить реверберацию"
+        android:layout_below="@id/btnSelectFile"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:textAllCaps="false"
+        android:elevation="4dp" />
+
+    <Button
+        android:id="@+id/btnAddCompression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить компрессию"
+        android:layout_below="@id/btnAddReverb"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:textAllCaps="false"
+        android:elevation="4dp" />
+
+    <Button
+        android:id="@+id/btnAddEqualizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить эквалайзер"
+        android:layout_below="@id/btnAddCompression"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:textAllCaps="false"
+        android:elevation="4dp" />
+
+    <!-- Кнопка для запуска обработки -->
+    <Button
+        android:id="@+id/btnApplyProcessing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Обработать вокал"
+        android:layout_below="@id/btnAddEqualizer"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        android:padding="16dp"
+        android:textAllCaps="false"
+        android:elevation="4dp" />
+
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+
+    <Button
+        android:id="@+id/btnSelectFile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/select_audio_file"
+        android:minHeight="48dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/speedInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:layout_marginTop="24dp"
+        app:boxStrokeColor="@color/black"
+        app:boxBackgroundMode="filled"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectFile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/speedInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_speed"
+            android:inputType="numberDecimal"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:minHeight="48dp"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btnChangeSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/change_speed"
+        android:minHeight="48dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/speedInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

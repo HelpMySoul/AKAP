@@ -7,43 +7,44 @@ import screens.fragments.Settings
 import screens.fragments.Tools
 import android.content.Context
 import android.os.Bundle
-import android.view.ContextThemeWrapper
+import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import screens.fragments.CurrentPlaylist
+import screens.CurrentPlaylist
 import com.example.akap.R
-import global.GlobalManager
-import screens.MenuFragmentManager
+import playlistMenu.controllers.PlaylistController
+import playlistMenu.managers.GlobalManager
+import playlistMenu.managers.MenuFragmentManager
 
 
 object TopMenuManager {
 
     private fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
-            TopMenuButton(context.getString(R.string.current_playlist_string)) {
+            TopMenuButton(context.getString(R.string.Current_playlist_S)) {
                 openCurrentPlaylist(context, fragmentManager, containerId)
             },
-            TopMenuButton(context.getString(R.string.playlists_string)) {
+            TopMenuButton(context.getString(R.string.Playlists_S)) {
                 openPlaylistsScreen(context, fragmentManager, containerId)
             },
-            TopMenuButton(context.getString(R.string.recommendations_string)) {
+            TopMenuButton(context.getString(R.string.Recommendations_S)) {
                 openFragment(fragmentManager, containerId, Recommendations::class.java.simpleName) {
                     Recommendations()
                 }
             },
-            TopMenuButton(context.getString(R.string.settings_string)) {
+            TopMenuButton(context.getString(R.string.Settings_S)) {
                 openFragment(fragmentManager, containerId, Settings::class.java.simpleName) {
                     Settings()
                 }
             },
-            TopMenuButton(context.getString(R.string.tools_string)) {
+            TopMenuButton(context.getString(R.string.Tools_S)) {
                 openFragment(fragmentManager, containerId, Tools::class.java.simpleName) {
                     Tools()
                 }
             },
-            TopMenuButton(context.getString(R.string.account_string)) {
+            TopMenuButton(context.getString(R.string.Account_S)) {
                 openFragment(fragmentManager, containerId, Account::class.java.simpleName) {
                     Account()
                 }
@@ -73,11 +74,10 @@ object TopMenuManager {
     }
 
     fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: FragmentManager) {
-        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment)
+        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment )
 
         for (button in buttons) {
-            val styledContext = ContextThemeWrapper(context, R.style.AppButtonStyle)
-            val btn = Button(styledContext, null, 0).apply {
+            val btn = Button(context).apply {
                 text = button.name
                 setOnClickListener { button.action() }
             }
