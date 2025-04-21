@@ -77,7 +77,7 @@
     <string name="save">Save</string>
     <string name="playlist_name_empty">Wrong playlist name</string>
     <string name="cancel">Cancel</string>
-    <string name="song_string">Songs:</string>
+    <string name="song_string">Songs</string>
     <string name="try_to_delete_playlist">Can\'t delete playlist</string>
     <string name="no_playlist">No playlist</string>
     <string name="no_playlists">No playlists</string>

@@ -217,6 +217,4 @@ object SongManager {
         isRepeating = value
         PlayerSettingsManager.saveSettings(context)
     }
-
-
 }

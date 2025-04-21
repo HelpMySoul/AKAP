@@ -50,10 +50,8 @@ class SongController(
     }
 
     private fun setupSong(song: ISong) {
-        PlaylistManager.getSongFromPlaylist(song, currentPlaylist)?.let { playlist ->
-            SongManager.setSong(context, playlist)
-            currentSong = song
-        }
+        SongManager.setSong(context, song)
+        currentSong = song
     }
 
     private fun  playCurrentSong() {
