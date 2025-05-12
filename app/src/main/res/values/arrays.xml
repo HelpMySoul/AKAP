@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="app_themes">
-        <item>Red Theme</item>
-        <item>Blue Theme</item>
         <item>White Theme</item>
+        <item>Blue Theme</item>
+        <item>Red Theme</item>
         <item>Dark Theme</item>
     </string-array>
     <array name="default_values">

@@ -20,7 +20,7 @@ object ThemeManager {
     }
 
     fun setupThemeSpinner(context: Context, themeSpinner: Spinner) {
-        val themes      = getThemes(context)
+        var themes      = getThemes(context)
         val themesNames = getThemesNames(context)
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, themesNames)
@@ -42,9 +42,9 @@ object ThemeManager {
     fun applyTheme(theme: String, context: Context) {
 
         when (theme) {
-            "Red Theme"   -> context.setTheme(R.style.RedTheme)
-            "Blue Theme"  -> context.setTheme(R.style.BlueTheme)
             "White Theme" -> context.setTheme(R.style.WhiteTheme)
+            "Blue Theme"  -> context.setTheme(R.style.BlueTheme)
+            "Red Theme"   -> context.setTheme(R.style.RedTheme)
             "Dark Theme"  -> context.setTheme(R.style.DarkTheme)
             else          -> context.setTheme(R.style.AppTheme)
         }
