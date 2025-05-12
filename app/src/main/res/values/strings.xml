@@ -10,9 +10,9 @@
     </string-array>
 
     <string-array name="themes">
-        <item>Red theme</item>
-        <item>Blue theme</item>
         <item>White theme</item>
+        <item>Blue theme</item>
+        <item>Red theme</item>
         <item>Dark theme</item>
     </string-array>
 
