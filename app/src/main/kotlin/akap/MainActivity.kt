@@ -2,6 +2,8 @@ package akap
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -15,19 +17,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.akap.R
-import settings.theme.locale.LanguageManager
-import mediaReceiver.MediaButtonHandler
-import notification.services.NotificationService
 import broadcast.BroadcastManagerController
+import com.example.akap.R
+import mediaReceiver.MediaButtonHandler
 import playlistMenu.controllers.PlayerEventController
-import settings.player.PlayerSettingsManager
 import playlistMenu.managers.PlaylistManager
-import settings.theme.ThemeManager
 import screens.fragments.CurrentPlaylist
 import screens.fragments.PlayerMain
+import settings.player.PlayerSettingsManager
+import settings.theme.ThemeManager
+import settings.theme.locale.LanguageManager
 import topMenu.TopMenuManager
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -142,12 +142,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartApp() {
-        val componentName = packageManager.getLaunchIntentForPackage(packageName)?.component
-        val mainIntent = Intent.makeRestartActivityTask(componentName)
-
-        startActivity(mainIntent)
-
-        finish()
+        val pm = applicationContext.packageManager
+        val intent = pm.getLaunchIntentForPackage(applicationContext.packageName)
+        val mainIntent = Intent.makeRestartActivityTask(intent?.component)
+        applicationContext.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 
     @SuppressLint("UnsafeIntentLaunch")
