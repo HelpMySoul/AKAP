@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import broadcast.BroadcastManagerController
+import builders.SetTimeBuilder
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.controllers.SongController
 import playlistMenu.interfaces.ISong
@@ -77,13 +78,17 @@ class PlayerMain : Fragment() {
         }
 
         setIntroButton.setOnClickListener {
-            songController?.setIntroTime(requireContext())
-            PlayerSettingsManager.saveSettings(requireContext())
+            makeBuilder { newTime ->
+                songController?.setIntroTime(newTime)
+                PlayerSettingsManager.saveSettings(requireContext())
+            }
         }
 
         setOutroButton.setOnClickListener {
-            songController?.setOutroTime(requireContext())
-            PlayerSettingsManager.saveSettings(requireContext())
+            makeBuilder { newTime ->
+                songController?.setOutroTime(newTime)
+                PlayerSettingsManager.saveSettings(requireContext())
+            }
         }
 
         toggleSettingsButton.setOnClickListener {
@@ -101,6 +106,20 @@ class PlayerMain : Fragment() {
 
         toggleSettingsButton.performClick()
         return view
+    }
+
+    private fun makeBuilder(onChange : (Int) -> Unit){
+        val currentTime = songController?.getCurrentTime()  ?: 0
+        val maxTime     = songController?.getMaxTime()      ?: 0
+
+        val builder =  SetTimeBuilder(
+            context     = requireContext(),
+            currentTime = currentTime,
+            maxTime     = maxTime,
+            onChange    = onChange
+        ).built()
+
+        return builder
     }
 
      fun nextSong() {

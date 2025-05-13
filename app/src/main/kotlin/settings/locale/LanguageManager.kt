@@ -28,7 +28,7 @@ object LanguageManager {
 
     fun getSavedLanguage(context: Context): String {
         val pref = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
-        return pref.getString("Language", "en") ?: "en"
+        return pref.getString("Language", "ru") ?: "ru"
     }
 
     fun setupLanguageSpinner(context: Context, spinner: Spinner) {

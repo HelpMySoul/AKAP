@@ -90,4 +90,5 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="shuffle_song_button">Shuffle</string>
+    <string name="edit_time">Set the time</string>
 </resources>

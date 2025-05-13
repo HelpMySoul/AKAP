@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +38,7 @@ class CurrentPlaylist(
     private lateinit var deletePlaylistsButton:  ImageButton
     private lateinit var editPlaylistNameButton: ImageButton
     private lateinit var addSongsButton:         ImageButton
+    private lateinit var editLayout:             LinearLayout
     private var          playlist:               IPlaylist? = null
 
     @SuppressLint("NotifyDataSetChanged")
@@ -48,6 +51,7 @@ class CurrentPlaylist(
         deletePlaylistsButton  = view.findViewById(R.id.deletePlaylistButton)
         editPlaylistNameButton = view.findViewById(R.id.editPlaylistNameButton)
         addSongsButton         = view.findViewById(R.id.addSongsButton)
+        editLayout             = view.findViewById(R.id.editLayout)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -148,6 +152,15 @@ class CurrentPlaylist(
             ).built()
         }
 
+        if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
+                ?: "All songs")
+        ) {
+            editLayout.visibility = View.GONE
+        }
+        else {
+            editLayout.visibility = View.VISIBLE
+        }
+
         return view
     }
 
@@ -159,6 +172,7 @@ class CurrentPlaylist(
         BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
         GlobalManager.updatePlaylistName(playlist?.name ?: playlistName)
+
     }
 
     private fun playSong(song: ISong) {

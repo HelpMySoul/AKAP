@@ -60,7 +60,6 @@ object SongManager {
         else {
             currentSong?.let { play(context, it) }
         }
-
     }
 
     fun pause() {
@@ -96,7 +95,7 @@ object SongManager {
         }
     }
 
-    fun setSongIntroTime(context: Context) {
+    fun setCurrentSongIntroTime(context: Context) {
         if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
@@ -118,7 +117,28 @@ object SongManager {
         Toast.makeText(context, context.getString(R.string.intro_set_successfully), Toast.LENGTH_SHORT).show()
     }
 
-    fun setSongOutroTime(context: Context) {
+    fun setSongIntroTime(context: Context, int: Int) {
+        if (!canPlay) {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val song = currentSong ?: run {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (int.toLong() >= song.duration - song.outroDuration) {
+            Toast.makeText(context, context.getString(R.string.too_late_intro), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        song.introDuration = int.toLong()
+        SongMetadataManager.saveMetadata(context, song)
+        Toast.makeText(context, context.getString(R.string.intro_set_successfully), Toast.LENGTH_SHORT).show()
+    }
+
+    fun setCurrentSongOutroTime(context: Context) {
         if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
@@ -140,10 +160,30 @@ object SongManager {
         Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
     }
 
+    fun setSongOutroTime(context: Context, int: Int) {
+        if (!canPlay) {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val song = currentSong ?: run {
+            Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (int.toLong() <= song.introDuration) {
+            Toast.makeText(context, context.getString(R.string.too_early_outro), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        song.outroDuration = int.toLong()
+        SongMetadataManager.saveMetadata(context, song)
+        Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
+    }
+
     fun getCurrentPosition(): Int {
         return mediaPlayer?.currentPosition ?: 0
     }
-
 
     fun setLocalVolume(volume: Float) {
         mediaPlayer?.setVolume(volume, volume)
@@ -159,7 +199,6 @@ object SongManager {
     fun getLocalVolume(): Int {
         return currentSong?.localVolume ?: 100
     }
-
 
     fun release() {
         mediaPlayer?.release()
@@ -216,5 +255,9 @@ object SongManager {
     fun setIsRepeating(context: Context, value: Boolean) {
         isRepeating = value
         PlayerSettingsManager.saveSettings(context)
+    }
+
+    fun getMaxPosition(): Int {
+        return mediaPlayer?.duration ?: 0
     }
 }

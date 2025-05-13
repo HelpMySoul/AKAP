@@ -15,9 +15,7 @@ import notification.services.NotificationService
 import playlistMenu.adapters.TimeAdapter
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
-import playlistMenu.managers.PlaylistManager
 import playlistMenu.managers.SongManager
-import settings.player.PlayerSettingsManager
 
 @SuppressLint("SetTextI18n")
 class SongController(
@@ -248,12 +246,20 @@ class SongController(
         SongManager.isRepeating = checked
     }
 
-    fun setIntroTime(context: Context) {
-        SongManager.setSongIntroTime(context)
+    fun setCurrentIntroTime(context: Context) {
+        SongManager.setCurrentSongIntroTime(context)
     }
 
-    fun setOutroTime(context: Context) {
-        SongManager.setSongOutroTime(context)
+    fun setIntroTime(int: Int) {
+        SongManager.setSongIntroTime(context, int)
+    }
+
+    fun setOutroTime(int: Int) {
+        SongManager.setSongOutroTime(context, int)
+    }
+
+    fun setCurrentOutroTime(context: Context) {
+        SongManager.setCurrentSongOutroTime(context)
     }
 
     fun setSong() {
@@ -265,6 +271,14 @@ class SongController(
         currentPlaylist = playlist
         setSong()
         updateUI(true)
+    }
+
+    fun getCurrentTime(): Int {
+       return SongManager.getCurrentPosition()
+    }
+
+    fun getMaxTime(): Int {
+        return SongManager.getMaxPosition()
     }
 
 }
