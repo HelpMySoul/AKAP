@@ -78,16 +78,14 @@ class PlayerMain : Fragment() {
         }
 
         setIntroButton.setOnClickListener {
-            makeBuilder { newTime ->
-                songController?.setIntroTime(newTime)
-                PlayerSettingsManager.saveSettings(requireContext())
+            context?.let {
+                context -> setBuilderToListener(context.getString(R.string.edit_intro_time))
             }
         }
 
         setOutroButton.setOnClickListener {
-            makeBuilder { newTime ->
-                songController?.setOutroTime(newTime)
-                PlayerSettingsManager.saveSettings(requireContext())
+            context?.let {
+                context -> setBuilderToListener(context.getString(R.string.edit_outro_time))
             }
         }
 
@@ -108,11 +106,25 @@ class PlayerMain : Fragment() {
         return view
     }
 
-    private fun makeBuilder(onChange : (Int) -> Unit){
+    private fun setBuilderToListener(title: String) {
+        if (SongManager.canPlay)
+        {
+            makeBuilder(title) { newTime ->
+                songController?.setIntroTime(newTime)
+                PlayerSettingsManager.saveSettings(requireContext())
+            }
+        }
+        else {
+            Toast.makeText(context, R.string.no_song_playing, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun makeBuilder(title: String, onChange : (Int) -> Unit){
         val currentTime = songController?.getCurrentTime()  ?: 0
         val maxTime     = songController?.getMaxTime()      ?: 0
 
         val builder =  SetTimeBuilder(
+            title       = title,
             context     = requireContext(),
             currentTime = currentTime,
             maxTime     = maxTime,

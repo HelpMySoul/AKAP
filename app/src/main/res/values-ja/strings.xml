@@ -100,5 +100,6 @@
     <string name="previous">前へ</string>
     <string name="next">次へ</string>
     <string name="shuffle_song_button">シャッフル</string>
-    <string name="edit_time">時間を設定</string>
+    <string name="edit_outro_time">アウトロ時間を設定</string>
+    <string name="edit_intro_time">イントロ時間を設定</string>
 </resources>

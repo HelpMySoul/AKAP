@@ -100,5 +100,6 @@
     <string name="previous">Anterior</string>
     <string name="next">Siguiente</string>
     <string name="shuffle_song_button">Mezclar</string>
-    <string name="edit_time">Establecer tiempo</string>
+    <string name="edit_outro_time">Establecer tiempo del outro</string>
+    <string name="edit_intro_time">Establecer tiempo del intro</string>
 </resources>

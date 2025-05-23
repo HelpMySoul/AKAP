@@ -100,5 +100,6 @@
     <string name="previous">Précédent</string>
     <string name="next">Suivant</string>
     <string name="shuffle_song_button">Mélanger</string>
-    <string name="edit_time">Définir le temps</string>
+    <string name="edit_outro_time">Définir la durée de l\'outro</string>
+    <string name="edit_intro_time">Définir la durée de l\'intro</string>
 </resources>
