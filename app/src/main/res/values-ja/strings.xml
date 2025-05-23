@@ -1,0 +1,104 @@
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Deutsch</item>
+        <item>中文</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="languages_codes">
+        <item>en</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>zh</item>
+        <item>ja</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>白テーマ</item>
+        <item>青テーマ</item>
+        <item>赤テーマ</item>
+        <item>ダークテーマ</item>
+    </string-array>
+
+    <string name="now_playing_string">再生中：</string>
+    <string name="language_string">言語</string>
+    <string name="playlists_string">すべてのプレイリスト</string>
+    <string name="recommendations_string">おすすめ</string>
+    <string name="settings_string">設定</string>
+    <string name="tools_string">ツール</string>
+    <string name="account_string">アカウント</string>
+    <string name="change_speed">再生速度を変更</string>
+    <string name="enter_speed">速度を入力</string>
+    <string name="select_audio_file">音声ファイルを選択</string>
+    <string name="selected_file">選択したファイル：%s</string>
+    <string name="NowPlaying_S">再生中：</string>
+    <string name="Language_S">言語</string>
+    <string name="Playlists_S">すべてのプレイリスト</string>
+    <string name="Recommendations_S">おすすめ</string>
+    <string name="Settings_S">設定</string>
+    <string name="Tools_S">ツール</string>
+    <string name="Account_S">アカウント</string>
+    <string name="app_name">AKAP</string>
+    <string name="test_text">テスト</string>
+    <string name="now_playing">再生中：なし</string>
+    <string name="play">再生</string>
+    <string name="pause">一時停止</string>
+    <string name="stop">停止</string>
+    <string name="global_volume">全体音量</string>
+    <string name="local_volume">ローカル音量</string>
+    <string name="skip_intro">イントロをスキップ</string>
+    <string name="skip_outro">アウトロをスキップ</string>
+    <string name="hide_settings">設定を非表示</string>
+    <string name="show_settings">設定を表示</string>
+    <string name="hello_blank_fragment" translatable="false">テスト</string>
+    <string name="create_playlist">プレイリストを作成</string>
+    <string name="remove_song">曲を削除</string>
+    <string name="add_song">曲を追加</string>
+    <string name="current_playlist_string">プレイリスト</string>
+    <string name="song_title">曲名</string>
+    <string name="artist">アーティスト</string>
+    <string name="currentSongTime">0 / 0</string>
+    <string name="all_songs">すべての曲</string>
+    <string name="song_S">曲</string>
+    <string name="playlist_name" translatable="false" />
+    <string name="shuffleSongButton">プレイリストをシャッフル</string>
+    <string name="repeat">曲をリピート</string>
+    <string name="No_Playlist">プレイリストなし</string>
+    <string name="permission_denied">権限が拒否されました</string>
+    <string name="search_hint">曲またはアーティストを検索...</string>
+    <string name="found_by">検索結果：</string>
+    <string name="no_songs">曲がありません</string>
+    <string name="set_intro_skip">イントロ時間を設定</string>
+    <string name="set_outro_skip">アウトロ時間を設定</string>
+    <string name="too_early_outro">アウトロはイントロより後に設定してください</string>
+    <string name="too_late_intro">イントロはアウトロより前に設定してください</string>
+    <string name="no_song_playing">再生中の曲はありません</string>
+    <string name="intro_set_successfully">イントロ時間を設定しました</string>
+    <string name="outro_set_successfully">アウトロ時間を設定しました</string>
+    <string name="current_language_text">現在の言語</string>
+    <string name="delete_metadata">メタデータを削除</string>
+    <string name="edit_playlist_name">新しい名前</string>
+    <string name="save">保存</string>
+    <string name="playlist_name_empty">無効なプレイリスト名</string>
+    <string name="cancel">キャンセル</string>
+    <string name="song_string">曲</string>
+    <string name="try_to_delete_playlist">プレイリストを削除できません</string>
+    <string name="no_playlist">プレイリストなし</string>
+    <string name="no_playlists">プレイリストがありません</string>
+    <string name="delete_current_playlist">現在のプレイリストは削除できません</string>
+    <string name="new_playlist">新しいプレイリスト</string>
+    <string name="save_current_playlist">プレイリストを保存</string>
+    <string name="theme_string">テーマ</string>
+    <string name="now_playing_title">タイトル</string>
+    <string name="now_playing_artist">アーティスト</string>
+    <string name="previous">前へ</string>
+    <string name="next">次へ</string>
+    <string name="shuffle_song_button">シャッフル</string>
+    <string name="edit_time">時間を設定</string>
+</resources>

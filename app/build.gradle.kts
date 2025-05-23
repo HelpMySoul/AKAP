@@ -46,8 +46,10 @@ dependencies {
     implementation ("org.jaudiotagger:jaudiotagger:2.0.1")
     implementation ("com.arthenica:ffmpeg-kit-full:6.0-2.LTS")
     implementation ("com.google.android.exoplayer:exoplayer:2.18.0")
+    implementation(libs.androidx.monitor)
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.11.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

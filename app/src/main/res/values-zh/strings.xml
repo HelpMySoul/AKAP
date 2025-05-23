@@ -1,0 +1,104 @@
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Deutsch</item>
+        <item>中文</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="languages_codes">
+        <item>en</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>zh</item>
+        <item>ja</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>白色主题</item>
+        <item>蓝色主题</item>
+        <item>红色主题</item>
+        <item>深色主题</item>
+    </string-array>
+
+    <string name="now_playing_string">正在播放：</string>
+    <string name="language_string">语言</string>
+    <string name="playlists_string">所有播放列表</string>
+    <string name="recommendations_string">推荐</string>
+    <string name="settings_string">设置</string>
+    <string name="tools_string">工具</string>
+    <string name="account_string">账户</string>
+    <string name="change_speed">更改速度</string>
+    <string name="enter_speed">输入速度</string>
+    <string name="select_audio_file">选择音频文件</string>
+    <string name="selected_file">选择的文件：%s</string>
+    <string name="NowPlaying_S">正在播放：</string>
+    <string name="Language_S">语言</string>
+    <string name="Playlists_S">所有播放列表</string>
+    <string name="Recommendations_S">推荐</string>
+    <string name="Settings_S">设置</string>
+    <string name="Tools_S">工具</string>
+    <string name="Account_S">账户</string>
+    <string name="app_name">AKAP</string>
+    <string name="test_text">测试</string>
+    <string name="now_playing">正在播放：无</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="stop">停止</string>
+    <string name="global_volume">全局音量</string>
+    <string name="local_volume">局部音量</string>
+    <string name="skip_intro">跳过片头</string>
+    <string name="skip_outro">跳过片尾</string>
+    <string name="hide_settings">隐藏设置</string>
+    <string name="show_settings">显示设置</string>
+    <string name="hello_blank_fragment" translatable="false">test</string>
+    <string name="create_playlist">创建播放列表</string>
+    <string name="remove_song">删除歌曲</string>
+    <string name="add_song">添加歌曲</string>
+    <string name="current_playlist_string">播放列表</string>
+    <string name="song_title">歌曲标题</string>
+    <string name="artist">艺术家</string>
+    <string name="currentSongTime">0 / 0</string>
+    <string name="all_songs">所有歌曲</string>
+    <string name="song_S">歌曲</string>
+    <string name="playlist_name" translatable="false" />
+    <string name="shuffleSongButton">随机播放列表</string>
+    <string name="repeat">重复播放</string>
+    <string name="No_Playlist">无播放列表</string>
+    <string name="permission_denied">权限被拒绝</string>
+    <string name="search_hint">搜索歌曲或作者…</string>
+    <string name="found_by">搜索来源：</string>
+    <string name="no_songs">没有歌曲</string>
+    <string name="set_intro_skip">设置片头时间</string>
+    <string name="set_outro_skip">设置片尾时间</string>
+    <string name="too_early_outro">片尾时间应在片头之后</string>
+    <string name="too_late_intro">片头时间应在片尾之前</string>
+    <string name="no_song_playing">当前没有播放的歌曲</string>
+    <string name="intro_set_successfully">片头设置成功</string>
+    <string name="outro_set_successfully">片尾设置成功</string>
+    <string name="current_language_text">当前语言</string>
+    <string name="delete_metadata">删除元数据</string>
+    <string name="edit_playlist_name">新名称</string>
+    <string name="save">保存</string>
+    <string name="playlist_name_empty">播放列表名称错误</string>
+    <string name="cancel">取消</string>
+    <string name="song_string">歌曲</string>
+    <string name="try_to_delete_playlist">无法删除播放列表</string>
+    <string name="no_playlist">无播放列表</string>
+    <string name="no_playlists">没有播放列表</string>
+    <string name="delete_current_playlist">无法删除当前播放列表</string>
+    <string name="new_playlist">新建播放列表</string>
+    <string name="save_current_playlist">保存播放列表</string>
+    <string name="theme_string">主题</string>
+    <string name="now_playing_title">标题</string>
+    <string name="now_playing_artist">艺术家</string>
+    <string name="previous">上一首</string>
+    <string name="next">下一首</string>
+    <string name="shuffle_song_button">随机播放</string>
+    <string name="edit_time">设置时间</string>
+</resources>

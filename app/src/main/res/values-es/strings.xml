@@ -1,0 +1,104 @@
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Deutsch</item>
+        <item>中文</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="languages_codes">
+        <item>en</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>zh</item>
+        <item>ja</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Tema blanco</item>
+        <item>Tema azul</item>
+        <item>Tema rojo</item>
+        <item>Tema oscuro</item>
+    </string-array>
+
+    <string name="now_playing_string">Reproduciendo ahora:</string>
+    <string name="language_string">Idioma</string>
+    <string name="playlists_string">Todas las listas de reproducción</string>
+    <string name="recommendations_string">Recomendaciones</string>
+    <string name="settings_string">Configuración</string>
+    <string name="tools_string">Herramientas</string>
+    <string name="account_string">Cuenta</string>
+    <string name="change_speed">Cambiar velocidad</string>
+    <string name="enter_speed">Ingresar velocidad</string>
+    <string name="select_audio_file">Seleccionar archivo de audio</string>
+    <string name="selected_file">Archivo seleccionado: %s</string>
+    <string name="NowPlaying_S">Reproduciendo ahora:</string>
+    <string name="Language_S">Idioma</string>
+    <string name="Playlists_S">Todas las listas</string>
+    <string name="Recommendations_S">Recomendaciones</string>
+    <string name="Settings_S">Configuración</string>
+    <string name="Tools_S">Herramientas</string>
+    <string name="Account_S">Cuenta</string>
+    <string name="app_name">AKAP</string>
+    <string name="test_text">Prueba</string>
+    <string name="now_playing">Reproduciendo ahora: Ninguna</string>
+    <string name="play">Reproducir</string>
+    <string name="pause">Pausa</string>
+    <string name="stop">Detener</string>
+    <string name="global_volume">Volumen global</string>
+    <string name="local_volume">Volumen local</string>
+    <string name="skip_intro">Saltar intro</string>
+    <string name="skip_outro">Saltar outro</string>
+    <string name="hide_settings">Ocultar configuración</string>
+    <string name="show_settings">Mostrar configuración</string>
+    <string name="hello_blank_fragment" translatable="false">prueba</string>
+    <string name="create_playlist">Crear lista de reproducción</string>
+    <string name="remove_song">Eliminar canción</string>
+    <string name="add_song">Añadir canción</string>
+    <string name="current_playlist_string">Lista de reproducción</string>
+    <string name="song_title">Título de la canción</string>
+    <string name="artist">Artista</string>
+    <string name="currentSongTime">0 / 0</string>
+    <string name="all_songs">Todas las canciones</string>
+    <string name="song_S">Canciones</string>
+    <string name="playlist_name" translatable="false" />
+    <string name="shuffleSongButton">Mezclar lista</string>
+    <string name="repeat">Repetir canción</string>
+    <string name="No_Playlist">Sin lista de reproducción</string>
+    <string name="permission_denied">Permiso denegado</string>
+    <string name="search_hint">Buscar canción o autor...</string>
+    <string name="found_by">Encontrado por:</string>
+    <string name="no_songs">No hay canciones</string>
+    <string name="set_intro_skip">Inicio canción</string>
+    <string name="set_outro_skip">Final canción</string>
+    <string name="too_early_outro">El tiempo del outro debe ser después del intro</string>
+    <string name="too_late_intro">El tiempo del intro debe ser antes del outro</string>
+    <string name="no_song_playing">No se está reproduciendo ninguna canción</string>
+    <string name="intro_set_successfully">Intro establecido correctamente</string>
+    <string name="outro_set_successfully">Outro establecido correctamente</string>
+    <string name="current_language_text">Idioma actual</string>
+    <string name="delete_metadata">Eliminar metadatos</string>
+    <string name="edit_playlist_name">Nuevo nombre</string>
+    <string name="save">Guardar</string>
+    <string name="playlist_name_empty">Nombre de lista incorrecto</string>
+    <string name="cancel">Cancelar</string>
+    <string name="song_string">Canciones</string>
+    <string name="try_to_delete_playlist">No se puede eliminar la lista</string>
+    <string name="no_playlist">Sin lista de reproducción</string>
+    <string name="no_playlists">No hay listas de reproducción</string>
+    <string name="delete_current_playlist">No se puede eliminar la lista actual</string>
+    <string name="new_playlist">Nueva lista de reproducción</string>
+    <string name="save_current_playlist">Guardar lista</string>
+    <string name="theme_string">Tema</string>
+    <string name="now_playing_title">Título</string>
+    <string name="now_playing_artist">Artista</string>
+    <string name="previous">Anterior</string>
+    <string name="next">Siguiente</string>
+    <string name="shuffle_song_button">Mezclar</string>
+    <string name="edit_time">Establecer tiempo</string>
+</resources>

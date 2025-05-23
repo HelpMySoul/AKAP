@@ -4,14 +4,31 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-12T07:12:50.043067400Z">
+        <DropdownSelection timestamp="2025-05-22T13:15:47.322424500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=2YJYD25207202035" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Ain\.android\avd\Medium_Phone.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="SongSearchTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="LanguageTest">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-05-22T13:16:55.105933300Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Ain\.android\avd\Medium_Phone.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="languageGetTest()">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

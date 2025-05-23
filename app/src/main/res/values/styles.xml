@@ -84,4 +84,16 @@
         <item name="android:gravity">center</item>
         <item name="cornerRadius">16dp</item>
     </style>
+
+    <style name="AutoSizeButton" parent="Widget.MaterialComponents.Button">
+
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+
+    </style>
+
 </resources>

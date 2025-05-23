@@ -4,7 +4,7 @@ import java.io.Serializable
 
 
 interface ISong {
-    val id:            Long
+    var id:            Long
     var duration:      Long
     var introDuration: Long
     var outroDuration: Long

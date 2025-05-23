@@ -42,7 +42,7 @@
 
             <TextView
                 android:id="@+id/currentSongTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="marquee"
@@ -97,7 +97,7 @@
         <include
             android:id="@+id/included_song_control_panel"
             layout="@layout/song_control_panel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible" />
     </LinearLayout>

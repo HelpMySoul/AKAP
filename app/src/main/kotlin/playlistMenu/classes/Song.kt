@@ -3,18 +3,67 @@ package playlistMenu.classes
 import org.json.JSONObject
 import playlistMenu.interfaces.ISong
 
-open class Song (
-    override val id:            Long,
+class Song (
+    override var id:            Long,
     override var duration:      Long,
-    override var introDuration: Long = 0,
-    override var outroDuration: Long = 0,
+    introDuration:              Long = 0,
+    outroDuration:              Long = 0,
 
     override val title:         String,
     override val artist:        String,
     override val filePath:      String,
 
-    override var localVolume:   Int = 75
+    localVolume:                Int = 75 // standard value
 ) : ISong {
+
+    override var introDuration: Long = introDuration
+        set(value) {
+            field = if (value in 0..< duration - outroDuration )
+            {
+                value
+            }
+            else if (value > duration)
+            {
+                duration
+            }
+            else
+            {
+                0
+            }
+        }
+
+    override var outroDuration: Long = outroDuration
+        set(value) {
+            field = if (value in 0..< duration - introDuration )
+            {
+                value
+            }
+            else if (value > duration)
+            {
+                duration
+            }
+            else
+            {
+                0
+            }
+        }
+
+    override var localVolume: Int = localVolume
+        set(value) {
+            field = if (value in 0..< 100 )
+            {
+                value
+            }
+            else if (value > 100)
+            {
+                100
+            }
+            else
+            {
+                0
+            }
+        }
+
     fun toJson(): JSONObject {
         val json = JSONObject()
         json.put("id",            id)

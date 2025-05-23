@@ -11,6 +11,11 @@ class Playlist(override var name: String, val isTemporary: Boolean = false) : IP
     override var songs:     MutableList<ISong> = mutableListOf()
     private  var songIndex: Int = 0
 
+    val size: Int
+        get() {
+            return songs.size
+        }
+
     override fun addSong(song: ISong) {
         songs.add(song)
     }

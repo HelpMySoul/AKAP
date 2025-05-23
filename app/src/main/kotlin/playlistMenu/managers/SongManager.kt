@@ -117,7 +117,7 @@ object SongManager {
         Toast.makeText(context, context.getString(R.string.intro_set_successfully), Toast.LENGTH_SHORT).show()
     }
 
-    fun setSongIntroTime(context: Context, int: Int) {
+    fun setSongIntroTime(context: Context, value: Int) {
         if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
@@ -128,12 +128,12 @@ object SongManager {
             return
         }
 
-        if (int.toLong() >= song.duration - song.outroDuration) {
+        if (value.toLong() >= song.duration - song.outroDuration) {
             Toast.makeText(context, context.getString(R.string.too_late_intro), Toast.LENGTH_SHORT).show()
             return
         }
 
-        song.introDuration = int.toLong()
+        song.introDuration = value.toLong()
         SongMetadataManager.saveMetadata(context, song)
         Toast.makeText(context, context.getString(R.string.intro_set_successfully), Toast.LENGTH_SHORT).show()
     }
@@ -160,7 +160,7 @@ object SongManager {
         Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
     }
 
-    fun setSongOutroTime(context: Context, int: Int) {
+    fun setSongOutroTime(context: Context, value: Int) {
         if (!canPlay) {
             Toast.makeText(context, context.getString(R.string.no_song_playing), Toast.LENGTH_SHORT).show()
             return
@@ -171,12 +171,12 @@ object SongManager {
             return
         }
 
-        if (int.toLong() <= song.introDuration) {
+        if (value.toLong() <= song.introDuration) {
             Toast.makeText(context, context.getString(R.string.too_early_outro), Toast.LENGTH_SHORT).show()
             return
         }
 
-        song.outroDuration = int.toLong()
+        song.outroDuration = value.toLong()
         SongMetadataManager.saveMetadata(context, song)
         Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
     }
