@@ -1,4 +1,4 @@
-package playlistMenu.adapters
+package player.adapters
 
 object TimeAdapter {
     fun formatTime(milliseconds: Int): String {

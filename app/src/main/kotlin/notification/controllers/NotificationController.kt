@@ -4,8 +4,6 @@ import android.app.Notification
 import android.content.Context
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
-import com.example.akap.R
-import playlistMenu.managers.SongManager
 
 class NotificationController(private val context: Context) {
 

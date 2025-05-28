@@ -1,11 +1,11 @@
-package playlistMenu.managers
+package player.managers
 
 import android.content.Context
 import android.content.SharedPreferences
 import org.json.JSONArray
 import org.json.JSONObject
 import broadcast.BroadcastManagerController
-import playlistMenu.interfaces.ISong
+import player.interfaces.ISong
 
 object SongMetadataManager {
     private const val PREF_NAME    = "song_metadata"

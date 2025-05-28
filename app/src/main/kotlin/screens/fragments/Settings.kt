@@ -8,9 +8,8 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.example.akap.R
-import playlistMenu.managers.PlaylistManager
 import settings.theme.locale.LanguageManager
-import playlistMenu.managers.SongMetadataManager
+import player.managers.SongMetadataManager
 import settings.theme.ThemeManager
 
 class Settings : Fragment() {

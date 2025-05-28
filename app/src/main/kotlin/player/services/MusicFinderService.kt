@@ -1,15 +1,12 @@
-package playlistMenu.services
+package player.services
 
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import playlistMenu.classes.Playlist
-import playlistMenu.classes.Song
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.SongManager
-import playlistMenu.managers.SongMetadataManager
+import player.classes.Song
+import player.interfaces.ISong
+import player.managers.SongMetadataManager
 
 class MusicFinderService(private val context: Context) {
 

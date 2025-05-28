@@ -1,6 +1,5 @@
 package com.example.akap
 
-import akap.MainActivity
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -8,10 +7,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import playlistMenu.classes.Playlist
-import playlistMenu.classes.Song
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.controllers.SongSearchController
+import player.classes.Playlist
+import player.classes.Song
+import player.controllers.PlaylistController
+import player.controllers.SongSearchController
 
 @RunWith(AndroidJUnit4::class)
 class SongSearchTest {

@@ -1,4 +1,4 @@
-package playlistMenu.adapters
+package player.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.akap.R
-import playlistMenu.holders.PlaylistViewHolder
-import playlistMenu.interfaces.IPlaylist
+import player.holders.PlaylistViewHolder
+import player.interfaces.IPlaylist
 
 class PlaylistAdapter(
     private val playlists:           List<IPlaylist>,

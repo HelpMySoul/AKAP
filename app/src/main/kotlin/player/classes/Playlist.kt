@@ -1,12 +1,10 @@
-package playlistMenu.classes
+package player.classes
 
-import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.FilterManager
+import player.interfaces.IPlaylist
+import player.interfaces.ISong
+import player.managers.FilterManager
 
 class Playlist(override var name: String, val isTemporary: Boolean = false) : IPlaylist {
     override var songs:     MutableList<ISong> = mutableListOf()

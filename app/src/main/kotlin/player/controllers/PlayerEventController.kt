@@ -1,22 +1,18 @@
-package playlistMenu.controllers
+package player.controllers
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentManager
 import broadcast.BroadcastManagerController
 import com.example.akap.R
 import global.GlobalManager
 import notification.services.NotificationService
-import playlistMenu.managers.SongManager
+import player.managers.SongManager
 import screens.fragments.CurrentPlaylist
 import screens.fragments.PlayerMain
-import kotlin.system.exitProcess
 
 class PlayerEventController(
     private val context:         Context,

@@ -1,7 +1,7 @@
-package playlistMenu.classes
+package player.classes
 
 import org.json.JSONObject
-import playlistMenu.interfaces.ISong
+import player.interfaces.ISong
 
 class Song (
     override var id:            Long,

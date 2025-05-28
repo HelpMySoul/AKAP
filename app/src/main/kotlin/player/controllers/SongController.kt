@@ -1,9 +1,8 @@
-package playlistMenu.controllers
+package player.controllers
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -12,10 +11,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import broadcast.BroadcastManagerController
 import notification.services.NotificationService
-import playlistMenu.adapters.TimeAdapter
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.SongManager
+import player.adapters.TimeAdapter
+import player.interfaces.IPlaylist
+import player.interfaces.ISong
+import player.managers.SongManager
 
 @SuppressLint("SetTextI18n")
 class SongController(

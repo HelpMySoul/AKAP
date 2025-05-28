@@ -6,7 +6,7 @@ import android.content.Context
 import android.widget.SeekBar
 import android.widget.TextView
 import com.example.akap.R
-import playlistMenu.adapters.TimeAdapter
+import player.adapters.TimeAdapter
 
 class SetTimeBuilder(
     private val title:       String,

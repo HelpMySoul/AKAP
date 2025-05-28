@@ -1,11 +1,11 @@
-package playlistMenu.controllers
+package player.controllers
 
 import android.content.Context
 import android.widget.Toast
 import com.example.akap.R
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.managers.PlaylistManager
+import player.interfaces.IPlaylist
+import player.interfaces.ISong
+import player.managers.PlaylistManager
 
 class PlaylistController(var context: Context) {
 

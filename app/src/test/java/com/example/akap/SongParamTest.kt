@@ -1,9 +1,8 @@
 package com.example.akap
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import playlistMenu.classes.Song
+import player.classes.Song
 import kotlin.random.Random
 
 class SongParamTest {

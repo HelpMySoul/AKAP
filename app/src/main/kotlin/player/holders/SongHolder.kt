@@ -1,4 +1,4 @@
-package playlistMenu.holders
+package player.holders
 
 import android.view.View
 import android.widget.TextView

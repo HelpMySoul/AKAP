@@ -12,18 +12,17 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import builders.SetNameBuilder
 import com.example.akap.R
-import playlistMenu.adapters.SongAdapter
+import player.adapters.SongAdapter
 import broadcast.BroadcastManagerController
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.controllers.SongSearchController
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
+import player.controllers.PlaylistController
+import player.controllers.SongSearchController
+import player.interfaces.IPlaylist
+import player.interfaces.ISong
 import global.GlobalManager
 
 class CurrentPlaylist(

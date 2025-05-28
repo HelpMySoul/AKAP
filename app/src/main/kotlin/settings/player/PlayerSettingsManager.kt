@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import global.GlobalManager
-import playlistMenu.managers.SongManager
+import player.managers.SongManager
 
 object PlayerSettingsManager {
 

@@ -2,8 +2,6 @@ package akap
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -19,9 +17,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import broadcast.BroadcastManagerController
 import com.example.akap.R
-import mediaReceiver.MediaButtonHandler
-import playlistMenu.controllers.PlayerEventController
-import playlistMenu.managers.PlaylistManager
+import bluetooth.MediaButtonHandler
+import player.controllers.PlayerEventController
+import player.managers.PlaylistManager
 import screens.fragments.CurrentPlaylist
 import screens.fragments.PlayerMain
 import settings.player.PlayerSettingsManager

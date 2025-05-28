@@ -15,11 +15,11 @@ import androidx.fragment.app.Fragment
 import com.example.akap.R
 import broadcast.BroadcastManagerController
 import builders.SetTimeBuilder
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.controllers.SongController
-import playlistMenu.interfaces.ISong
+import player.interfaces.IPlaylist
+import player.controllers.SongController
+import player.interfaces.ISong
 import settings.player.PlayerSettingsManager
-import playlistMenu.managers.SongManager
+import player.managers.SongManager
 
 class PlayerMain : Fragment() {
     private lateinit var currentSongTitle: TextView

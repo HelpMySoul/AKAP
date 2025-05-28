@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import builders.SetNameBuilder
 
 import com.example.akap.R
-import playlistMenu.adapters.PlaylistAdapter
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.interfaces.IPlaylist
+import player.adapters.PlaylistAdapter
+import player.controllers.PlaylistController
+import player.interfaces.IPlaylist
 import global.GlobalManager
 import screens.AppFragmentManager
 

@@ -1,6 +1,4 @@
-package playlistMenu.interfaces
-
-import java.io.Serializable
+package player.interfaces
 
 
 interface ISong {

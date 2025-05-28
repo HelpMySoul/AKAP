@@ -1,4 +1,4 @@
-package mediaReceiver
+package bluetooth
 
 import android.content.BroadcastReceiver
 import android.content.Context

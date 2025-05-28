@@ -7,8 +7,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import playlistMenu.controllers.PlaylistController
-import playlistMenu.controllers.SongSearchController
 import settings.theme.locale.LanguageManager
 import java.util.Locale
 

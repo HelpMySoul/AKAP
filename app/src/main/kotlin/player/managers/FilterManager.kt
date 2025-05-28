@@ -1,6 +1,4 @@
-package playlistMenu.managers
-
-import playlistMenu.interfaces.ISong
+package player.managers
 
 object FilterManager {
     private val fullTags = mapOf(

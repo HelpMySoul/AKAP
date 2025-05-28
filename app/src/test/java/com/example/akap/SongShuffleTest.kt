@@ -1,11 +1,10 @@
 package com.example.akap
 
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 
 import org.junit.Assert.*
-import playlistMenu.classes.Playlist
-import playlistMenu.classes.Song
+import player.classes.Playlist
+import player.classes.Song
 
 
 class SongShuffleTest {

@@ -1,16 +1,14 @@
-package playlistMenu.managers
+package player.managers
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import com.example.akap.R
 import org.json.JSONArray
-import playlistMenu.classes.Playlist
-import playlistMenu.interfaces.IPlaylist
-import playlistMenu.interfaces.ISong
-import playlistMenu.services.MusicFinderService
-import java.io.File
-import java.io.IOException
+import player.classes.Playlist
+import player.interfaces.IPlaylist
+import player.interfaces.ISong
+import player.services.MusicFinderService
 import java.util.Locale
 
 object PlaylistManager {

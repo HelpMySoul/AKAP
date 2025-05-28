@@ -29,7 +29,7 @@
         android:requestLegacyExternalStorage="true">
 
         <receiver android:name="notification.receivers.MediaReceiver" />
-        <receiver android:name="mediaReceiver.MediaButtonReceiver"
+        <receiver android:name="bluetooth.MediaButtonReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

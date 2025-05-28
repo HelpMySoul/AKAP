@@ -1,4 +1,4 @@
-package playlistMenu.managers
+package player.managers
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.akap.R
 import broadcast.BroadcastManagerController
-import playlistMenu.interfaces.ISong
+import player.interfaces.ISong
 import settings.player.PlayerSettingsManager
 import java.io.IOException
 
