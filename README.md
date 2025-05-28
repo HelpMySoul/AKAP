@@ -64,7 +64,7 @@ MIT License
 Email: shalamaev.es.hms@gmail.com  
 VK: https://vk.com/exceptiona1  
 
-Контактные данные для обратной связи:  
+Контактные данные для обратной связи:   
 ФИО: Гулин Артём Романович  
 Email: gulin0303@mail.ru  
 VK: https://vk.com/4ipis  
