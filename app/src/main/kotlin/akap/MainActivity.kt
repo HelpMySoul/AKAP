@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_AUDIO), 1001)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_AUDIO), 1)
         }
     }
 
@@ -142,8 +142,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartApp() {
-        val pm = applicationContext.packageManager
-        val intent = pm.getLaunchIntentForPackage(applicationContext.packageName)
+        val pm         = applicationContext.packageManager
+        val intent     = pm.getLaunchIntentForPackage(applicationContext.packageName)
         val mainIntent = Intent.makeRestartActivityTask(intent?.component)
         applicationContext.startActivity(mainIntent)
         Runtime.getRuntime().exit(0)

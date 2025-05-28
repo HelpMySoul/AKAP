@@ -18,7 +18,7 @@ import playlistMenu.adapters.PlaylistAdapter
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import global.GlobalManager
-import screens.MenuFragmentManager
+import screens.AppFragmentManager
 
 class Playlists : Fragment() {
 
@@ -122,7 +122,7 @@ class Playlists : Fragment() {
         }
 
         parentFragmentManager.let {
-            MenuFragmentManager.openFragment(
+            AppFragmentManager.openFragment(
                 it,
                 R.id.songContainerFragment,
                 playlistName

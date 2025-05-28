@@ -9,11 +9,14 @@ import playlistMenu.classes.Playlist
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
 import playlistMenu.services.MusicFinderService
+import java.io.File
+import java.io.IOException
 import java.util.Locale
 
 object PlaylistManager {
     private val playlists: MutableList<IPlaylist> = mutableListOf()
     private var isInitialized = false
+
     private lateinit var sharedPreferences: SharedPreferences
 
     fun initialize(context: Context) {

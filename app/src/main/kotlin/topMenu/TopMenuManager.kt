@@ -1,8 +1,6 @@
 package topMenu
 
-import screens.fragments.Account
 import screens.fragments.Playlists
-import screens.fragments.Recommendations
 import screens.fragments.Settings
 import screens.fragments.Tools
 import android.content.Context
@@ -15,12 +13,12 @@ import androidx.fragment.app.FragmentManager
 import screens.fragments.CurrentPlaylist
 import com.example.akap.R
 import global.GlobalManager
-import screens.MenuFragmentManager
+import screens.AppFragmentManager
 
 
 object TopMenuManager {
 
-    private fun loadButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
+    private fun getListOfButtons(context: Context, fragmentManager: FragmentManager, containerId: Int): List<TopMenuButton> {
         return listOf(
             TopMenuButton(context.getString(R.string.current_playlist_string)) {
                 openCurrentPlaylist(context, fragmentManager, containerId)
@@ -41,7 +39,7 @@ object TopMenuManager {
         )
     }
 
-    private fun openCurrentPlaylist(context: Context, fragmentManager: FragmentManager, containerId: Int) {
+    private fun openCurrentPlaylist(context: Context, fragmentManager: androidx.fragment.app.FragmentManager, containerId: Int) {
 
         openFragment(fragmentManager, containerId, GlobalManager.getPlaylistName()) {
             CurrentPlaylist().apply {
@@ -52,18 +50,22 @@ object TopMenuManager {
         }
     }
 
-    private fun openPlaylistsScreen(context: Context, fragmentManager: FragmentManager, containerId: Int) {
+    private fun openPlaylistsScreen(context: Context, fragmentManager: androidx.fragment.app.FragmentManager, containerId: Int) {
         openFragment(fragmentManager, containerId, Playlists::class.java.simpleName) {
             Playlists()
         }
     }
 
-    private fun openFragment(fragmentManager: FragmentManager, containerId: Int, fragmentTag: String, fragmentFactory: () -> Fragment) {
-        MenuFragmentManager.openFragment(fragmentManager, containerId, fragmentTag, fragmentFactory)
+    private fun openFragment(
+        fragmentManager: FragmentManager,
+        containerId:     Int,
+        fragmentTag:     String,
+        fragmentFactory: () -> Fragment) {
+        AppFragmentManager.openFragment(fragmentManager, containerId, fragmentTag, fragmentFactory)
     }
 
-    fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: FragmentManager) {
-        val buttons = loadButtons(context, supportFragmentManager, R.id.songContainerFragment )
+    fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: androidx.fragment.app.FragmentManager) {
+        val buttons = getListOfButtons(context, supportFragmentManager, R.id.songContainerFragment )
 
         for (button in buttons) {
             val styledContext = ContextThemeWrapper(context, R.style.AppButtonStyle)

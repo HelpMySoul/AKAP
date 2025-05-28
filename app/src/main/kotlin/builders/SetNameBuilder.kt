@@ -9,7 +9,7 @@ import com.example.akap.R
 class SetNameBuilder(
     private val context:     Context,
     private val currentName: String,
-    private val onChange:      (String) -> Unit
+    private val onChange:    (String) -> Unit
 ) {
 
     fun built() {

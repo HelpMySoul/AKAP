@@ -43,7 +43,7 @@ class SongController(
 
     fun startPlaying() {
         playCurrentSong()
-        createIntent()
+        createNotificationIntent()
         BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
@@ -146,10 +146,10 @@ class SongController(
     }
 
     private fun playNextListenerSetup() {
-        SongManager.setOnCompletionListener(MediaPlayer.OnCompletionListener {
+        SongManager.setOnCompletionListener {
             playNext()
             updateUI(true)
-        })
+        }
     }
 
     private fun  getSongName(): String {
@@ -225,10 +225,10 @@ class SongController(
         SongManager.unpause(context)
         startHandler()
 
-        createIntent()
+        createNotificationIntent()
     }
 
-    private fun createIntent() {
+    private fun createNotificationIntent() {
         val intent = Intent(context, NotificationService::class.java).apply {
             putExtra("title",  currentSong?.title)
             putExtra("artist", currentSong?.artist)

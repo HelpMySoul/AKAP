@@ -14,12 +14,12 @@ class MediaReceiver : BroadcastReceiver() {
             val broadcastManager = BroadcastManagerController(context)
 
             when (action) {
-                "ACTION_PREV"                 -> broadcastManager.sendBroadcast("PREVIOUS_SONG")
-                "ACTION_PLAY_PAUSE"           -> broadcastManager.sendBroadcast("PAUSE_OR_PLAY_SONG")
-                "ACTION_NEXT"                 -> broadcastManager.sendBroadcast("NEXT_SONG")
+                "ACTION_PREV"       -> broadcastManager.sendBroadcast("PREVIOUS_SONG")
+                "ACTION_PLAY_PAUSE" -> broadcastManager.sendBroadcast("PAUSE_OR_PLAY_SONG")
+                "ACTION_NEXT"       -> broadcastManager.sendBroadcast("NEXT_SONG")
             }
         } catch (e: Exception) {
-            e.localizedMessage?.let { Log.e("MediaReceiver", it) }
+            e.localizedMessage?.let { message -> Log.e("MediaReceiver", message) }
         }
 
     }

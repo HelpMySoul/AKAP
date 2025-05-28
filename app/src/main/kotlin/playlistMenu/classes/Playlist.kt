@@ -6,6 +6,7 @@ import org.json.JSONObject
 import playlistMenu.controllers.PlaylistController
 import playlistMenu.interfaces.IPlaylist
 import playlistMenu.interfaces.ISong
+import playlistMenu.managers.FilterManager
 
 class Playlist(override var name: String, val isTemporary: Boolean = false) : IPlaylist {
     override var songs:     MutableList<ISong> = mutableListOf()
@@ -89,13 +90,33 @@ class Playlist(override var name: String, val isTemporary: Boolean = false) : IP
     override fun findSongByKeyword(keyword: String): MutableList<ISong> {
         val keywords = keyword.split("\\s+".toRegex())
 
-        val foundedSongs = songs.filter { song ->
-            keywords.all { word ->
-                song.title.contains(word, ignoreCase = true) || song.artist.contains(word, ignoreCase = true)
+        val (filterRules, excludedIndices) = FilterManager.extractFilterRules(keywords)
+
+        val filteredSongs = if (filterRules.isNotEmpty()) {
+            songs.filter { song ->
+                filterRules.all { (tag, operator, valueStr) ->
+                    val value = valueStr.toLongOrNull() ?: return@all false
+                    when (tag) {
+                        "duration"      -> FilterManager.compareValues(song.duration,      operator, value*1000)
+                        "introduration" -> FilterManager.compareValues(song.introDuration, operator, value*1000)
+                        "outroduration" -> FilterManager.compareValues(song.outroDuration, operator, value*1000)
+                        else            -> false
+                    }
+                }
             }
+        } else {
+            songs.toList()
         }
 
-        return foundedSongs.toMutableList()
+        val remainingKeywords = keywords.filterIndexed { index, _ ->
+            !excludedIndices.contains(index)
+        }
+
+        return filteredSongs.filter { song ->
+            remainingKeywords.isEmpty() || remainingKeywords.all { word ->
+                song.title.contains(word, ignoreCase = true) || song.artist.contains(word, ignoreCase = true)
+            }
+        }.toMutableList()
     }
 
 
