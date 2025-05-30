@@ -162,7 +162,7 @@ BroadcastManagerController(context).sendBroadcast("НАЗВАНИЕ_СООБЩЕ
 
 <a name="appfragmentmanager"><h4>[_AppFragmentManager_](/app/src/main/kotlin/screens/AppFragmentManager.kt)</h4></a>
 
-Переключением отображаемых фрагментов управляет менеджер фрагментов приложений.  
+Переключением отображаемых фрагментов управляет менеджер фрагментов приложения.  
 При создании новых фрагментов используется [_FragmentFactory_](https://developer.android.com/reference/androidx/fragment/app/FragmentFactory).  
 Кроме того, менеджер фрагментов предотвращает создание дубликатов: если фрагмент уже был создан ранее, система откроет существующий экземпляр.  
 
