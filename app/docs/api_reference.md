@@ -12,26 +12,26 @@ _AKAP_ - мобильное приложение на операционной �
 ## Структура документации  
 
 [Контроллеры функций воспроизведения аудио и управления плейлистами:](#контроллеры)  
-- [PlaylistController](#playlistcontroller)  
-- [SongController](#songcontroller)  
-- [SongSearchController](#songsearchcontroller)  
+- [_PlaylistController_](#playlistcontroller)  
+- [_SongController_](#songcontroller)  
+- [_SongSearchController_](#songsearchcontroller)  
 
 [Управление событиями приложения:](#управление-событиями-приложения)  
 
 [Управление отображаемым фрагментом:](#управление-отображаемым-фрагментом)  
-- [AppFragmentManager](#appfragmentmanager)  
+- [_AppFragmentManager_](#appfragmentmanager)  
 
 [Управление настройками приложения:](#управление-настройками-приложения)  
-- [ThemeManager](#thememanager)  
-- [LanguageManager](#languagemanager)  
+- [_ThemeManager_](#thememanager)  
+- [_LanguageManager_](#languagemanager)  
 
 [Строители диалоговых окон:](#строители-диалоговых-окон)  
-- [SetNameBuilder](#setnamebuilder)  
-- [SetTimeBuilder](#settimebuilder)  
+- [_SetNameBuilder_](#setnamebuilder)  
+- [_SetTimeBuilder_](#settimebuilder)  
 
 <a name="контроллеры"><h3>Контроллеры функций воспроизведения аудио и управления плейлистами</h3></a>  
 
-<a name="playlistcontroller"><h4>PlaylistController</h4></a>
+<a name="playlistcontroller"><h4>[_PlaylistController_](/app/src/main/kotlin/player/controllers/PlaylistController.kt)</h4></a>
 Этот контроллер управляет созданием, удалением, сохранением, изменением и поиском определенного или всех плейлистов. При создании контроллера необходимо указать контекст.
 
 ##### Создание плейлиста
@@ -63,7 +63,7 @@ _AKAP_ - мобильное приложение на операционной �
 
 Для получения списка всех плейлистов можно вызвать _getAllPlaylists_ функцию.  
 
-<a name="songcontroller"><h4>SongController</h4></a>
+<a name="songcontroller"><h4>[_SongController_](/app/src/main/kotlin/player/controllers/SongController.kt)</h4></a>
 Этот контроллер управляет проигрыванием композиций и работает с интерфейсом проигрывателя.  
 
 ##### Параметры создания контроллера
@@ -112,7 +112,7 @@ _AKAP_ - мобильное приложение на операционной �
 
 Если контроллер больше не будет использоваться, его ресурсы можно освобождить функцией _release_.
 
-<a name="songsearchcontroller"><h4>SongSearchController</h4></a>
+<a name="songsearchcontroller"><h4>[_SongSearchController_](/app/src/main/kotlin/player/controllers/SongSearchController.kt)</h4></a>
 
 Этот контролер ищет песни в плейлисте. 
 При его создании необходимо указать контроллер плейлистов.
@@ -147,11 +147,11 @@ _AKAP_ - мобильное приложение на операционной �
 | Перезапустить приложение     | `RESTART_APP`       |
 | Перезапустить активность     | `RESTART_ACTIVITY`  |  
 
-Для добавления нового действия в систему сообщений, необходимо зарегестрировать новый слушатель в главной активности с необходимым действием:  
+Для добавления нового действия в систему сообщений, необходимо зарегестрировать новый слушатель в [главной активности](/app/src/main/kotlin/akap/MainActivity.kt) с необходимым действием:  
 ```ruby
 broadcastManagerController.registerReceivers("НАЗВАНИЕ_СООБЩЕНИЯ" to { playerEventController.event() })
 ```
-Предварительно в _PlayerEventController_ должна быть добавлена необходимая вам функция (_event_ в примере).
+Предварительно в [_PlayerEventController_](/app/src/main/kotlin/player/controllers/PlayerEventController.kt) должна быть добавлена необходимая вам функция (_event_ в примере).
 
 Пример вызова существующего события:
 ```ruby
@@ -160,13 +160,80 @@ BroadcastManagerController(context).sendBroadcast("НАЗВАНИЕ_СООБЩЕ
 
 <a name="управление-отображаемым-фрагментом"><h3>Управление отображаемым фрагментом</h3></a>
 
-<a name="appfragmentmanager"><h4>AppFragmentManager</h4></a>
-(Описание методов и функций AppFragmentManager)  
+<a name="appfragmentmanager"><h4>[_AppFragmentManager_](/app/src/main/kotlin/screens/AppFragmentManager.kt)</h4></a>
+
+Переключением отображаемых фрагментов управляет менеджер фрагментов приложений.  
+При создании новых фрагментов используется [_FragmentFactory_](https://developer.android.com/reference/androidx/fragment/app/FragmentFactory).  
+Кроме того, менеджер фрагментов предотвращает создание дубликатов: если фрагмент уже был создан ранее, система откроет существующий экземпляр.  
+
+Для добавления нового фрагмента в приложение необходимо создать новый класс, наследующий [_Fragment_](https://developer.android.com/reference/android/app/Fragment) в [фрагментах приложения](/app/src/main/kotlin/screens/fragments/).  
+В этом классе надо использовать добавленный в [макеты приложения](/app/src/main/res/layout/) макет.  
+
+Пример создания нового фрагмента:  
+```ruby
+package screens.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.example.akap.R
+
+class Example : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_example, container, false)
+    }
+}
+```
+
+В [_TopMenuManager_](/app/src/main/kotlin/topMenu/TopMenuManager.kt) необходимо добавить в функцию полученния списка кнопок _getListOfButtons_, новую кнопку.  
+
+```ruby
+TopMenuButton(context.getString(R.string.example_button_name)) {
+    openFragment(fragmentManager, containerId, Tools::class.java.simpleName) {
+        Example()
+    }
+}
+```
+В ресурсах необходимо добавить строку с названием кнопки, например _example_button_name_.  
+После этих действий в верхнем меню будет отображаться созданная вами кнопка, которая будет открывать указанный вами фрагмент.  
 
 <a name="управление-настройками-приложения"><h3>Управление настройками приложения</h3></a>
 
-<a name="thememanager"><h4>ThemeManager</h4></a>
-(Описание методов и функций ThemeManager)  
+<a name="thememanager"><h4>[ThemeManager](/app/src/main/kotlin/settings/theme/ThemeManager.kt)</h4></a>
+Менеджер тем используется для смены и загрузки тем приложения.  
+
+Для получения темы используется функция  _getTheme_, которая в качестве параметра принимает контекст.
+
+Для сохранения указанной в параметре темы используется _saveTheme_, которой также необходим контекст.
+
+Для добавления новой темы в приложение необходимо:
+- Cоздать в [Стилях](/app/src/main/res/values/styles.xml) новую тему _NewTheme_ с требуемыми цветами (в примере это newThemePrimary, newThemePrimaryDark и newThemePrimaryLight):
+
+```ruby
+<style name="NewTheme" parent="AppTheme">
+    <item name="colorPrimary">@color/newThemePrimary</item>
+    <item name="colorPrimaryVariant">@color/newThemePrimaryDark</item>
+    <item name="colorOnPrimary">@color/newThemePrimaryLight</item>
+</style>
+```
+
+Новые цвета надо добавлять в [цветах приложения](/app/src/main/res/values/colors.xml).
+
+- В функцию применения темы добавить вашу новую тему:
+```ruby
+fun applyTheme(theme: String, context: Context) {
+
+        when (theme) {
+
+            // Старые темы
+
+            "New Theme"  -> context.setTheme(R.style.NewTheme)
+            else         -> context.setTheme(R.style.AppTheme)
+        }
+    }
+```
 
 <a name="languagemanager"><h4>LanguageManager</h4></a>
 (Описание методов и функций LanguageManager)  
