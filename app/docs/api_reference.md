@@ -187,7 +187,7 @@ class Example : Fragment() {
 }
 ```
 
-В [_TopMenuManager_](/app/src/main/kotlin/topMenu/TopMenuManager.kt) необходимо добавить в функцию полученния списка кнопок _getListOfButtons_, новую кнопку.  
+В [_TopMenuManager_](/app/src/main/kotlin/topMenu/TopMenuManager.kt) необходимо добавить в функцию полученния списка кнопок _getListOfButtons_ новую кнопку.  
 
 ```ruby
 TopMenuButton(context.getString(R.string.example_button_name)) {
