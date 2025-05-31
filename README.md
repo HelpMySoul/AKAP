@@ -62,8 +62,7 @@
 Краткое обучение по использованию приложения можно просмотреть по [этой ссылке](https://github.com/HelpMySoul/AKAP/blob/master/app/docs/user_guide.md).
 
 ## Модификация
-
-_AKAP_ - приложение с открытым исходным, а документацию для его модификации можно просмотреть по [этой ссылке]([http://app/docs/](https://github.com/HelpMySoul/AKAP/blob/master/app/docs/)user_guide.md).
+_AKAP_ - приложение с открытым исходным, а документацию для его модификации можно просмотреть [тут](https://github.com/HelpMySoul/AKAP/blob/master/app/docs/).
 
 ## Лицензия, коммерческая тайна, права третьих лиц  
 _MIT License_  
