@@ -312,6 +312,8 @@ languageManager.saveLanguage(сontext, "la")
     </string-array>
 
     <string-array name="languages_codes">
+        // Существующие коды языков
+
         <item>la</item>
     </string-array>
 ```
