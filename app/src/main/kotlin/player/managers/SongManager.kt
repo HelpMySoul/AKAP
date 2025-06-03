@@ -52,6 +52,7 @@ object SongManager {
                 if (isPaused) {
                     player.start()
                     isPaused = false
+                    canPlay = true
                 }
             } ?: run {
                 Log.e("SongManager", "MediaPlayer is not initialized in unpause")
@@ -76,8 +77,9 @@ object SongManager {
     fun stop() {
         mediaPlayer?.let { player ->
             if (canPlay) {
+                player.pause()
                 player.stop()
-                player.reset()
+                isPaused = true
                 canPlay = false
             }
         } ?: run {

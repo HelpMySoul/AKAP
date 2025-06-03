@@ -51,19 +51,21 @@ class PlayerEventController(
     }
 
     fun onPlaylistShuffleClicked() {
+        BroadcastManagerController(context).sendBroadcast("STOP_SONG")
         val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
 
         if (playlist != null) {
             playlist.shuffle()
             BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
-            getPlayerFragment()?.playSong()
         }
 
+        BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
         onPlaylistRefresh()
     }
 
     fun onPlaylistRefresh() {
         getPlaylistFragment()?.refresh()
+        getPlayerFragment()?.stopSong()
     }
 
     fun onShowPlayer(playerFrameLayout: View) {
@@ -115,12 +117,11 @@ class PlayerEventController(
     }
 
     fun onUpdateSong() {
-        var playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
 
         if (playlist != null) {
-            var song = playlist.getCurrentSong()
+            val song = playlist.getCurrentSong()
             getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
-            getPlayerFragment()?.playSong()
         }
     }
 
