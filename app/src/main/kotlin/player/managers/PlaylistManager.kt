@@ -3,6 +3,7 @@ package player.managers
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.util.Log
 import com.example.akap.R
 import org.json.JSONArray
 import player.classes.Playlist
@@ -12,13 +13,18 @@ import player.services.MusicFinderService
 import java.util.Locale
 
 object PlaylistManager {
-    private val playlists: MutableList<IPlaylist> = mutableListOf()
-    private var isInitialized = false
-
+    private lateinit var playlists:         MutableList<IPlaylist>
+    private lateinit var allSongs:          IPlaylist
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var allPlaylistsNames: Set<String>
+    private var          initialized:       Boolean = false
 
     fun initialize(context: Context) {
-        if (isInitialized) return
+        if (initialized)
+        {
+            return
+        }
+        playlists = mutableListOf()
 
         sharedPreferences = context.getSharedPreferences("playlists", Context.MODE_PRIVATE)
         loadPlaylistsFromPreferences()
@@ -27,26 +33,18 @@ object PlaylistManager {
 
         val allSongsName = context.getString(R.string.all_songs)
 
-        val allNames = getAllNames(context)
+        Log.e("Language", allSongsName)
 
-        for (playlistName in allNames) {
-            if (playlistName != allSongsName) {
-                deletePlaylist(playlistName)
-            }
-        }
+        allSongs = Playlist(allSongsName)
 
-        val allSongs = getPlaylistByName(allSongsName)
+        allSongs.songs.addAll(musicService.findAllMusic())
 
-        if (allSongs == null) {
-            createPlaylist(allSongsName, musicService.findAllMusic(), true)
-        } else {
-            allSongs.songs.clear()
-            allSongs.songs.addAll(musicService.findAllMusic())
-        }
-        isInitialized = true
+        playlists.add(allSongs)
+
+        allPlaylistsNames = getAllPlaylistsNames(context)
     }
 
-    private fun getAllNames(context: Context): Set<String> {
+    private fun getAllPlaylistsNames(context: Context): Set<String> {
         val names   = mutableSetOf<String>()
         val locales = context.resources.assets.locales
 
@@ -76,7 +74,7 @@ object PlaylistManager {
     fun savePlaylistsToPreferences() {
         val playlistsArray = JSONArray()
         playlists.forEach { playlist ->
-            if (playlist is Playlist && !playlist.isTemporary) {
+            if (playlist is Playlist && !playlist.isTemporary && allPlaylistsNames.any { allSongsName -> playlist.name != allSongsName }) {
                 playlistsArray.put(playlist.toJson())
             }
         }

@@ -3,16 +3,18 @@ package settings.theme.locale
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.akap.R
+import player.controllers.PlaylistController
+import player.managers.PlaylistManager
 import java.util.Locale
 
 object LanguageManager {
 
     fun setLocale(context: Context, languageCode: String) {
         val locale = Locale(languageCode)
-        Locale.setDefault(locale)
 
         val resources     = context.resources
         val configuration = resources.configuration

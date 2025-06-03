@@ -141,7 +141,7 @@ class SongController(
         } else {
             BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
         }
-        playNextListenerSetup()
+        playNextListenerSetup() 
     }
 
     private fun playNextListenerSetup() {
