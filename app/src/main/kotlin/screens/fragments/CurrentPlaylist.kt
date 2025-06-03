@@ -180,7 +180,10 @@ class CurrentPlaylist(
 
             context?.let { context -> GlobalManager.updateSongID(song.id, context) }
 
-            context?.let { context -> BroadcastManagerController(context).sendBroadcast("UPDATE_SONG") }
+            context?.let { context ->
+                BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
+                BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
+            }
         }
     }
 
