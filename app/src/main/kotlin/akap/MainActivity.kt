@@ -56,9 +56,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        if (savedInstanceState == null) {
-            initializeComponents()
-        }
+        initializeComponents()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -76,7 +74,6 @@ class MainActivity : AppCompatActivity() {
 
         mediaButtonHandler = MediaButtonHandler(this)
         mediaButtonHandler.initialize()
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)

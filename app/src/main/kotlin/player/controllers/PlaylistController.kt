@@ -9,10 +9,6 @@ import player.managers.PlaylistManager
 
 class PlaylistController(var context: Context) {
 
-    init {
-        PlaylistManager.initialize(context)
-    }
-
     fun getAllPlaylists(): List<IPlaylist> {
         return PlaylistManager.getPlaylists()
     }

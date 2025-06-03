@@ -18,6 +18,7 @@ import player.adapters.PlaylistAdapter
 import player.controllers.PlaylistController
 import player.interfaces.IPlaylist
 import global.GlobalManager
+import player.managers.PlaylistManager
 import screens.AppFragmentManager
 
 class Playlists : Fragment() {
@@ -27,8 +28,6 @@ class Playlists : Fragment() {
     private lateinit var createPlaylistButton:  Button
     private lateinit var deletePlaylistsButton: ImageButton
 
-    private val playlists = mutableListOf<IPlaylist>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +36,7 @@ class Playlists : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_playlists, container, false)
 
-        playlistAdapter = PlaylistAdapter(playlists,
+        playlistAdapter = PlaylistAdapter(playlistController.getAllPlaylists(),
             onPlaylistClick = { playlist ->
                 openCurrentPlaylist(playlist)
             },
@@ -81,12 +80,6 @@ class Playlists : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun refresh() {
-        playlists.clear()
-
-        val allPlaylists = playlistController.getAllPlaylists()
-
-        playlists.addAll(allPlaylists)
-
         playlistAdapter.notifyDataSetChanged()
     }
 
@@ -100,15 +93,6 @@ class Playlists : Fragment() {
 
         createPlaylistButton = view.findViewById(R.id.createPlaylistButton)
 
-        loadPlaylists()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun loadPlaylists() {
-        playlists.clear()
-        val allPlaylists = playlistController.getAllPlaylists()
-        playlists.addAll(allPlaylists)
-        playlistAdapter.notifyDataSetChanged()
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
@@ -130,8 +114,4 @@ class Playlists : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        playlists.clear()
-    }
 }
