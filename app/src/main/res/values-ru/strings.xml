@@ -93,11 +93,19 @@
     <string name="new_playlist">Новый плейлист</string>
     <string name="save_current_playlist">Сохранить плейлист</string>
     <string name="theme_string">Тема</string>
+    <string name="shuffle_song_button">Перемешать плейлист</string>
+    <string name="edit_outro_time">Установить время конца</string>
+    <string name="edit_intro_time">Установить время начала</string>
     <string name="now_playing_title">Название</string>
     <string name="now_playing_artist">Автор</string>
     <string name="previous">Прошлый</string>
     <string name="next">Следующий</string>
-    <string name="shuffle_song_button">Перемешать плейлист</string>
-    <string name="edit_outro_time">Установить время конца</string>
-    <string name="edit_intro_time">Установить время начала</string>
+    <string name="closeSongSetting">Close</string>
+    <string name="changeNameSongSetting">Change name</string>
+    <string name="deleteSongSetting">Delete</string>
+    <string name="discardMetaDataSongSetting">Discard metadata</string>
+    <string name="addToPlaylistSongSetting">Add to playlist</string>
+    <string name="songNameSettingCard">SongName</string>
+    <string name="songAuthorSettingCard">SongAuthor</string>
+    <string name="changeAuthorSongSetting">Change author</string>
 </resources>

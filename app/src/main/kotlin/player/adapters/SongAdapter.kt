@@ -1,4 +1,4 @@
-package player.adapters
+package playlistMenu.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import player.interfaces.ISong
 import global.GlobalManager
 
 class SongAdapter(
-    private var playlist:    IPlaylist,
-    private val onSongClick: (ISong) -> Unit
-                 ) : RecyclerView.Adapter<SongHolder>() {
+    private var playlist: IPlaylist,
+    private val onSongClick: (ISong) -> Unit,
+    private val onLongSongClick: (ISong) -> Unit) : RecyclerView.Adapter<SongHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
@@ -37,6 +37,11 @@ class SongAdapter(
 
         holder.itemView.setOnClickListener {
             onSongClick(song)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongSongClick(song)
+            true
         }
     }
 
