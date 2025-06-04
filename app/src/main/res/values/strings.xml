@@ -102,4 +102,5 @@
     <string name="shuffle_song_button">Shuffle</string>
     <string name="edit_outro_time">Set the outro time</string>
     <string name="edit_intro_time">Set the intro time</string>
+    <string name="add_song_button">Add songs</string>
 </resources>

@@ -11,7 +11,7 @@ import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
 
-class SongAdapter(
+class SongPlayAdapter(
     private var playlist:    IPlaylist,
     private val onSongClick: (ISong) -> Unit
                  ) : RecyclerView.Adapter<SongHolder>() {

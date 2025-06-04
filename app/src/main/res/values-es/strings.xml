@@ -102,4 +102,5 @@
     <string name="shuffle_song_button">Mezclar</string>
     <string name="edit_outro_time">Establecer tiempo del outro</string>
     <string name="edit_intro_time">Establecer tiempo del intro</string>
+    <string name="add_song_button">Añadir canciones</string>
 </resources>

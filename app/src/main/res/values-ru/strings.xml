@@ -100,4 +100,5 @@
     <string name="shuffle_song_button">Перемешать плейлист</string>
     <string name="edit_outro_time">Установить время конца</string>
     <string name="edit_intro_time">Установить время начала</string>
+    <string name="add_song_button">Добавить песни</string>
 </resources>

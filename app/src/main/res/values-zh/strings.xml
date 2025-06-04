@@ -102,4 +102,5 @@
     <string name="shuffle_song_button">随机播放</string>
     <string name="edit_outro_time">设置结尾时间</string>
     <string name="edit_intro_time">设置开头时间</string>
+    <string name="add_song_button">添加歌曲</string>
 </resources>

@@ -19,7 +19,10 @@ class PlayerEventController(
     private val fragmentManager: FragmentManager
 ) {
     fun onPauseOrPlaySong() {
-        if (SongManager.isPaused) {
+        if (!SongManager.canPlay) {
+            onUpdateSong()
+            getPlaylistFragment()?.playSong()
+        } else if (SongManager.isPaused) {
             onUnpauseSong()
             Log.e("PlayerEventController", SongManager.canPlay.toString())
         } else {
