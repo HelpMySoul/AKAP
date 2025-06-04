@@ -39,9 +39,13 @@ object PlaylistManager {
 
         allSongs.songs.addAll(musicService.findAllMusic())
 
-        playlists.add(allSongs)
+        createPlaylist(allSongsName, allSongs, true)
 
         allPlaylistsNames = getAllPlaylistsNames(context)
+    }
+
+    fun getAllSongsPlaylist() : IPlaylist {
+        return allSongs
     }
 
     private fun getAllPlaylistsNames(context: Context): Set<String> {

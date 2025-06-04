@@ -36,13 +36,12 @@ class Playlists : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_playlists, container, false)
 
-        playlistAdapter = PlaylistAdapter(playlistController.getAllPlaylists(),
-            onPlaylistClick = { playlist ->
-                openCurrentPlaylist(playlist)
-            },
-            onPlaylistLongClick = {
-                true
-            }
+        val playlists = playlistController.getAllPlaylists()
+
+        playlistAdapter = PlaylistAdapter(
+            playlists,
+            onPlaylistClick     = { playlist -> openCurrentPlaylist(playlist) },
+            onPlaylistLongClick = { true }
         )
 
         createPlaylistButton  = view.findViewById(R.id.createPlaylistButton)
