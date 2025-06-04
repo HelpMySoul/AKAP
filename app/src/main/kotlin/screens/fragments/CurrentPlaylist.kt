@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import builders.SetNameBuilder
 import com.example.akap.R
-import player.adapters.SongAdapter
 import broadcast.BroadcastManagerController
 import player.controllers.PlaylistController
 import player.controllers.SongSearchController
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
+import player.adapters.SongAdapter
 
 class CurrentPlaylist(
     private var onSongClick: ((ISong) -> Unit)? = null
