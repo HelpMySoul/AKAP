@@ -1,6 +1,7 @@
 package settings.theme
 
 import akap.MainActivity
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -52,9 +53,10 @@ object ThemeManager {
         Log.d("ThemeDebug", "Applied theme: $theme")
     }
 
+    @SuppressLint("ApplySharedPref")
     fun saveTheme(context: Context, theme: String) {
         val pref: SharedPreferences = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
-        pref.edit().putString("Theme", theme).apply()
+        pref.edit().putString("Theme", theme).commit()
     }
 
     fun getTheme(context: Context): String {

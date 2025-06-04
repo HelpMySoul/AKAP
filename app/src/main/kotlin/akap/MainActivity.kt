@@ -56,7 +56,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        initializeComponents()
+        if (savedInstanceState == null) {
+            initializeComponents()
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -68,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         TopMenuManager.createTopMenuButtons(this, findViewById(R.id.topMenuLayout), supportFragmentManager)
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.songContainerFragment, CurrentPlaylist())
         transaction.replace(R.id.playerFrameLayout, PlayerMain())
         transaction.commit()
 
@@ -120,7 +122,6 @@ class MainActivity : AppCompatActivity() {
             finishAffinity()
             restartApp = false
         }
-
         Log.e("NotificationServiceError","Destroyed MainAct")
     }
 
@@ -137,6 +138,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartApp() {
+        BroadcastManagerController(this).sendBroadcast("STOP_SONG")
+
         val pm         = applicationContext.packageManager
         val intent     = pm.getLaunchIntentForPackage(applicationContext.packageName)
         val mainIntent = Intent.makeRestartActivityTask(intent?.component)

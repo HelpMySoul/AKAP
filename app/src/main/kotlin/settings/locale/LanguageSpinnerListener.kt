@@ -16,7 +16,7 @@ class LanguageSpinnerListener (private val languageCodes: List<String>,
         if (language != LanguageManager.getSavedLanguage(context)) {
             LanguageManager.saveLanguage(context, language)
             LanguageManager.setLocale(context, language)
-            RestartManager.restartActivity(context)
+            RestartManager.restartApplication(context)
         }
     }
 

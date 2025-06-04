@@ -16,7 +16,7 @@ class ThemeSpinnerListener(private val themes: List<String>,
         if (theme != ThemeManager.getTheme(context)) {
             ThemeManager.applyTheme(theme, context)
             ThemeManager.saveTheme(context, theme)
-            RestartManager.restartActivity(context)
+            RestartManager.restartApplication(context)
         }
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {}

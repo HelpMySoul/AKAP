@@ -1,5 +1,6 @@
 package settings.theme.locale
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -23,9 +24,10 @@ object LanguageManager {
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 
+    @SuppressLint("ApplySharedPref")
     fun saveLanguage(context: Context, languageCode: String) {
         val pref = context.getSharedPreferences("screens.fragments.Settings", Context.MODE_PRIVATE)
-        pref.edit().putString("Language", languageCode).apply()
+        pref.edit().putString("Language", languageCode).commit()
     }
 
     fun getSavedLanguage(context: Context): String {

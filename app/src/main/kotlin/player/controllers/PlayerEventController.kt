@@ -51,15 +51,9 @@ class PlayerEventController(
     }
 
     fun onPlaylistShuffleClicked() {
-        BroadcastManagerController(context).sendBroadcast("STOP_SONG")
-        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
 
-        if (playlist != null) {
-            playlist.shuffle()
-            BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
-        }
+        getPlaylistFragment()?.shufflePlaylist()
 
-        BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
         onPlaylistRefresh()
     }
 

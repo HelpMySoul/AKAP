@@ -178,9 +178,8 @@ class CurrentPlaylist(
         playlist?.findSong(song)?.let {
             songAdapter.refresh()
 
-            context?.let { context -> GlobalManager.updateSongID(song.id, context) }
-
             context?.let { context ->
+                GlobalManager.updateSongID(song.id, context)
                 BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
                 BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
             }
@@ -218,5 +217,13 @@ class CurrentPlaylist(
     override fun onDestroyView() {
         super.onDestroyView()
         onSongClick = null
+    }
+
+    fun shufflePlaylist() {
+        BroadcastManagerController(requireContext()).sendBroadcast("STOP_SONG")
+
+        playlist?.shuffle()
+
+        BroadcastManagerController(requireContext()).sendBroadcast("UPDATE_SONG")
     }
 }
