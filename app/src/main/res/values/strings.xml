@@ -97,16 +97,8 @@
     <string name="theme_string">Theme</string>
     <string name="now_playing_title">Title</string>
     <string name="now_playing_artist">Artist</string>
-    <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="closeSongSetting">Close</string>
-    <string name="changeNameSongSetting">Change name</string>
-    <string name="deleteSongSetting">Delete</string>
-    <string name="discardMetaDataSongSetting">Discard metadata</string>
-    <string name="addToPlaylistSongSetting">Add to playlist</string>
-    <string name="songNameSettingCard">SongName</string>
-    <string name="songAuthorSettingCard">SongAuthor</string>
-    <string name="changeAuthorSongSetting">Change author</string>
+    <string name="next">Next</string>
     <string name="shuffle_song_button">Shuffle</string>
     <string name="edit_outro_time">Set the outro time</string>
     <string name="edit_intro_time">Set the intro time</string>
