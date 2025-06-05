@@ -103,4 +103,8 @@
     <string name="edit_outro_time">设置结尾时间</string>
     <string name="edit_intro_time">设置开头时间</string>
     <string name="add_song_button">添加歌曲</string>
+    <string name="apply_button_text">应用</string>
+    <string name="add_songs_button_text">添加歌曲</string>
+    <string name="delete_songs_button_text">删除歌曲</string>
+    <string name="try_to_add_song">已在播放列表中</string>
 </resources>

@@ -103,4 +103,8 @@
     <string name="edit_outro_time">Outro-Zeit einstellen</string>
     <string name="edit_intro_time">Intro-Zeit einstellen</string>
     <string name="add_song_button">Lieder hinzufügen</string>
+    <string name="apply_button_text">Anwenden</string>
+    <string name="add_songs_button_text">Lieder hinzufügen</string>
+    <string name="delete_songs_button_text">Lieder löschen</string>
+    <string name="try_to_add_song">bereits in einer Playlist</string>
 </resources>

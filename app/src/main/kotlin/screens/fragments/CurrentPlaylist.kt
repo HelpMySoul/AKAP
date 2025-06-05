@@ -24,17 +24,19 @@ import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
 import player.adapters.SongPlayAdapter
+import player.classes.Playlist
+import player.managers.PlaylistManager
 
 class CurrentPlaylist (
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
     private lateinit var songsRecyclerView:      RecyclerView
-    private lateinit var songPlayAdapter:            SongPlayAdapter
+    private lateinit var songPlayAdapter:        SongPlayAdapter
     private lateinit var playlistController:     PlaylistController
     private lateinit var songSearchController:   SongSearchController
     private lateinit var searchText:             EditText
     private lateinit var playlistNameText:       TextView
-    private lateinit var deletePlaylistsButton:  ImageButton
+    private lateinit var deleteSongsButton:      ImageButton
     private lateinit var editPlaylistNameButton: ImageButton
     private lateinit var addSongsButton:         ImageButton
     private lateinit var editLayout:             LinearLayout
@@ -47,7 +49,7 @@ class CurrentPlaylist (
         songsRecyclerView      = view.findViewById(R.id.songsRecyclerView)
         playlistNameText       = view.findViewById(R.id.playlistNameTextView)
         searchText             = view.findViewById(R.id.searchText)
-        deletePlaylistsButton  = view.findViewById(R.id.deletePlaylistButton)
+        deleteSongsButton      = view.findViewById(R.id.deleteSongsButton)
         editPlaylistNameButton = view.findViewById(R.id.editPlaylistNameButton)
         addSongsButton         = view.findViewById(R.id.addSongsButton)
         editLayout             = view.findViewById(R.id.editLayout)
@@ -58,6 +60,7 @@ class CurrentPlaylist (
         songSearchController = SongSearchController(requireContext(), playlistController)
 
         val playlistName = GlobalManager.getPlaylistName()
+
         playlist = playlistController.getPlaylist(playlistName)
 
         if (playlist == null) {
@@ -107,7 +110,7 @@ class CurrentPlaylist (
                 }
 
                 val query = s?.toString() ?: ""
-                playlist = songSearchController.search(query, playlist)
+                playlist  = songSearchController.search(query, playlist)
 
                 updatePlaylist(playlistName)
             }
@@ -119,17 +122,13 @@ class CurrentPlaylist (
             }
         })
 
-        deletePlaylistsButton.setOnClickListener {
-            playlist?.name?.let { name ->
-                playlistController.deletePlaylist(name)
-            }
-            playlist = null
-            refresh()
-            context?.let { context ->
-                BroadcastManagerController(context).sendBroadcast("HIDE_PLAYER")
-                BroadcastManagerController(context).sendBroadcast("STOP_SONG")
-                BroadcastManagerController(context).sendBroadcast("STOP_NOTIFICATION")
-                BroadcastManagerController(context).sendBroadcast("CLOSE_PLAYLIST")
+        deleteSongsButton.setOnClickListener {
+            showSongSelectorFragment(
+                playlist!!,
+                playlist!!,
+                playlistController,
+                requireContext().getString(R.string.delete_songs_button_text)) { playlist, selectedSongs ->
+                    playlistController.deleteSongsFromPlaylist(playlist.name, selectedSongs)
             }
         }
 
@@ -137,7 +136,7 @@ class CurrentPlaylist (
             SetNameBuilder(
                 context     = requireContext(),
                 currentName = playlistNameText.text.toString(),
-                onChange      = { newName ->
+                onChange    = { newName ->
                     playlistNameText.text = newName
 
                     playlist?.let { playlist ->
@@ -152,23 +151,13 @@ class CurrentPlaylist (
         }
 
         addSongsButton.setOnClickListener {
-            val newFragment = SongSelector.instance(playlistController)
-            newFragment.setOnFragmentResultListener(object : SongSelector.OnFragmentResultListener {
-                override fun onResult(data: MutableList<ISong>?) {
-                    data?.let { selectedSongs ->
-                        for (song in selectedSongs) {
-                            playlistController.addSongToPlaylist(playlist!!.name, song)
-                        }
-                    }
-                    refresh()
-                }
-            })
-
-            parentFragmentManager.beginTransaction()
-                .add(R.id.songContainerFragment, newFragment)
-                .addToBackStack(null)
-                .hide(this)
-                .commit()
+            showSongSelectorFragment(
+                PlaylistManager.getAllSongsPlaylist(),
+                playlist!!,
+                playlistController,
+                requireContext().getString(R.string.add_songs_button_text)) { playlist, selectedSongs ->
+                    playlistController.addSongsToPlaylist(playlist.name, selectedSongs)
+            }
         }
 
         if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
@@ -181,6 +170,29 @@ class CurrentPlaylist (
         }
 
         return view
+    }
+
+    private fun showSongSelectorFragment(
+        selectorPlaylist:   IPlaylist,
+        playlistToEdit:     IPlaylist,
+        playlistController: PlaylistController,
+        buttonText:         String,
+        action:             (IPlaylist, MutableList<ISong>) -> Unit) {
+            val newFragment = SongSelector.instance(selectorPlaylist, playlistController, buttonText)
+            newFragment.setOnFragmentResultListener(object : SongSelector.OnFragmentResultListener {
+                override fun onResult(data: MutableList<ISong>?) {
+                    data?.let { selectedSongs ->
+                        action(playlistToEdit, selectedSongs)
+                    }
+                    refresh()
+                }
+            })
+
+            parentFragmentManager.beginTransaction()
+                .add(R.id.songContainerFragment, newFragment)
+                .addToBackStack(null)
+                .hide(this)
+                .commit()
     }
 
     private fun updatePlaylist(playlistName: String) {

@@ -63,12 +63,12 @@
                 app:srcCompat="@android:drawable/ic_menu_add" />
 
             <ImageButton
-                android:id="@+id/deletePlaylistButton"
+                android:id="@+id/deleteSongsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
-                android:visibility="gone"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+                android:visibility="visible"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
         </LinearLayout>
 
     </LinearLayout>

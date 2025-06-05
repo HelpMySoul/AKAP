@@ -42,9 +42,9 @@
         android:padding="0dp" />
 
     <Button
-        android:id="@+id/addSongButton"
+        android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_song_button"
+        android:text="@string/apply_button_text"
         android:textAlignment="center" />
 </LinearLayout>

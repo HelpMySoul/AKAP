@@ -17,20 +17,20 @@ import player.controllers.PlaylistController
 import player.controllers.SongSearchController
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
-import player.managers.PlaylistManager
 
 class SongSelector (
-    private var playlistController: PlaylistController
+    private var playlist:           IPlaylist?,
+    private var playlistController: PlaylistController,
+    private var buttonText:         String
 ): Fragment() {
 
     private lateinit var songsSelectorRecyclerView: RecyclerView
     private lateinit var songAdapter:               SongChooseAdapter
-    private lateinit var addSongsButton:            Button
+    private lateinit var applyButton:               Button
     private lateinit var searchSongSelectorText:    EditText
     private lateinit var songSearchController:      SongSearchController
 
-    private var playlist:       IPlaylist? = PlaylistManager.getAllSongsPlaylist()
-    private var resultListener: OnFragmentResultListener? = null
+    private          var resultListener:            OnFragmentResultListener? = null
 
     interface OnFragmentResultListener {
         fun onResult(data: MutableList<ISong>?)
@@ -47,7 +47,7 @@ class SongSelector (
     ): View? {
         val view                  = inflater.inflate(R.layout.fragment_song_selector, container, false)
         songsSelectorRecyclerView = view.findViewById(R.id.songsSelectorRecyclerView)
-        addSongsButton            = view.findViewById(R.id.addSongButton)
+        applyButton               = view.findViewById(R.id.applyButton)
         searchSongSelectorText    = view.findViewById(R.id.searchSongSelectorText)
         songSearchController      = SongSearchController(requireContext(), playlistController)
         songAdapter               = SongChooseAdapter(playlist!!)
@@ -79,8 +79,8 @@ class SongSelector (
             override fun afterTextChanged(s: Editable?) { }
         })
 
-        addSongsButton.setOnClickListener {
-
+        applyButton.text = buttonText
+        applyButton.setOnClickListener {
             resultListener?.onResult(songAdapter.getSelected())
 
             parentFragmentManager.popBackStack()
@@ -95,6 +95,10 @@ class SongSelector (
     }
 
     companion object {
-        fun instance(playlistController: PlaylistController) = SongSelector(playlistController)
+        fun instance(
+            playlist:           IPlaylist?,
+            playlistController: PlaylistController,
+            buttonText:         String
+        ) = SongSelector(playlist, playlistController, buttonText)
     }
 }

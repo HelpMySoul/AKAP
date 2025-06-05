@@ -27,8 +27,29 @@ class PlaylistController(var context: Context) {
         }
     }
 
+    fun addSongsToPlaylist(playlistName: String, songs: MutableList<ISong>) {
+        for (song in songs) {
+            addSongToPlaylist(playlistName, song)
+        }
+    }
+
     fun addSongToPlaylist(playlistName: String, song: ISong) {
-        PlaylistManager.addSongToPlaylist(playlistName, song)
+        if (!PlaylistManager.getPlaylistByName(playlistName)?.songs?.contains(song)!!) {
+            PlaylistManager.addSongToPlaylist(playlistName, song)
+        }
+        else {
+            Toast.makeText(context, "${song.artist} - ${song.title} ${context.getString(R.string.try_to_add_song)}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun deleteSongsFromPlaylist(playlistName: String, songs: MutableList<ISong>) {
+        for (song in songs) {
+            deleteSongFromPlaylist(playlistName, song)
+        }
+    }
+
+    fun deleteSongFromPlaylist(playlistName: String, song: ISong) {
+        PlaylistManager.deleteSongFromPlaylist(playlistName, song)
     }
 
     fun deletePlaylist(playlistName: String) {

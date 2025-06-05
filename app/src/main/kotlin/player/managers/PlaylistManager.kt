@@ -158,5 +158,10 @@ object PlaylistManager {
         getPlaylistByName(name)?.name = newName
         savePlaylistsToPreferences()
     }
+
+    fun deleteSongFromPlaylist(playlistName: String, song: ISong) {
+        getPlaylistByName(playlistName)?.removeSong(song)
+        savePlaylistsToPreferences()
+    }
 }
 

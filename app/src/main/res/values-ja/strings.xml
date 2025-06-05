@@ -103,4 +103,8 @@
     <string name="edit_outro_time">アウトロ時間を設定</string>
     <string name="edit_intro_time">イントロ時間を設定</string>
     <string name="add_song_button">曲を追加</string>
+    <string name="apply_button_text">適用</string>
+    <string name="add_songs_button_text">曲を追加</string>
+    <string name="delete_songs_button_text">曲を削除</string>
+    <string name="try_to_add_song">プレイリストに既に存在します</string>
 </resources>

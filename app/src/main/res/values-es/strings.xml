@@ -103,4 +103,8 @@
     <string name="edit_outro_time">Establecer tiempo del outro</string>
     <string name="edit_intro_time">Establecer tiempo del intro</string>
     <string name="add_song_button">Añadir canciones</string>
+    <string name="apply_button_text">Aplicar</string>
+    <string name="add_songs_button_text">Añadir canciones</string>
+    <string name="delete_songs_button_text">Eliminar canciones</string>
+    <string name="try_to_add_song">ya está en la lista</string>
 </resources>
