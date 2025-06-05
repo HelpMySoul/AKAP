@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,7 +25,6 @@ import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
 import player.adapters.SongPlayAdapter
-import player.classes.Playlist
 import player.managers.PlaylistManager
 
 class CurrentPlaylist (
@@ -39,6 +39,10 @@ class CurrentPlaylist (
     private lateinit var deleteSongsButton:      ImageButton
     private lateinit var editPlaylistNameButton: ImageButton
     private lateinit var addSongsButton:         ImageButton
+    private lateinit var searchInPlaylistButton: ImageButton
+    private lateinit var closeSearchTextButton:  ImageButton
+    private lateinit var playlistLayout:         FrameLayout
+    private lateinit var searchLayout:           FrameLayout
     private lateinit var editLayout:             LinearLayout
     private var          playlist:               IPlaylist? = null
 
@@ -49,10 +53,14 @@ class CurrentPlaylist (
         songsRecyclerView      = view.findViewById(R.id.songsRecyclerView)
         playlistNameText       = view.findViewById(R.id.playlistNameTextView)
         searchText             = view.findViewById(R.id.searchText)
+        searchInPlaylistButton = view.findViewById(R.id.searchInPlaylistButton)
         deleteSongsButton      = view.findViewById(R.id.deleteSongsButton)
         editPlaylistNameButton = view.findViewById(R.id.editPlaylistNameButton)
         addSongsButton         = view.findViewById(R.id.addSongsButton)
+        closeSearchTextButton  = view.findViewById(R.id.closeSearchTextButton)
         editLayout             = view.findViewById(R.id.editLayout)
+        playlistLayout         = view.findViewById(R.id.playlistLayout)
+        searchLayout           = view.findViewById(R.id.searchLayout)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -122,13 +130,29 @@ class CurrentPlaylist (
             }
         })
 
+        setButtonListeners()
+
+        if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
+                ?: "All songs")
+        ) {
+            editLayout.visibility = View.GONE
+        }
+        else {
+            editLayout.visibility = View.VISIBLE
+        }
+
+        return view
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setButtonListeners() {
         deleteSongsButton.setOnClickListener {
             showSongSelectorFragment(
                 playlist!!,
                 playlist!!,
                 playlistController,
                 requireContext().getString(R.string.delete_songs_button_text)) { playlist, selectedSongs ->
-                    playlistController.deleteSongsFromPlaylist(playlist.name, selectedSongs)
+                playlistController.deleteSongsFromPlaylist(playlist.name, selectedSongs)
             }
         }
 
@@ -156,20 +180,19 @@ class CurrentPlaylist (
                 playlist!!,
                 playlistController,
                 requireContext().getString(R.string.add_songs_button_text)) { playlist, selectedSongs ->
-                    playlistController.addSongsToPlaylist(playlist.name, selectedSongs)
+                playlistController.addSongsToPlaylist(playlist.name, selectedSongs)
             }
         }
 
-        if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
-                ?: "All songs")
-        ) {
-            editLayout.visibility = View.GONE
-        }
-        else {
-            editLayout.visibility = View.VISIBLE
+        searchInPlaylistButton.setOnClickListener {
+            playlistLayout.visibility = View.GONE
+            searchLayout.visibility   = View.VISIBLE
         }
 
-        return view
+        closeSearchTextButton.setOnClickListener {
+            playlistLayout.visibility = View.VISIBLE
+            searchLayout.visibility   = View.GONE
+        }
     }
 
     private fun showSongSelectorFragment(
