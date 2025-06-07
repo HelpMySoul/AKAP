@@ -2,6 +2,7 @@ package player.managers
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import broadcast.BroadcastManagerController
@@ -30,6 +31,8 @@ object SongMetadataManager {
 
         val songData = JSONObject().apply {
             put("id",            song.id)
+            put("title",         song.title)
+            put("artist",        song.artist)
             put("localVolume",   song.localVolume)
             put("introDuration", song.introDuration)
             put("outroDuration", song.outroDuration)
@@ -46,9 +49,21 @@ object SongMetadataManager {
         for (i in 0 until metadataArray.length()) {
             val obj = metadataArray.getJSONObject(i)
             if (obj.getLong("id") == song.id) {
-                song.localVolume   = obj.getInt("localVolume")
-                song.introDuration = obj.getLong("introDuration")
-                song.outroDuration = obj.getLong("outroDuration")
+                if (obj.has("title")) {
+                    song.title = obj.getString("title")
+                }
+                if (obj.has("artist")) {
+                    song.artist = obj.getString("artist")
+                }
+                if (obj.has("localVolume")) {
+                    song.localVolume = obj.getInt("localVolume")
+                }
+                if (obj.has("introDuration")) {
+                    song.localVolume = obj.getInt("introDuration")
+                }
+                if (obj.has("outroDuration")) {
+                    song.localVolume = obj.getInt("outroDuration")
+                }
                 break
             }
         }

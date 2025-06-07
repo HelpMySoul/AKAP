@@ -107,9 +107,7 @@
     <string name="add_songs_button_text">曲を追加</string>
     <string name="delete_songs_button_text">曲を削除</string>
     <string name="try_to_add_song">プレイリストに既に存在します</string>
-    <string name="changeNameSongSetting">Change name</string>
-    <string name="changeAuthorSongSetting">Change author</string>
-    <string name="discardMetaDataSongSetting">Discard metadata</string>
-    <string name="deleteFromPlaylistSongSetting">Delete from playlist</string>
-    <string name="closeSetting">Close</string>
+    <string name="changeNameSongSetting">名前を変更</string>
+    <string name="changeAuthorSongSetting">作者を変更</string>
+    <string name="discardMetaDataSongSetting">メタデータを破棄</string>
 </resources>

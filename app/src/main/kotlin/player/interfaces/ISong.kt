@@ -7,8 +7,8 @@ interface ISong {
     var introDuration: Long
     var outroDuration: Long
 
-    val title:         String
-    val artist:        String
+    var title:         String
+    var artist:        String
     val filePath:      String
 
     var localVolume:   Int

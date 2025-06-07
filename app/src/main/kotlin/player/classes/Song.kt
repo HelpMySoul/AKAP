@@ -9,8 +9,8 @@ class Song (
     introDuration:              Long = 0,
     outroDuration:              Long = 0,
 
-    override val title:         String,
-    override val artist:        String,
+    override var title:         String,
+    override var artist:        String,
     override val filePath:      String,
 
     localVolume:                Int = 75 // standard value

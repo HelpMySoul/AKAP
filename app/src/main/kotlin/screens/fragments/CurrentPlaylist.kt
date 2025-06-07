@@ -32,7 +32,7 @@ class CurrentPlaylist (
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
     private lateinit var songsRecyclerView:      RecyclerView
-    private lateinit var songPlayerAdapter:        SongPlayerAdapter
+    private lateinit var songPlayerAdapter:      SongPlayerAdapter
     private lateinit var playlistController:     PlaylistController
     private lateinit var songSearchController:   SongSearchController
     private lateinit var searchText:             EditText
@@ -45,6 +45,7 @@ class CurrentPlaylist (
     private lateinit var playlistLayout:         FrameLayout
     private lateinit var searchLayout:           FrameLayout
     private lateinit var editLayout:             LinearLayout
+
     private var          playlist:               IPlaylist? = null
 
     @SuppressLint("NotifyDataSetChanged")
@@ -140,17 +141,21 @@ class CurrentPlaylist (
         if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
                 ?: "All songs")
         ) {
-            editLayout.visibility = View.GONE
+            searchLayout.visibility          = View.VISIBLE
+            playlistLayout.visibility        = View.GONE
+            closeSearchTextButton.visibility = View.GONE
         }
         else {
-            editLayout.visibility = View.VISIBLE
+            searchLayout.visibility          = View.GONE
+            playlistLayout.visibility        = View.VISIBLE
+            closeSearchTextButton.visibility = View.VISIBLE
         }
 
         return view
     }
 
     private fun showSongSettingCard(song: ISong) {
-        AppFragmentManager.addMenuFragment(parentFragmentManager, SongSettingsCard(song), this)
+        AppFragmentManager.addMenuFragment(parentFragmentManager, SongSettingsCard(song) { refresh() }, this)
     }
 
     @SuppressLint("NotifyDataSetChanged")

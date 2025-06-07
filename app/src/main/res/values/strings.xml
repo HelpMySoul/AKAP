@@ -110,6 +110,4 @@
     <string name="changeNameSongSetting">Change name</string>
     <string name="changeAuthorSongSetting">Change author</string>
     <string name="discardMetaDataSongSetting">Discard metadata</string>
-    <string name="deleteFromPlaylistSongSetting">Delete from playlist</string>
-    <string name="closeSetting">Close</string>
 </resources>
