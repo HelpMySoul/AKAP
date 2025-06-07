@@ -34,7 +34,7 @@ class Song (
 
     override var outroDuration: Long = outroDuration
         set(value) {
-            field = if (value in 0..< duration - introDuration )
+            field = if (value in 0.. duration - introDuration )
             {
                 value
             }

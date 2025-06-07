@@ -13,20 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="SongSearchTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="LanguageTest">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-23T07:22:21.192589200Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=2YJYD25207202035" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
       <SelectionState runConfigName="languageGetTest()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

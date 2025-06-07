@@ -107,4 +107,9 @@
     <string name="add_songs_button_text">添加歌曲</string>
     <string name="delete_songs_button_text">删除歌曲</string>
     <string name="try_to_add_song">已在播放列表中</string>
+    <string name="changeNameSongSetting">Change name</string>
+    <string name="changeAuthorSongSetting">Change author</string>
+    <string name="discardMetaDataSongSetting">Discard metadata</string>
+    <string name="deleteFromPlaylistSongSetting">Delete from playlist</string>
+    <string name="closeSetting">Close</string>
 </resources>

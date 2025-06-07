@@ -10,10 +10,12 @@ import player.holders.SongHolder
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
+import screens.AppFragmentManager
 
-class SongPlayAdapter(
-    private var playlist:    IPlaylist,
-    private val onSongClick: (ISong) -> Unit
+class SongPlayerAdapter(
+    private var playlist:        IPlaylist,
+    private val onSongClick:     (ISong) -> Unit,
+    private val onLongSongClick: (ISong) -> Unit
                  ) : RecyclerView.Adapter<SongHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
@@ -37,6 +39,11 @@ class SongPlayAdapter(
 
         holder.itemView.setOnClickListener {
             onSongClick(song)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongSongClick(song)
+            true
         }
     }
 

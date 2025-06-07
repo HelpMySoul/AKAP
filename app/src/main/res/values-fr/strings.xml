@@ -107,4 +107,9 @@
     <string name="add_songs_button_text">Ajouter des chansons</string>
     <string name="delete_songs_button_text">Supprimer des chansons</string>
     <string name="try_to_add_song">déjà dans une playlist</string>
+    <string name="changeNameSongSetting">Change name</string>
+    <string name="changeAuthorSongSetting">Change author</string>
+    <string name="discardMetaDataSongSetting">Discard metadata</string>
+    <string name="deleteFromPlaylistSongSetting">Delete from playlist</string>
+    <string name="closeSetting">Close</string>
 </resources>

@@ -24,14 +24,15 @@ import player.controllers.SongSearchController
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
-import player.adapters.SongPlayAdapter
+import player.adapters.SongPlayerAdapter
 import player.managers.PlaylistManager
+import screens.AppFragmentManager
 
 class CurrentPlaylist (
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
     private lateinit var songsRecyclerView:      RecyclerView
-    private lateinit var songPlayAdapter:        SongPlayAdapter
+    private lateinit var songPlayerAdapter:        SongPlayerAdapter
     private lateinit var playlistController:     PlaylistController
     private lateinit var songSearchController:   SongSearchController
     private lateinit var searchText:             EditText
@@ -82,9 +83,13 @@ class CurrentPlaylist (
             onSongClick = { song -> playSong(song) }
         }
 
-        songPlayAdapter = SongPlayAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
+        songPlayerAdapter = SongPlayerAdapter(
+            playlist!!,
+            onSongClick     = { song -> onSongClick?.invoke(song) },
+            onLongSongClick = { song -> showSongSettingCard(song) }
+        )
 
-        songsRecyclerView.adapter = songPlayAdapter
+        songsRecyclerView.adapter = songPlayerAdapter
 
         if (GlobalManager.getSongID() == (-1).toLong()) {
             val song = playlist!!.getFirstSong()
@@ -97,7 +102,7 @@ class CurrentPlaylist (
         }
         playlist!!.getSongAt(playlist!!.getIndex()).let { song ->
             if (song != null) {
-                songPlayAdapter.setCurrentSong(song)
+                songPlayerAdapter.setCurrentSong(song)
             }
         }
 
@@ -144,6 +149,10 @@ class CurrentPlaylist (
         return view
     }
 
+    private fun showSongSettingCard(song: ISong) {
+        AppFragmentManager.addMenuFragment(parentFragmentManager, SongSettingsCard(song), this)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun setButtonListeners() {
         deleteSongsButton.setOnClickListener {
@@ -167,7 +176,7 @@ class CurrentPlaylist (
                         playlistController.updatePlaylistName(playlist.name, newName)
                     }
 
-                    songPlayAdapter.notifyDataSetChanged()
+                    songPlayerAdapter.notifyDataSetChanged()
 
                     GlobalManager.updatePlaylistName(newName)
                 }
@@ -211,17 +220,13 @@ class CurrentPlaylist (
                 }
             })
 
-            parentFragmentManager.beginTransaction()
-                .add(R.id.songContainerFragment, newFragment)
-                .addToBackStack(null)
-                .hide(this)
-                .commit()
+            AppFragmentManager.addMenuFragment(parentFragmentManager, newFragment, this)
     }
 
     private fun updatePlaylist(playlistName: String) {
-        songPlayAdapter.updatePlaylist(playlist)
+        songPlayerAdapter.updatePlaylist(playlist)
 
-        songsRecyclerView.adapter = songPlayAdapter
+        songsRecyclerView.adapter = songPlayerAdapter
 
         BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
@@ -231,7 +236,7 @@ class CurrentPlaylist (
 
     private fun playSong(song: ISong) {
         playlist?.findSong(song)?.let {
-            songPlayAdapter.refresh()
+            songPlayerAdapter.refresh()
 
             context?.let { context ->
                 GlobalManager.updateSongID(song.id, context)
@@ -246,15 +251,15 @@ class CurrentPlaylist (
     }
 
     fun playNextSong() {
-        songPlayAdapter.refresh()
+        songPlayerAdapter.refresh()
     }
 
     fun prevSong() {
-        songPlayAdapter.refresh()
+        songPlayerAdapter.refresh()
     }
 
     fun repeatSong() {
-        songPlayAdapter.refresh()
+        songPlayerAdapter.refresh()
     }
 
     fun refresh() {
@@ -269,8 +274,13 @@ class CurrentPlaylist (
             return
         }
 
-        songPlayAdapter = SongPlayAdapter(playlist!!) { song -> onSongClick?.invoke(song) }
-        songsRecyclerView.adapter = songPlayAdapter
+        songPlayerAdapter = SongPlayerAdapter(
+            playlist!!,
+            onSongClick     = { song -> onSongClick?.invoke(song) },
+            onLongSongClick = { song -> showSongSettingCard(song) }
+        )
+
+        songsRecyclerView.adapter = songPlayerAdapter
     }
 
     override fun onDestroyView() {

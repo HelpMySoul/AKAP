@@ -105,4 +105,9 @@
     <string name="add_songs_button_text">Добавить песни</string>
     <string name="delete_songs_button_text">Удалить песни</string>
     <string name="try_to_add_song">уже в плейлисте</string>
+    <string name="changeNameSongSetting">Change name</string>
+    <string name="changeAuthorSongSetting">Change author</string>
+    <string name="discardMetaDataSongSetting">Discard metadata</string>
+    <string name="deleteFromPlaylistSongSetting">Delete from playlist</string>
+    <string name="closeSetting">Close</string>
 </resources>
