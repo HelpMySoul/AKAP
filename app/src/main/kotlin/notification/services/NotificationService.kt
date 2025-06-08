@@ -47,6 +47,7 @@ class NotificationService : Service() {
                     description = "Music playback controls"
                 }
 
+                channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
                 val notificationManager = getSystemService(NotificationManager::class.java)
                 notificationManager.createNotificationChannel(channel)
             }

@@ -4,15 +4,24 @@ import android.content.Context
 import android.util.Log
 
 object GlobalManager {
-    private var playlistName: String = ""
-    private var songID      : Long   = -1
+    private var displayedPlaylistName: String = ""
+    private var playedPlaylistName:    String = ""
+    private var songID:                Long   = -1
 
-    fun updatePlaylistName(newName: String) {
-        playlistName = newName
+    fun updateDisplayedPlaylistName(newName: String) {
+        displayedPlaylistName = newName
     }
 
-    fun getPlaylistName(): String {
-        return playlistName
+    fun updatePlayedPlaylistName(newName: String) {
+        playedPlaylistName = newName
+    }
+
+    fun getDisplayedPlaylistName(): String {
+        return displayedPlaylistName
+    }
+
+    fun getPlayedPlaylistName(): String {
+        return playedPlaylistName
     }
 
     fun updateSongID(iD: Long, context: Context) {

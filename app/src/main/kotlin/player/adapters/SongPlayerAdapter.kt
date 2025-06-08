@@ -10,7 +10,6 @@ import player.holders.SongHolder
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
-import screens.AppFragmentManager
 
 class SongPlayerAdapter(
     private var playlist:        IPlaylist,
@@ -29,13 +28,7 @@ class SongPlayerAdapter(
         holder.titleText.text  = song.title
         holder.artistText.text = song.artist
 
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorSongSelected)
-        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.colorSongDefault)
-
-        val isSelected = (position == playlist.getIndex() &&
-                          GlobalManager.getPlaylistName() == playlist.name)
-
-        holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
+        selectionCheck(holder, position)
 
         holder.itemView.setOnClickListener {
             onSongClick(song)
@@ -66,5 +59,15 @@ class SongPlayerAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun refresh() {
         notifyDataSetChanged()
+    }
+
+    private fun selectionCheck(holder: SongHolder, position: Int) {
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorSongSelected)
+        val defaultColor  = ContextCompat.getColor(holder.itemView.context, R.color.colorSongDefault)
+
+        val isSelected = (position == playlist.getIndex() &&
+                GlobalManager.getPlayedPlaylistName() == playlist.name)
+
+        holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
     }
 }

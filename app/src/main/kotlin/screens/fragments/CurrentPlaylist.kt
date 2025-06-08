@@ -69,7 +69,9 @@ class CurrentPlaylist (
         playlistController   = PlaylistController(requireContext())
         songSearchController = SongSearchController(requireContext(), playlistController)
 
-        val playlistName = GlobalManager.getPlaylistName()
+        val playlistName = GlobalManager.getDisplayedPlaylistName()
+
+        Log.e("CurrentPlaylist", "Playlist changed: ${GlobalManager.getDisplayedPlaylistName()}, Playing: ${GlobalManager.getPlayedPlaylistName()}")
 
         playlist = playlistController.getPlaylist(playlistName)
 
@@ -92,15 +94,6 @@ class CurrentPlaylist (
 
         songsRecyclerView.adapter = songPlayerAdapter
 
-        if (GlobalManager.getSongID() == (-1).toLong()) {
-            val song = playlist!!.getFirstSong()
-
-            context?.let { context ->
-                if (song != null) {
-                    GlobalManager.updateSongID(song.id, context)
-                }
-            }
-        }
         playlist!!.getSongAt(playlist!!.getIndex()).let { song ->
             if (song != null) {
                 songPlayerAdapter.setCurrentSong(song)
@@ -138,7 +131,7 @@ class CurrentPlaylist (
 
         setButtonListeners()
 
-        if (GlobalManager.getPlaylistName() == (context?.getString(R.string.all_songs)
+        if (GlobalManager.getDisplayedPlaylistName() == (context?.getString(R.string.all_songs)
                 ?: "All songs")
         ) {
             searchLayout.visibility          = View.VISIBLE
@@ -183,7 +176,7 @@ class CurrentPlaylist (
 
                     songPlayerAdapter.notifyDataSetChanged()
 
-                    GlobalManager.updatePlaylistName(newName)
+                    GlobalManager.updateDisplayedPlaylistName(newName)
                 }
             ).built()
         }
@@ -235,16 +228,17 @@ class CurrentPlaylist (
 
         BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
 
-        GlobalManager.updatePlaylistName(playlist?.name ?: playlistName)
+        GlobalManager.updateDisplayedPlaylistName(playlist?.name ?: playlistName)
 
     }
 
     private fun playSong(song: ISong) {
+
         playlist?.findSong(song)?.let {
+            GlobalManager.updatePlayedPlaylistName(playlist!!.name)
             songPlayerAdapter.refresh()
 
             context?.let { context ->
-                GlobalManager.updateSongID(song.id, context)
                 BroadcastManagerController(context).sendBroadcast("UPDATE_SONG")
                 BroadcastManagerController(context).sendBroadcast("PLAY_SONG")
             }

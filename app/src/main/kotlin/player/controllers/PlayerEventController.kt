@@ -6,7 +6,6 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
-import broadcast.BroadcastManagerController
 import com.example.akap.R
 import global.GlobalManager
 import notification.services.NotificationService
@@ -66,7 +65,7 @@ class PlayerEventController(
 
     fun onShowPlayer(playerFrameLayout: View) {
 
-        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getDisplayedPlaylistName())
         val song = playlist?.getCurrentSong()
 
         if (playerFrameLayout.visibility != View.VISIBLE) {
@@ -113,7 +112,7 @@ class PlayerEventController(
     }
 
     fun onUpdateSong() {
-        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getPlaylistName())
+        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getDisplayedPlaylistName())
 
         if (playlist != null) {
             val song = playlist.getCurrentSong()

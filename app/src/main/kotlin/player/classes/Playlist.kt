@@ -5,10 +5,16 @@ import org.json.JSONObject
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import player.managers.FilterManager
+import player.managers.PlaylistManager
 
-class Playlist(override var name: String, val isTemporary: Boolean = false) : IPlaylist {
+class Playlist(
+    override var name: String,
+    val isTemporary:   Boolean = false,
+    override var id:   Int = PlaylistManager.getPlaylists().maxOfOrNull { it.id }?.plus(1) ?: 0
+) : IPlaylist {
+
     override var songs:     MutableList<ISong> = mutableListOf()
-    private  var songIndex: Int = 0
+    private  var songIndex: Int = -1
 
     val size: Int
         get() {
@@ -127,6 +133,7 @@ class Playlist(override var name: String, val isTemporary: Boolean = false) : IP
     fun toJson(): JSONObject {
         val json = JSONObject()
         json.put("name", name)
+        json.put("id",   id)
 
         val songsArray = JSONArray()
         songs.forEach { song ->
@@ -139,7 +146,7 @@ class Playlist(override var name: String, val isTemporary: Boolean = false) : IP
 
     companion object {
         fun fromJson(json: JSONObject): Playlist {
-            val playlist   = Playlist(json.getString("name"))
+            val playlist   = Playlist(json.getString("name"), id = json.getInt("id"))
             val songsArray = json.getJSONArray("songs")
 
             for (i in 0 until songsArray.length()) {

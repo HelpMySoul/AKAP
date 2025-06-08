@@ -40,11 +40,12 @@ object TopMenuManager {
     }
 
     private fun openCurrentPlaylist(context: Context, fragmentManager: androidx.fragment.app.FragmentManager, containerId: Int) {
+        GlobalManager.updateDisplayedPlaylistName(GlobalManager.getPlayedPlaylistName())
 
-        openFragment(fragmentManager, containerId, GlobalManager.getPlaylistName()) {
+        openFragment(fragmentManager, containerId, GlobalManager.getPlayedPlaylistName()) {
             CurrentPlaylist().apply {
                 arguments = Bundle().apply {
-                    putString("playlist_name", GlobalManager.getPlaylistName())
+                    putString("playlist_name", GlobalManager.getPlayedPlaylistName())
                 }
             }
         }

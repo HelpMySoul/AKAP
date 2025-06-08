@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.akap.R
 import broadcast.BroadcastManagerController
+import global.GlobalManager
 import player.interfaces.ISong
 import settings.player.PlayerSettingsManager
 import java.io.IOException
@@ -42,6 +43,7 @@ object SongManager {
             stop()
         }
 
+        GlobalManager.updateSongID(song.id, context)
         initializeMediaPlayer(context, song)
         currentSong = song
     }

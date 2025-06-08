@@ -2,6 +2,7 @@ package player.interfaces
 
 
 interface IPlaylist {
+    var id:    Int
     var name:  String
     var songs: MutableList<ISong>
 
@@ -10,7 +11,7 @@ interface IPlaylist {
 
     fun shuffle()
 
-    fun getIndex():            Int
+    fun getIndex(): Int
 
     fun findSong(song: ISong): ISong?
     fun getSongAt(index: Int): ISong?

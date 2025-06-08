@@ -50,11 +50,11 @@ class Song (
 
     override var localVolume: Int = localVolume
         set(value) {
-            field = if (value in 0..< 100 )
+            field = if (value in 0.. 100 )
             {
                 value
             }
-            else if (value > 100)
+            else if (value >= 100)
             {
                 100
             }

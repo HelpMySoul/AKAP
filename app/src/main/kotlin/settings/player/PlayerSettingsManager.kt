@@ -25,7 +25,7 @@ object PlayerSettingsManager {
         editor.putBoolean(KEY_SKIP_OUTRO, SongManager.skipTheOutro)
         editor.putBoolean(KEY_REPEAT_SONG, SongManager.isRepeating)
 
-        editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getPlaylistName())
+        editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getDisplayedPlaylistName())
 
         editor.putLong(KEY_CURRENT_SONG, GlobalManager.getSongID())
 
@@ -34,7 +34,7 @@ object PlayerSettingsManager {
         Log.d("SettingsManager", "Save context:  $context ${SongManager.skipTheIntro} " +
                                                         "${SongManager.skipTheOutro} "          +
                                                         "${SongManager.isRepeating} "           +
-                                                        "${GlobalManager.getPlaylistName()} "   +
+                                                        "${GlobalManager.getDisplayedPlaylistName()} "   +
                                                         "${GlobalManager.getSongID()}")
     }
 
@@ -45,13 +45,13 @@ object PlayerSettingsManager {
         SongManager.skipTheOutro = prefs.getBoolean(KEY_SKIP_OUTRO,  false)
         SongManager.isRepeating = prefs.getBoolean(KEY_REPEAT_SONG, false)
 
-        GlobalManager.updatePlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
+        GlobalManager.updateDisplayedPlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
 
         GlobalManager.updateSongID(prefs.getLong(KEY_CURRENT_SONG, -1), context)
         Log.d("SettingsManager", "Load context: $context ${SongManager.skipTheIntro} " +
                                                         "${SongManager.skipTheOutro} "          +
                                                         "${SongManager.isRepeating} "           +
-                                                        "${GlobalManager.getPlaylistName()} "   +
+                                                        "${GlobalManager.getDisplayedPlaylistName()} "   +
                                                         "${GlobalManager.getSongID()}")
     }
 

@@ -18,7 +18,6 @@ import player.adapters.PlaylistAdapter
 import player.controllers.PlaylistController
 import player.interfaces.IPlaylist
 import global.GlobalManager
-import player.managers.PlaylistManager
 import screens.AppFragmentManager
 
 class Playlists : Fragment() {
@@ -53,7 +52,7 @@ class Playlists : Fragment() {
                 return@setOnClickListener
             }
             playlistAdapter.getSelectedPlaylists().forEach { playlist ->
-                if (playlist == playlistController.getPlaylist(GlobalManager.getPlaylistName())){
+                if (playlist == playlistController.getPlaylist(GlobalManager.getDisplayedPlaylistName())){
                     Toast.makeText(context, context?.getString(R.string.delete_current_playlist), Toast.LENGTH_SHORT).show()
                 }
                 else {
@@ -69,7 +68,7 @@ class Playlists : Fragment() {
                 context     = requireContext(),
                 currentName = requireContext().getString(R.string.new_playlist),
                 onChange    = { newName ->
-                    playlistController.createPlaylist(newName, playlistController.getPlaylist(GlobalManager.getPlaylistName()))
+                    playlistController.createPlaylist(newName, playlistController.getPlaylist(GlobalManager.getDisplayedPlaylistName()))
                     refresh()
                 }
             ).built()
@@ -95,8 +94,8 @@ class Playlists : Fragment() {
     }
 
     private fun openCurrentPlaylist(playlist: IPlaylist) {
-        GlobalManager.updatePlaylistName(playlist.name)
-        val playlistName = GlobalManager.getPlaylistName()
+        GlobalManager.updateDisplayedPlaylistName(playlist.name)
+        val playlistName = GlobalManager.getDisplayedPlaylistName()
 
         val currentPlaylistFragment = CurrentPlaylist().apply {
             arguments = Bundle().apply {

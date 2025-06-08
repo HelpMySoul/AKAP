@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             initializeComponents()
         }
 
+
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

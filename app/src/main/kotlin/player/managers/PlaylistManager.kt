@@ -26,9 +26,6 @@ object PlaylistManager {
         }
         playlists = mutableListOf()
 
-        sharedPreferences = context.getSharedPreferences("playlists", Context.MODE_PRIVATE)
-        loadPlaylistsFromPreferences()
-
         val musicService = MusicFinderService(context)
 
         val allSongsName = context.getString(R.string.all_songs)
@@ -41,7 +38,12 @@ object PlaylistManager {
 
         createPlaylist(allSongsName, allSongs, true)
 
+        sharedPreferences = context.getSharedPreferences("playlists", Context.MODE_PRIVATE)
+        loadPlaylistsFromPreferences()
+
         allPlaylistsNames = getAllPlaylistsNames(context)
+
+        playlists.sortBy { it.id }
     }
 
     fun getAllSongsPlaylist() : IPlaylist {
