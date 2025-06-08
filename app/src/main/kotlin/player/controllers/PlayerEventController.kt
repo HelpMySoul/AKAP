@@ -62,7 +62,6 @@ class PlayerEventController(
 
     fun onPlaylistRefresh() {
         getPlaylistFragment()?.refresh()
-        getPlayerFragment()?.stopSong()
     }
 
     fun onShowPlayer(playerFrameLayout: View) {
