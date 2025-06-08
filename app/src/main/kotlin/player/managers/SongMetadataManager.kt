@@ -38,7 +38,7 @@ object SongMetadataManager {
             put("outroDuration", song.outroDuration)
         }
         metadataArray.put(songData)
-        prefs.edit().putString(KEY_METADATA, metadataArray.toString()).apply()
+        prefs.edit().putString(KEY_METADATA, metadataArray.toString()).commit()
     }
 
     fun loadMetadata(context: Context, song: ISong) {
@@ -59,10 +59,10 @@ object SongMetadataManager {
                     song.localVolume = obj.getInt("localVolume")
                 }
                 if (obj.has("introDuration")) {
-                    song.localVolume = obj.getInt("introDuration")
+                    song.introDuration = obj.getLong("introDuration")
                 }
                 if (obj.has("outroDuration")) {
-                    song.localVolume = obj.getInt("outroDuration")
+                    song.outroDuration = obj.getLong("outroDuration")
                 }
                 break
             }
@@ -78,7 +78,7 @@ object SongMetadataManager {
             val obj = metadataArray.getJSONObject(i)
             if (obj.getLong("id") == songId) {
                 metadataArray.remove(i)
-                prefs.edit().putString(KEY_METADATA, metadataArray.toString()).apply()
+                prefs.edit().putString(KEY_METADATA, metadataArray.toString()).commit()
                 return
             }
         }
