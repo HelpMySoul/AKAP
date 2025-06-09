@@ -18,7 +18,7 @@ class SetNameBuilder(
 
         input.setText(currentName)
 
-        dialogBuilder.setTitle(context.getString(R.string.edit_playlist_name))
+        dialogBuilder.setTitle(context.getString(R.string.builder_name_text))
         dialogBuilder.setView(input)
 
         dialogBuilder.setPositiveButton(context.getString(R.string.save)) { _, _ ->
@@ -26,7 +26,7 @@ class SetNameBuilder(
             if (newName.isNotEmpty()) {
                 onChange(newName)
             } else {
-                Toast.makeText(context, context.getString(R.string.playlist_name_empty), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.wrong_name), Toast.LENGTH_SHORT).show()
             }
         }
         dialogBuilder.setNegativeButton(context.getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }

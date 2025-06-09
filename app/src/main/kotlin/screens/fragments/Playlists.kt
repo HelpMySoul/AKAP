@@ -18,6 +18,7 @@ import player.adapters.PlaylistAdapter
 import player.controllers.PlaylistController
 import player.interfaces.IPlaylist
 import global.GlobalManager
+import player.interfaces.ISong
 import screens.AppFragmentManager
 
 class Playlists : Fragment() {
@@ -68,7 +69,8 @@ class Playlists : Fragment() {
                 context     = requireContext(),
                 currentName = requireContext().getString(R.string.new_playlist),
                 onChange    = { newName ->
-                    playlistController.createPlaylist(newName, playlistController.getPlaylist(GlobalManager.getDisplayedPlaylistName()))
+                    val songs: List<ISong> = listOf()
+                    playlistController.createPlaylist(newName, songs)
                     refresh()
                 }
             ).built()

@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,46 +26,62 @@ import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import global.GlobalManager
 import player.adapters.SongPlayerAdapter
+import player.managers.FrameLayoutManager
 import player.managers.PlaylistManager
 import screens.AppFragmentManager
 
 class CurrentPlaylist (
     private var onSongClick: ((ISong) -> Unit)? = null
 ) : Fragment() {
+
     private lateinit var songsRecyclerView:      RecyclerView
     private lateinit var songPlayerAdapter:      SongPlayerAdapter
     private lateinit var playlistController:     PlaylistController
     private lateinit var songSearchController:   SongSearchController
-    private lateinit var searchText:             EditText
+
     private lateinit var playlistNameText:       TextView
-    private lateinit var deleteSongsButton:      ImageButton
-    private lateinit var editPlaylistNameButton: ImageButton
-    private lateinit var addSongsButton:         ImageButton
-    private lateinit var searchInPlaylistButton: ImageButton
-    private lateinit var closeSearchTextButton:  ImageButton
-    private lateinit var playlistLayout:         FrameLayout
-    private lateinit var searchLayout:           FrameLayout
-    private lateinit var editLayout:             LinearLayout
 
     private var          playlist:               IPlaylist? = null
+
+    private lateinit var playlistLayout:         FrameLayout
+    private lateinit var editLayout:             LinearLayout
+    private lateinit var searchInPlaylistButton: ImageButton
+    private lateinit var shufflePlaylistButton:  ImageButton
+    private lateinit var settingsPlaylistButton: ImageButton
+
+    private lateinit var searchLayout:           FrameLayout
+    private lateinit var searchText:             EditText
+    private lateinit var closeSearchTextButton:  ImageButton
+
+    private lateinit var settingsLayout:         FrameLayout
+    private lateinit var editPlaylistNameButton: ImageButton
+    private lateinit var addSongsButton:         ImageButton
+    private lateinit var deleteSongsButton:      ImageButton
+    private lateinit var closeSettingsTextButton:    ImageButton
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_playlist, container, false)
 
-        songsRecyclerView      = view.findViewById(R.id.songsRecyclerView)
-        playlistNameText       = view.findViewById(R.id.playlistNameTextView)
-        searchText             = view.findViewById(R.id.searchText)
-        searchInPlaylistButton = view.findViewById(R.id.searchInPlaylistButton)
-        deleteSongsButton      = view.findViewById(R.id.deleteSongsButton)
-        editPlaylistNameButton = view.findViewById(R.id.editPlaylistNameButton)
-        addSongsButton         = view.findViewById(R.id.addSongsButton)
-        closeSearchTextButton  = view.findViewById(R.id.closeSearchTextButton)
-        editLayout             = view.findViewById(R.id.editLayout)
-        playlistLayout         = view.findViewById(R.id.playlistLayout)
-        searchLayout           = view.findViewById(R.id.searchLayout)
+        songsRecyclerView       = view.findViewById(R.id.songsRecyclerView)
+        playlistNameText        = view.findViewById(R.id.playlistNameTextView)
+        searchText              = view.findViewById(R.id.searchText)
+        searchInPlaylistButton  = view.findViewById(R.id.searchInPlaylistButton)
+        deleteSongsButton       = view.findViewById(R.id.deleteSongsButton)
+        editPlaylistNameButton  = view.findViewById(R.id.editPlaylistNameButton)
+        addSongsButton          = view.findViewById(R.id.addSongsButton)
+        closeSearchTextButton   = view.findViewById(R.id.closeSearchTextButton)
+        editLayout              = view.findViewById(R.id.editLayout)
+        playlistLayout          = view.findViewById(R.id.playlistLayout)
+        searchLayout            = view.findViewById(R.id.searchLayout)
+        shufflePlaylistButton   = view.findViewById(R.id.shufflePlaylistButton)
+        settingsPlaylistButton  = view.findViewById(R.id.settingsPlaylistButton)
+        settingsLayout          = view.findViewById(R.id.settingsLayout)
+        closeSettingsTextButton = view.findViewById(R.id.closeSettingsTextButton)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        FrameLayoutManager.addLayouts(settingsLayout, searchLayout, playlistLayout)
 
         playlistController   = PlaylistController(requireContext())
         songSearchController = SongSearchController(requireContext(), playlistController)
@@ -77,7 +94,13 @@ class CurrentPlaylist (
 
         if (playlist == null) {
             playlistNameText.text = context?.getString(R.string.no_playlist) ?: ""
+
+            editLayout.visibility = View.GONE
+
             return view
+        }
+        else {
+            editLayout.visibility = View.VISIBLE
         }
 
         playlistNameText.text = playlist!!.name
@@ -134,14 +157,10 @@ class CurrentPlaylist (
         if (GlobalManager.getDisplayedPlaylistName() == (context?.getString(R.string.all_songs)
                 ?: "All songs")
         ) {
-            searchLayout.visibility          = View.VISIBLE
-            playlistLayout.visibility        = View.GONE
-            closeSearchTextButton.visibility = View.GONE
+            settingsPlaylistButton.visibility = View.GONE
         }
         else {
-            searchLayout.visibility          = View.GONE
-            playlistLayout.visibility        = View.VISIBLE
-            closeSearchTextButton.visibility = View.VISIBLE
+            settingsPlaylistButton.visibility = View.VISIBLE
         }
 
         return view
@@ -191,14 +210,30 @@ class CurrentPlaylist (
             }
         }
 
+        shufflePlaylistButton.setOnClickListener {
+
+            if (playlist == null) {
+                Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                BroadcastManagerController(requireContext()).sendBroadcast("SHUFFLE_PLAYLIST")
+            }
+        }
+
         searchInPlaylistButton.setOnClickListener {
-            playlistLayout.visibility = View.GONE
-            searchLayout.visibility   = View.VISIBLE
+            FrameLayoutManager.openLayout(searchLayout)
         }
 
         closeSearchTextButton.setOnClickListener {
-            playlistLayout.visibility = View.VISIBLE
-            searchLayout.visibility   = View.GONE
+            FrameLayoutManager.openLayout(playlistLayout)
+        }
+
+        settingsPlaylistButton.setOnClickListener {
+            FrameLayoutManager.openLayout(settingsLayout)
+        }
+
+        closeSettingsTextButton.setOnClickListener {
+            FrameLayoutManager.openLayout(playlistLayout)
         }
     }
 

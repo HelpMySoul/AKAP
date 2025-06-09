@@ -110,4 +110,10 @@
     <string name="changeNameSongSetting">Namen ändern</string>
     <string name="changeAuthorSongSetting">Autor ändern</string>
     <string name="discardMetaDataSongSetting">Metadaten verwerfen</string>
+    <string name="info_title">Information</string>
+    <string name="close">Schließen</string>
+    <string name="outro_info">Stellen Sie die Zeit für einen zusätzlichen automatischen Endpunkt des Musiktitels ein. Die eingestellte Zeit darf nicht vor dem zusätzlichen Startpunkt des Musiktitels liegen.</string>
+    <string name="intro_info">Stellen Sie die Zeit für einen zusätzlichen Startpunkt des Musiktitels ein, ab dem die Wiedergabe beginnt. Die eingestellte Zeit darf nicht nach dem automatischen Endpunkt des Musiktitels liegen.</string>
+    <string name="builder_name_text">Enter a name</string>
+    <string name="wrong_name">You entered the wrong name</string>
 </resources>

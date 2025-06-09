@@ -110,4 +110,10 @@
     <string name="changeNameSongSetting">名前を変更</string>
     <string name="changeAuthorSongSetting">作者を変更</string>
     <string name="discardMetaDataSongSetting">メタデータを破棄</string>
+    <string name="info_title">情報</string>
+    <string name="close">閉じる</string>
+    <string name="outro_info">楽曲の追加の自動終了点の時間を設定します。設定した時間は、楽曲の追加の開始点の時間より早くしてはいけません。</string>
+    <string name="intro_info">楽曲の追加の開始点の時間を設定します。この時間から再生が開始されます。設定した時間は、自動終了点の時間より遅くしてはいけません。</string>
+    <string name="builder_name_text">Enter a name</string>
+    <string name="wrong_name">You entered the wrong name</string>
 </resources>

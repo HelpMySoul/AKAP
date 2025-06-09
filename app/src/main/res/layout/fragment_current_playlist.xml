@@ -13,11 +13,67 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <FrameLayout
+            android:id="@+id/settingsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/editSettingsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageButton
+                    android:id="@+id/editPlaylistNameButton"
+                    style="@style/AppImageButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/pen" />
+
+                <ImageButton
+                    android:id="@+id/addSongsButton"
+                    style="@style/AppImageButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/plus" />
+
+                <ImageButton
+                    android:id="@+id/deleteSongsButton"
+                    style="@style/AppImageButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/minus" />
+
+                <ImageButton
+                    android:id="@+id/closeSettingsTextButton"
+                    style="@style/AppImageButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/back" />
+
+            </LinearLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/searchLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <LinearLayout
@@ -42,11 +98,11 @@
 
                 <ImageButton
                     android:id="@+id/closeSearchTextButton"
+                    style="@style/AppImageButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
                     android:visibility="visible"
-                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+                    app:srcCompat="@drawable/back" />
 
             </LinearLayout>
         </FrameLayout>
@@ -78,52 +134,34 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <ImageButton
                     android:id="@+id/searchInPlaylistButton"
+                    style="@style/AppImageButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:background="?attr/colorPrimary"
-                    app:srcCompat="@android:drawable/ic_menu_search" />
+                    app:srcCompat="@drawable/loupe" />
 
                 <ImageButton
-                    android:id="@+id/editPlaylistNameButton"
+                    android:id="@+id/shufflePlaylistButton"
+                    style="@style/AppImageButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:background="?attr/colorPrimary"
-                    app:srcCompat="@android:drawable/ic_menu_edit" />
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/shuffle" />
 
                 <ImageButton
-                    android:id="@+id/addSongsButton"
+                    android:id="@+id/settingsPlaylistButton"
+                    style="@style/AppImageButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="?attr/colorPrimary"
-                    android:visibility="visible"
-                    app:srcCompat="@android:drawable/ic_menu_add" />
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/gear" />
 
-                <ImageButton
-                    android:id="@+id/deleteSongsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:visibility="visible"
-                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </FrameLayout>
             </LinearLayout>
         </FrameLayout>
 

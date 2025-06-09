@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import broadcast.BroadcastManagerController
+import builders.InfoBuilder
 import builders.SetTimeBuilder
 import player.interfaces.IPlaylist
 import player.controllers.SongController
@@ -29,9 +30,12 @@ class PlayerMain : Fragment() {
     private lateinit var localVolumeSeekBar: SeekBar
 
     private lateinit var toggleSettingsButton: Button
-    private lateinit var shuffleSongButton:    Button
-    private lateinit var setIntroButton:       Button
-    private lateinit var setOutroButton:       Button
+
+    private lateinit var setIntroButton:       ImageButton
+    private lateinit var setOutroButton:       ImageButton
+
+    private lateinit var introInfoButton: ImageButton
+    private lateinit var outroInfoButton: ImageButton
 
     private lateinit var pauseAndPlayButton: ImageButton
     private lateinit var nextSongButton:     ImageButton
@@ -60,16 +64,13 @@ class PlayerMain : Fragment() {
         currentTimeText      = view.findViewById(R.id.currentSongTimeText)
         nextSongButton       = view.findViewById(R.id.nextSongButton)
         repeatSongCheckBox   = view.findViewById(R.id.repeatCheckBox)
-        shuffleSongButton    = view.findViewById(R.id.shuffleSongButton)
         setIntroButton       = view.findViewById(R.id.introSkipButton)
         setOutroButton       = view.findViewById(R.id.skipOutroButton)
+        introInfoButton      = view.findViewById(R.id.infoIntroButton)
+        outroInfoButton      = view.findViewById(R.id.infoOutroButton)
 
         nextSongButton.setOnClickListener {
             BroadcastManagerController(requireContext()).sendBroadcast("NEXT_SONG")
-        }
-
-        shuffleSongButton.setOnClickListener {
-            shuffleCurrentPlaylist()
         }
 
         repeatSongCheckBox.setOnClickListener {
@@ -79,14 +80,26 @@ class PlayerMain : Fragment() {
 
         setIntroButton.setOnClickListener {
             context?.let {
-                context -> setBuilderToListener(context.getString(R.string.edit_intro_time))
+                context -> setTimeBuilderToListener(context.getString(R.string.edit_intro_time)) { newTime ->
+                    songController?.setIntroTime(newTime)
+                }
             }
         }
 
         setOutroButton.setOnClickListener {
             context?.let {
-                context -> setBuilderToListener(context.getString(R.string.edit_outro_time))
+                context -> setTimeBuilderToListener(context.getString(R.string.edit_outro_time)) { newTime ->
+                    songController?.setOutroTime(newTime)
+                }
             }
+        }
+
+        outroInfoButton.setOnClickListener {
+            makeInfoBuilder(context?.getString(R.string.outro_info))
+        }
+
+        introInfoButton.setOnClickListener {
+            makeInfoBuilder(context?.getString(R.string.intro_info))
         }
 
         toggleSettingsButton.setOnClickListener {
@@ -106,11 +119,19 @@ class PlayerMain : Fragment() {
         return view
     }
 
-    private fun setBuilderToListener(title: String) {
+    private fun makeInfoBuilder(string: String?) {
+        context?.let {
+            if (string != null) {
+                InfoBuilder(it, string).built()
+            }
+        }
+    }
+
+    private fun setTimeBuilderToListener(title: String, action: (Int) -> Unit) {
         if (SongManager.canPlay)
         {
-            makeBuilder(title) { newTime ->
-                songController?.setIntroTime(newTime)
+            makeTimeBuilder(title) { newTime ->
+                action.invoke(newTime)
                 PlayerSettingsManager.saveSettings(requireContext())
             }
         }
@@ -119,7 +140,7 @@ class PlayerMain : Fragment() {
         }
     }
 
-    private fun makeBuilder(title: String, onChange : (Int) -> Unit){
+    private fun makeTimeBuilder(title: String, onChange : (Int) -> Unit){
         val currentTime = songController?.getCurrentTime()  ?: 0
         val maxTime     = songController?.getMaxTime()      ?: 0
 
@@ -170,16 +191,7 @@ class PlayerMain : Fragment() {
 
     fun playSong() {
         songController?.startPlaying()
-        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
-    }
-
-    private fun shuffleCurrentPlaylist() {
-        if (currentPlaylist == null) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        BroadcastManagerController(requireContext()).sendBroadcast("SHUFFLE_PLAYLIST")
+        pauseAndPlayButton.setImageResource(R.drawable.pause)
     }
 
     fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist?) {
@@ -220,12 +232,12 @@ class PlayerMain : Fragment() {
 
     fun pauseSong() {
         songController?.pauseSong()
-        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
+        pauseAndPlayButton.setImageResource(R.drawable.play)
     }
 
     fun stopSong() {
         songController?.stopSong()
-        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_play)
+        pauseAndPlayButton.setImageResource(R.drawable.play)
     }
 
     fun closePlaylist() {
@@ -239,6 +251,6 @@ class PlayerMain : Fragment() {
         }
 
         songController?.unpauseSong()
-        pauseAndPlayButton.setImageResource(android.R.drawable.ic_media_pause)
+        pauseAndPlayButton.setImageResource(R.drawable.pause)
     }
 }

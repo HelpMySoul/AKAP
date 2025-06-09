@@ -16,7 +16,7 @@
             android:id="@+id/createPlaylistButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save_current_playlist" />
+            android:text="@string/create_playlist" />
 
         <Space
             android:layout_width="0dp"
@@ -25,10 +25,10 @@
 
         <ImageButton
             android:id="@+id/deletePlaylistsButton"
+            style="@style/AppImageButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:srcCompat="@android:drawable/ic_menu_delete" />
+            app:srcCompat="@drawable/trash" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

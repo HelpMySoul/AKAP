@@ -110,4 +110,10 @@
     <string name="changeNameSongSetting">Change name</string>
     <string name="changeAuthorSongSetting">Change author</string>
     <string name="discardMetaDataSongSetting">Discard metadata</string>
+    <string name="info_title">Information</string>
+    <string name="close">Close</string>
+    <string name="outro_info">Set the time of the music song\'s auto end optional end point. The set time must not be earlier than the time of the music song\'s optional start point.</string>
+    <string name="intro_info">Set the time of the music song\'s optional start point from which it will be played back. The set time must not be later than the song\'s auto end time.</string>
+    <string name="builder_name_text">Enter a name</string>
+    <string name="wrong_name">You entered the wrong name</string>
 </resources>

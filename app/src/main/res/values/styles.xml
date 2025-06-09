@@ -85,6 +85,11 @@
         <item name="cornerRadius">16dp</item>
     </style>
 
+    <style name="AppImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/button_border</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    
     <style name="AutoSizeButton" parent="Widget.MaterialComponents.Button">
 
         <item name="android:maxLines">1</item>

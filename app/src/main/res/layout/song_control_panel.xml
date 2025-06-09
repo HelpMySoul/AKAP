@@ -29,7 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <CheckBox
             android:id="@+id/skipIntroCheckBox"
@@ -42,20 +43,30 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <Button
+        <ImageButton
             android:id="@+id/introSkipButton"
+            style="@style/AppImageButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/AutoSizeButton"
-            android:text="@string/set_intro_skip" />
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/pen" />
+
+        <ImageButton
+            android:id="@+id/infoIntroButton"
+            style="@style/AppImageButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/info" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <CheckBox
             android:id="@+id/skipOutroCheckBox"
@@ -68,22 +79,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <Button
+        <ImageButton
             android:id="@+id/skipOutroButton"
+            style="@style/AppImageButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/AutoSizeButton"
-            android:text="@string/set_outro_skip" />
-    </LinearLayout>
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/pen" />
 
-    <Button
-        android:id="@+id/shuffleSongButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/shuffle_song_button"
-        android:textAlignment="center"
-        android:orientation="vertical"   />
+        <ImageButton
+            android:id="@+id/infoOutroButton"
+            style="@style/AppImageButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/info" />
+    </LinearLayout>
 
 </LinearLayout>

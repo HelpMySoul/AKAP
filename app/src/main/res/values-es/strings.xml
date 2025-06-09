@@ -110,4 +110,10 @@
     <string name="changeNameSongSetting">Cambiar nombre</string>
     <string name="changeAuthorSongSetting">Cambiar autor</string>
     <string name="discardMetaDataSongSetting">Descartar metadatos</string>
+    <string name="info_title">Información</string>
+    <string name="close">Cerrar</string>
+    <string name="outro_info">Establezca el tiempo para un punto final automático adicional de la pista musical. El tiempo establecido no debe ser anterior al punto de inicio adicional de la pista musical.</string>
+    <string name="intro_info">Establezca el tiempo para un punto de inicio adicional de la pista musical desde el cual comenzará la reproducción. El tiempo establecido no debe ser posterior al punto final automático de la pista musical.</string>
+    <string name="builder_name_text">Enter a name</string>
+    <string name="wrong_name">You entered the wrong name</string>
 </resources>
