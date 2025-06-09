@@ -114,6 +114,9 @@
     <string name="close">关闭</string>
     <string name="outro_info">设置音乐曲目的额外自动结束点时间。设置的时间不得早于音乐曲目的额外开始点时间。</string>
     <string name="intro_info">设置音乐曲目的额外开始点时间，播放将从此时间开始。设置的时间不得晚于音乐曲目的自动结束点时间。</string>
-    <string name="builder_name_text">Enter a name</string>
-    <string name="wrong_name">You entered the wrong name</string>
+    <string name="builder_name_text">输入姓名</string>
+    <string name="wrong_name">您输入的姓名不正确</string>
+    <string name="auto_outro_skip">自动设置歌曲结尾跳过点</string>
+    <string name="enable_outro_skip">启用跳过点</string>
+    <string name="auto_outro_info">触发百分比（%）:</string>
 </resources>

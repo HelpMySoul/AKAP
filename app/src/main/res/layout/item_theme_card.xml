@@ -8,24 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="?attr/colorOnPrimary"
+        android:background="?attr/colorSecondary"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/themeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_gravity="center|start"
             android:text="@string/theme_string"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Spinner
             android:id="@+id/themeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
-            android:layout_weight="10"
+            android:layout_gravity="end|center"
+            android:drawingCacheQuality="auto"
+            android:dropDownWidth="wrap_content"
+            android:padding="8dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:background="#0000"
             android:spinnerMode="dropdown" />
 
     </LinearLayout>

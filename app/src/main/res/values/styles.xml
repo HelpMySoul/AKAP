@@ -13,6 +13,8 @@
         <item name="colorControlNormal">@color/colorBlack</item>
         <item name="colorControlActivated">@color/colorBlack</item>
         <item name="colorControlHighlight">@color/colorBlack</item>
+
+        <item name="android:thumbTint">?attr/colorPrimary</item>
     </style>    
 
     <style name="WhiteTheme" parent="AppTheme">
@@ -87,7 +89,7 @@
 
     <style name="AppImageButtonStyle" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/button_border</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">6dp</item>
     </style>
     
     <style name="AutoSizeButton" parent="Widget.MaterialComponents.Button">

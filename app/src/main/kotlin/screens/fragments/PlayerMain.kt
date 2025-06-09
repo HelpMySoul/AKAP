@@ -2,6 +2,7 @@ package screens.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.akap.R
 import broadcast.BroadcastManagerController
 import builders.InfoBuilder
 import builders.SetTimeBuilder
+import global.GlobalManager
 import player.interfaces.IPlaylist
 import player.controllers.SongController
 import player.interfaces.ISong
@@ -31,8 +33,8 @@ class PlayerMain : Fragment() {
 
     private lateinit var toggleSettingsButton: Button
 
-    private lateinit var setIntroButton:       ImageButton
-    private lateinit var setOutroButton:       ImageButton
+    private lateinit var setIntroButton: ImageButton
+    private lateinit var setOutroButton: ImageButton
 
     private lateinit var introInfoButton: ImageButton
     private lateinit var outroInfoButton: ImageButton
@@ -156,6 +158,16 @@ class PlayerMain : Fragment() {
     }
 
      fun nextSong() {
+         val currentTime: Int = songController?.getCurrentTime() ?: 0
+
+         Log.e("PlayerMain", "${SongManager.autoOutroSkip} ${currentTime.toFloat() / songController?.getMaxTime()!!.toFloat()} ${GlobalManager.outroSkipPercent.toFloat()/100f}")
+
+         if (SongManager.autoOutroSkip &&
+             currentTime.toFloat() / songController?.getMaxTime()!!.toFloat() > GlobalManager.outroSkipPercent.toFloat()/100){
+                context?.let { songController!!.setCurrentOutroTime(requireContext())
+             }
+         }
+
          if (currentPlaylist == null) {
             Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return

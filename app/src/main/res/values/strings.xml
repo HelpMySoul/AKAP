@@ -116,4 +116,7 @@
     <string name="intro_info">Set the time of the music song\'s optional start point from which it will be played back. The set time must not be later than the song\'s auto end time.</string>
     <string name="builder_name_text">Enter a name</string>
     <string name="wrong_name">You entered the wrong name</string>
+    <string name="auto_outro_skip">Automatic song outro skip</string>
+    <string name="enable_outro_skip">Enable outro skip</string>
+    <string name="auto_outro_info">Trigger threshold:</string>
 </resources>

@@ -14,14 +14,16 @@ import java.io.IOException
 
 object SongManager {
 
+
     private var mediaPlayer: MediaPlayer? = null
     private var currentSong: ISong?       = null
 
-    var isPaused:     Boolean = true
-    var canPlay:      Boolean = false
-    var isRepeating:  Boolean = false
-    var skipTheIntro: Boolean = false
-    var skipTheOutro: Boolean = false
+    var isPaused:      Boolean = true
+    var canPlay:       Boolean = false
+    var isRepeating:   Boolean = false
+    var skipTheIntro:  Boolean = false
+    var skipTheOutro:  Boolean = false
+    var autoOutroSkip: Boolean = false
 
     fun play(context: Context, song: ISong) {
         mediaPlayer?.setOnPreparedListener {
@@ -161,7 +163,6 @@ object SongManager {
 
         song.outroDuration = song.duration - currentPosition
         SongMetadataManager.saveMetadata(context, song)
-        Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
     }
 
     fun setSongOutroTime(context: Context, value: Int) {
@@ -258,6 +259,11 @@ object SongManager {
     }
     fun setIsRepeating(context: Context, value: Boolean) {
         isRepeating = value
+        PlayerSettingsManager.saveSettings(context)
+    }
+
+    fun setAutoOutroSkip(context: Context, value: Boolean) {
+        autoOutroSkip = value
         PlayerSettingsManager.saveSettings(context)
     }
 

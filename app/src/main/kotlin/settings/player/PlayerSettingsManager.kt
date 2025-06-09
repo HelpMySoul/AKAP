@@ -14,6 +14,9 @@ object PlayerSettingsManager {
     private const val KEY_SKIP_OUTRO  = "skip_outro"
     private const val KEY_REPEAT_SONG = "repeat_song"
 
+    private const val KEY_AUTO_OUTRO_SKIP    = "auto_outro_skip"
+    private const val KEY_OUTRO_SKIP_PERCENT = "outro_skip_percent"
+
     private const val KEY_CURRENT_PLAYLIST = "current_playlist"
     private const val KEY_CURRENT_SONG     = "current_song"
 
@@ -21,13 +24,16 @@ object PlayerSettingsManager {
         val prefs  = getPreferences(context)
         val editor = prefs.edit()
 
-        editor.putBoolean(KEY_SKIP_INTRO, SongManager.skipTheIntro)
-        editor.putBoolean(KEY_SKIP_OUTRO, SongManager.skipTheOutro)
-        editor.putBoolean(KEY_REPEAT_SONG, SongManager.isRepeating)
+        editor.putBoolean(KEY_SKIP_INTRO,      SongManager.skipTheIntro)
+        editor.putBoolean(KEY_SKIP_OUTRO,      SongManager.skipTheOutro)
+        editor.putBoolean(KEY_REPEAT_SONG,     SongManager.isRepeating)
+        editor.putBoolean(KEY_AUTO_OUTRO_SKIP, SongManager.autoOutroSkip)
 
         editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getDisplayedPlaylistName())
 
         editor.putLong(KEY_CURRENT_SONG, GlobalManager.getSongID())
+
+        editor.putInt(KEY_OUTRO_SKIP_PERCENT, GlobalManager.outroSkipPercent)
 
         editor.apply()
 
@@ -41,9 +47,12 @@ object PlayerSettingsManager {
     fun loadSettings(context: Context) {
         val prefs = getPreferences(context)
 
-        SongManager.skipTheIntro = prefs.getBoolean(KEY_SKIP_INTRO,  false)
-        SongManager.skipTheOutro = prefs.getBoolean(KEY_SKIP_OUTRO,  false)
-        SongManager.isRepeating = prefs.getBoolean(KEY_REPEAT_SONG, false)
+        SongManager.skipTheIntro  = prefs.getBoolean(KEY_SKIP_INTRO,  false)
+        SongManager.skipTheOutro  = prefs.getBoolean(KEY_SKIP_OUTRO,  false)
+        SongManager.isRepeating   = prefs.getBoolean(KEY_REPEAT_SONG, false)
+        SongManager.autoOutroSkip = prefs.getBoolean(KEY_AUTO_OUTRO_SKIP, false)
+
+        GlobalManager.outroSkipPercent = prefs.getInt(KEY_OUTRO_SKIP_PERCENT, 100)
 
         GlobalManager.updateDisplayedPlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
 
