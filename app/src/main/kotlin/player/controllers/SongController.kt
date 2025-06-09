@@ -46,6 +46,10 @@ class SongController(
         BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
+    fun getSong(): ISong? {
+        return currentSong
+    }
+
     private fun setupSong(song: ISong) {
         SongManager.setSong(context, song)
         currentSong = song

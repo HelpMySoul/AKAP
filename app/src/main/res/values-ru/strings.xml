@@ -112,6 +112,9 @@
     <string name="close">Закрыть</string>
     <string name="outro_info">Задайте время дополнительной точки автоматического завершения музыкальной композиции. Установленное время не должно быть раньше времени дополнительной точки начала музыкальной композиции.</string>
     <string name="intro_info">Задайте время дополнительной точки начала музыкальной композиции, с которой она будет воспроизводиться. Установленное время не должно быть позже времени автоматического завершения музыкальной композиции.</string>
-    <string name="builder_name_text">Enter a name</string>
-    <string name="wrong_name">You entered the wrong name</string>
+    <string name="builder_name_text">Введите имя</string>
+    <string name="wrong_name">Вы ввели неправильное имя</string>
+    <string name="auto_outro_skip">Автоматическая установка точки пропуска конца песни</string>
+    <string name="enable_outro_skip">Включить установку точки пропуска</string>
+    <string name="auto_outro_info">Порог срабатывания:</string>
 </resources>

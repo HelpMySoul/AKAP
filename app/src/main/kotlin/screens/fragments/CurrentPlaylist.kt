@@ -53,11 +53,11 @@ class CurrentPlaylist (
     private lateinit var searchText:             EditText
     private lateinit var closeSearchTextButton:  ImageButton
 
-    private lateinit var settingsLayout:         FrameLayout
-    private lateinit var editPlaylistNameButton: ImageButton
-    private lateinit var addSongsButton:         ImageButton
-    private lateinit var deleteSongsButton:      ImageButton
-    private lateinit var closeSettingsTextButton:    ImageButton
+    private lateinit var settingsLayout:          FrameLayout
+    private lateinit var editPlaylistNameButton:  ImageButton
+    private lateinit var addSongsButton:          ImageButton
+    private lateinit var deleteSongsButton:       ImageButton
+    private lateinit var closeSettingsTextButton: ImageButton
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

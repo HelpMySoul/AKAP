@@ -114,6 +114,9 @@
     <string name="close">Schließen</string>
     <string name="outro_info">Stellen Sie die Zeit für einen zusätzlichen automatischen Endpunkt des Musiktitels ein. Die eingestellte Zeit darf nicht vor dem zusätzlichen Startpunkt des Musiktitels liegen.</string>
     <string name="intro_info">Stellen Sie die Zeit für einen zusätzlichen Startpunkt des Musiktitels ein, ab dem die Wiedergabe beginnt. Die eingestellte Zeit darf nicht nach dem automatischen Endpunkt des Musiktitels liegen.</string>
-    <string name="builder_name_text">Enter a name</string>
-    <string name="wrong_name">You entered the wrong name</string>
+    <string name="builder_name_text">Geben Sie Ihren Namen ein</string>
+    <string name="wrong_name">Sie haben einen falschen Namen eingegeben</string>
+    <string name="auto_outro_skip">Automatische Setzung des Song-End-Skippunkts</string>
+    <string name="enable_outro_skip">Skippunkt aktivieren</string>
+    <string name="auto_outro_info">Auslöse-Schwellenwert:</string>
 </resources>

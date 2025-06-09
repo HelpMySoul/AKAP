@@ -114,6 +114,9 @@
     <string name="close">閉じる</string>
     <string name="outro_info">楽曲の追加の自動終了点の時間を設定します。設定した時間は、楽曲の追加の開始点の時間より早くしてはいけません。</string>
     <string name="intro_info">楽曲の追加の開始点の時間を設定します。この時間から再生が開始されます。設定した時間は、自動終了点の時間より遅くしてはいけません。</string>
-    <string name="builder_name_text">Enter a name</string>
-    <string name="wrong_name">You entered the wrong name</string>
+    <string name="builder_name_text">名前を入力してください</string>
+    <string name="wrong_name">無効な名前が入力されました</string>
+    <string name="auto_outro_skip">曲の終わりを自動スキップする設定</string>
+    <string name="enable_outro_skip">スキップポイントを有効化</string>
+    <string name="auto_outro_info">トリガー割合:</string>
 </resources>

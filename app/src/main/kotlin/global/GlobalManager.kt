@@ -8,6 +8,8 @@ object GlobalManager {
     private var playedPlaylistName:    String = ""
     private var songID:                Long   = -1
 
+    var outroSkipPercent: Int = 100
+
     fun updateDisplayedPlaylistName(newName: String) {
         displayedPlaylistName = newName
     }
