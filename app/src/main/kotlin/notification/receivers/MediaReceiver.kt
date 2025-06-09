@@ -21,6 +21,5 @@ class MediaReceiver : BroadcastReceiver() {
         } catch (e: Exception) {
             e.localizedMessage?.let { message -> Log.e("MediaReceiver", message) }
         }
-
     }
 }

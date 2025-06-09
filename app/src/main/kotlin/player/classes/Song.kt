@@ -13,7 +13,7 @@ class Song (
     override var artist:        String,
     override val filePath:      String,
 
-    localVolume:                Int = 75 // standard value
+    localVolume:                Int = 75
 ) : ISong {
 
     override var introDuration: Long = introDuration

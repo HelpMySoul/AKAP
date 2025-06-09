@@ -119,4 +119,7 @@
     <string name="auto_outro_skip">Automatische Setzung des Song-End-Skippunkts</string>
     <string name="enable_outro_skip">Skippunkt aktivieren</string>
     <string name="auto_outro_info">Auslöse-Schwellenwert:</string>
+    <string name="tag_duration">Длительность трека (секунд)</string>
+    <string name="tag_intro">Длительность интро (секунд)</string>
+    <string name="tag_outro">Длительность аутро (секунд)</string>
 </resources>

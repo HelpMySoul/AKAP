@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             initializeComponents()
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

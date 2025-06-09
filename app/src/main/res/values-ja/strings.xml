@@ -119,4 +119,7 @@
     <string name="auto_outro_skip">曲の終わりを自動スキップする設定</string>
     <string name="enable_outro_skip">スキップポイントを有効化</string>
     <string name="auto_outro_info">トリガー割合:</string>
+    <string name="tag_duration">Длительность трека (секунд)</string>
+    <string name="tag_intro">Длительность интро (секунд)</string>
+    <string name="tag_outro">Длительность аутро (секунд)</string>
 </resources>

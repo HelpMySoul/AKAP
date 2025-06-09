@@ -62,12 +62,18 @@ object TopMenuManager {
         containerId:     Int,
         fragmentTag:     String,
         fragmentFactory: () -> Fragment) {
-        AppFragmentManager.openFragment(fragmentManager, containerId, fragmentTag, fragmentFactory)
+        AppFragmentManager.openFragment(fragmentManager,
+                                        containerId,
+                                        fragmentTag,
+                                        fragmentFactory)
     }
 
-    fun createTopMenuButtons(context: Context, topMenuLayout: LinearLayout, supportFragmentManager: androidx.fragment.app.FragmentManager) {
-        val buttons = getListOfButtons(context, supportFragmentManager, R.id.songContainerFragment )
-
+    fun createTopMenuButtons(context:                Context,
+                             topMenuLayout:          LinearLayout,
+                             supportFragmentManager: FragmentManager) {
+        val buttons = getListOfButtons(context,
+                                       supportFragmentManager,
+                                       R.id.songContainerFragment)
         for (button in buttons) {
             val styledContext = ContextThemeWrapper(context, R.style.AppButtonStyle)
             val btn = Button(styledContext, null, 0).apply {

@@ -25,7 +25,6 @@ class PlaylistAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val playlist = playlists[position]
-
         holder.playlistName.text = playlist.name
 
         val songCountText     = holder.itemView.context.getString(R.string.song_string)

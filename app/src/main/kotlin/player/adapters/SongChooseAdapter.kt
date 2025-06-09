@@ -10,10 +10,9 @@ import player.holders.SongHolder
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 
-class SongChooseAdapter (
-    private var playlist:    IPlaylist
-                 ) : RecyclerView.Adapter<SongHolder>() {
+class SongChooseAdapter (private var playlist:    IPlaylist) : RecyclerView.Adapter<SongHolder>() {
     private val selectedSongs: MutableList<ISong> = mutableListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
         return SongHolder(view)

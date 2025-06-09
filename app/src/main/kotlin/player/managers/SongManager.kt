@@ -40,11 +40,9 @@ object SongManager {
 
     fun setSong(context: Context, song: ISong) {
         Log.e("SongManager", "Current song: ${song.title}")
-
         if (mediaPlayer?.isPlaying == true) {
             stop()
         }
-
         GlobalManager.updateSongID(song.id, context)
         initializeMediaPlayer(context, song)
         currentSong = song
@@ -219,7 +217,10 @@ object SongManager {
                 prepareAsync()
             } catch (e: IOException) {
                 e.printStackTrace()
-                Toast.makeText(context, e.localizedMessage ?: "Unknown error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    e.localizedMessage ?: "Unknown error",
+                    Toast.LENGTH_SHORT
+                ).show()
                 release()
             }
         }
