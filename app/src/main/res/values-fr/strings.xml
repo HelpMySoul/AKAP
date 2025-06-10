@@ -119,7 +119,4 @@
     <string name="auto_outro_skip">Configuration automatique du point de saut de fin de chanson</string>
     <string name="enable_outro_skip">Activer le point de saut</string>
     <string name="auto_outro_info">Seuil de déclenchement:</string>
-    <string name="tag_duration">Длительность трека (секунд)</string>
-    <string name="tag_intro">Длительность интро (секунд)</string>
-    <string name="tag_outro">Длительность аутро (секунд)</string>
 </resources>

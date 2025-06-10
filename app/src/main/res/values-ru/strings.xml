@@ -117,7 +117,4 @@
     <string name="auto_outro_skip">Автоматическая установка точки пропуска конца песни</string>
     <string name="enable_outro_skip">Включить установку точки пропуска</string>
     <string name="auto_outro_info">Порог срабатывания:</string>
-    <string name="tag_duration">Длительность трека (секунд)</string>
-    <string name="tag_intro">Длительность интро (секунд)</string>
-    <string name="tag_outro">Длительность аутро (секунд)</string>
 </resources>

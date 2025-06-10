@@ -119,7 +119,4 @@
     <string name="auto_outro_skip">Automatic song outro skip</string>
     <string name="enable_outro_skip">Enable outro skip</string>
     <string name="auto_outro_info">Trigger threshold:</string>
-    <string name="tag_duration">Длительность трека (секунд)</string>
-    <string name="tag_intro">Длительность интро (секунд)</string>
-    <string name="tag_outro">Длительность аутро (секунд)</string>
 </resources>

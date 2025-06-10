@@ -3,10 +3,10 @@ package player.managers
 import com.example.akap.R
 
 object FilterManager {
-    private val fullTags = mapOf(
-        "duration"      to R.string.tag_duration,
-        "introduration" to R.string.tag_intro,
-        "outroduration" to R.string.tag_outro
+    private val fullTags = listOf(
+        "duration",
+        "introduration",
+        "outroduration"
     )
 
     private val supportedOperators = listOf(">", "<", ">=", "<=", "==", "=", "!=")
@@ -16,7 +16,7 @@ object FilterManager {
     }
 
     private fun findFullTag(potentialTag: String): String? {
-        return fullTags.keys.find { it.startsWith(potentialTag.lowercase()) }
+        return fullTags.find { it.startsWith(potentialTag.lowercase()) }
     }
 
     private fun isValidTagValue(value: String): Boolean {

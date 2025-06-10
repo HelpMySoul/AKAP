@@ -41,7 +41,6 @@ object SongManager {
         if (mediaPlayer?.isPlaying == true) {
             stop()
         }
-        GlobalManager.updateSongID(song.id, context)
         initializeMediaPlayer(context, song)
         currentSong = song
     }
