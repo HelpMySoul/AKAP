@@ -1,6 +1,5 @@
 package screens.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +17,7 @@ import broadcast.BroadcastManagerController
 import builders.InfoBuilder
 import builders.SetTimeBuilder
 import global.GlobalManager
+import player.controllers.PlaylistController
 import player.interfaces.IPlaylist
 import player.controllers.SongController
 import player.interfaces.ISong
@@ -50,7 +50,10 @@ class PlayerMain : Fragment() {
     private lateinit var skipOutroCheckBox:  CheckBox
     private lateinit var repeatSongCheckBox: CheckBox
 
-    private var currentPlaylist: IPlaylist? = null
+    private val currentPlaylist: IPlaylist?
+        get() {
+            return PlaylistController(requireContext()).getPlaylist(GlobalManager.getPlayedPlaylistName())
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_player, container, false)
@@ -158,33 +161,26 @@ class PlayerMain : Fragment() {
     }
 
      fun nextSong() {
+         if (currentPlaylist == null) {
+            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
+            return
+         }
+
          val currentTime: Int = songController?.getCurrentTime() ?: 0
 
          Log.e("PlayerMain", "${SongManager.autoOutroSkip} ${currentTime.toFloat() / songController?.getMaxTime()!!.toFloat()} ${GlobalManager.outroSkipPercent.toFloat()/100f}")
 
          if (SongManager.autoOutroSkip &&
              currentTime.toFloat() / songController?.getMaxTime()!!.toFloat() > GlobalManager.outroSkipPercent.toFloat()/100){
-                context?.let { songController!!.setCurrentOutroTime(requireContext())
+             context?.let { songController!!.setCurrentOutroTime(requireContext())
              }
          }
-
-         if (currentPlaylist == null) {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
-            return
-         }
-
-         currentPlaylist?.getNext().let { song ->
-             if (song != null) {
-                 updateSongAndPlaylist(requireContext(), song, currentPlaylist!!)
-             }
-         }
+         songControllerCheck(currentPlaylist?.getNext())
     }
 
     fun repeatSong() {
         if (SongManager.isRepeating) {
-            currentPlaylist?.getCurrentSong()?.let { song ->
-                updateSongAndPlaylist(requireContext(), song, currentPlaylist!!)
-            }
+            updateSongController()
         }
     }
 
@@ -193,11 +189,13 @@ class PlayerMain : Fragment() {
             Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
         }
+        songControllerCheck(currentPlaylist?.getBefore())
+    }
 
-        currentPlaylist?.getBefore().let { song ->
-            if (song != null) {
-                updateSongAndPlaylist(requireContext(), song, currentPlaylist!!)
-            }
+    private fun songControllerCheck(song: ISong?) {
+        if (song != null) {
+            GlobalManager.updateSongID(song.id, requireContext())
+            updateSongController()
         }
     }
 
@@ -206,24 +204,10 @@ class PlayerMain : Fragment() {
         pauseAndPlayButton.setImageResource(R.drawable.pause)
     }
 
-    fun updateSongAndPlaylist(context: Context, song: ISong?, playlist: IPlaylist?) {
-        if (song != null) {
-            currentPlaylist = playlist
-            if (playlist != null) {
-                updateSongController(song, playlist)
-            }
-            else {
-                songController?.release()
-            }
-        }
-    }
-
-    private fun updateSongController(song: ISong?, playlist: IPlaylist) {
+    fun updateSongController() {
         if (songController == null) {
             songController = SongController(
                 context            = requireContext(),
-                currentSong        = song,
-                currentPlaylist    = playlist,
                 currentSongTitle   = currentSongTitle,
                 currentTimeText    = currentTimeText,
                 currentTimeSeekBar = currentTimeSeekBar,
@@ -232,14 +216,9 @@ class PlayerMain : Fragment() {
                 skipOutroCheckBox  = skipOutroCheckBox,
                 repeatSongCheckBox = repeatSongCheckBox
             )
-        } else {
-            songController?.updateSong(song, playlist)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        songController?.release()
+        songController!!.setupSong()
+        songController?.updateUI()
     }
 
     fun pauseSong() {
@@ -248,18 +227,18 @@ class PlayerMain : Fragment() {
     }
 
     fun stopSong() {
+        BroadcastManagerController(requireContext()).sendBroadcast("HIDE_PLAYER")
         songController?.stopSong()
         pauseAndPlayButton.setImageResource(R.drawable.play)
     }
 
     fun closePlaylist() {
-        currentPlaylist = null
         songController?.release()
     }
 
     fun unpauseSong() {
         if (!SongManager.canPlay) {
-            songController?.setSong()
+            songController?.setupSong()
         }
 
         songController?.unpauseSong()

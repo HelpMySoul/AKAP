@@ -18,8 +18,10 @@ import androidx.core.view.WindowInsetsCompat
 import broadcast.BroadcastManagerController
 import com.example.akap.R
 import bluetooth.MediaButtonHandler
+import global.GlobalManager
 import player.controllers.PlayerEventController
 import player.managers.PlaylistManager
+import screens.AppFragmentManager
 import screens.fragments.CurrentPlaylist
 import screens.fragments.PlayerMain
 import settings.player.PlayerSettingsManager
@@ -58,6 +60,16 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             initializeComponents()
+        }
+
+        GlobalManager.updateDisplayedPlaylistName(GlobalManager.getPlayedPlaylistName())
+
+        AppFragmentManager.openFragment(supportFragmentManager, R.id.songContainerFragment, GlobalManager.getPlayedPlaylistName()) {
+            CurrentPlaylist().apply {
+                arguments = Bundle().apply {
+                    putString("playlist_name", GlobalManager.getPlayedPlaylistName())
+                }
+            }
         }
     }
 

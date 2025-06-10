@@ -29,7 +29,7 @@ object PlayerSettingsManager {
         editor.putBoolean(KEY_REPEAT_SONG,     SongManager.isRepeating)
         editor.putBoolean(KEY_AUTO_OUTRO_SKIP, SongManager.autoOutroSkip)
 
-        editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getDisplayedPlaylistName())
+        editor.putString(KEY_CURRENT_PLAYLIST, GlobalManager.getPlayedPlaylistName())
 
         editor.putLong(KEY_CURRENT_SONG, GlobalManager.getSongID())
 
@@ -54,7 +54,7 @@ object PlayerSettingsManager {
 
         GlobalManager.outroSkipPercent = prefs.getInt(KEY_OUTRO_SKIP_PERCENT, 100)
 
-        GlobalManager.updateDisplayedPlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
+        GlobalManager.updatePlayedPlaylistName(prefs.getString(KEY_CURRENT_PLAYLIST,   "") ?: "")
 
         GlobalManager.updateSongID(prefs.getLong(KEY_CURRENT_SONG, -1), context)
         Log.d("SettingsManager", "Load context: $context ${SongManager.skipTheIntro} " +

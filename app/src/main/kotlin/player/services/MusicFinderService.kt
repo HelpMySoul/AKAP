@@ -10,7 +10,7 @@ import player.managers.SongMetadataManager
 
 class MusicFinderService(private val context: Context) {
 
-    fun findSongById(id: Int): ISong? {
+    fun findSongById(id: Long): ISong? {
         var song: ISong? = null
 
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

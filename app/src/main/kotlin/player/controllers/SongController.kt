@@ -10,17 +10,16 @@ import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
 import broadcast.BroadcastManagerController
+import global.GlobalManager
 import notification.services.NotificationService
 import player.adapters.TimeAdapter
-import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import player.managers.SongManager
+import player.services.MusicFinderService
 
 @SuppressLint("SetTextI18n")
 class SongController(
     private val context:            Context,
-    private var currentSong:        ISong?,
-    private var currentPlaylist:    IPlaylist,
     private val currentSongTitle:   TextView,
     private val currentTimeText:    TextView,
     private val currentTimeSeekBar: SeekBar,
@@ -34,8 +33,12 @@ class SongController(
     private val updateSeekBarTask = Runnable { updateSongTime() }
     private val checkOutroSkip    = Runnable { outroSkip() }
 
+    private val currentSong: ISong?
+        get() {
+           return MusicFinderService(context).findSongById(GlobalManager.getSongID())
+        }
+
     init {
-        setSong()
         setupListeners()
         updateUI(true)
     }
@@ -46,22 +49,12 @@ class SongController(
         BroadcastManagerController(context).sendBroadcast("SHOW_PLAYER")
     }
 
-    fun getSong(): ISong? {
-        return currentSong
+    fun setupSong() {
+        currentSong?.let { SongManager.setSong(context, it) }
     }
 
-    private fun setupSong(song: ISong) {
-        SongManager.setSong(context, song)
-        currentSong = song
-    }
-
-    private fun  playCurrentSong() {
-        currentSong?.let { playSong(it) }
-        startHandler()
-    }
-
-    private fun playSong(song: ISong) {
-        SongManager.play(context, song)
+    private fun playCurrentSong() {
+        currentSong?.let { SongManager.play(context, it) }
         playNextListenerSetup()
 
         Handler(Looper.getMainLooper()).postDelayed( {
@@ -70,6 +63,8 @@ class SongController(
         }, 33)
 
         updateUI()
+
+        startHandler()
     }
 
     private fun setupListeners() {
@@ -140,7 +135,7 @@ class SongController(
     }
 
     private fun playNext() {
-        if (SongManager.isRepeating){
+        if (SongManager.isRepeating) {
             BroadcastManagerController(context).sendBroadcast("REPEAT_SONG")
         } else {
             BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
@@ -265,16 +260,6 @@ class SongController(
         SongManager.setCurrentSongOutroTime(context)
     }
 
-    fun setSong() {
-        currentSong?.let { setupSong(it) }
-    }
-
-    fun updateSong(song: ISong?, playlist: IPlaylist) {
-        currentSong     = song
-        currentPlaylist = playlist
-        setSong()
-        updateUI(true)
-    }
 
     fun getCurrentTime(): Int {
        return SongManager.getCurrentPosition()

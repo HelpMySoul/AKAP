@@ -13,8 +13,6 @@ import settings.player.PlayerSettingsManager
 import java.io.IOException
 
 object SongManager {
-
-
     private var mediaPlayer: MediaPlayer? = null
     private var currentSong: ISong?       = null
 
@@ -214,7 +212,7 @@ object SongManager {
         mediaPlayer = MediaPlayer().apply {
             try {
                 setDataSource(context, Uri.parse(song.filePath))
-                prepareAsync()
+                prepare()
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(context,

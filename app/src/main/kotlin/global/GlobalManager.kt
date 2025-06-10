@@ -2,6 +2,7 @@ package global
 
 import android.content.Context
 import android.util.Log
+import settings.player.PlayerSettingsManager
 
 object GlobalManager {
     private var displayedPlaylistName: String = ""

@@ -29,6 +29,7 @@ import player.adapters.SongPlayerAdapter
 import player.managers.FrameLayoutManager
 import player.managers.PlaylistManager
 import screens.AppFragmentManager
+import settings.player.PlayerSettingsManager
 
 class CurrentPlaylist (
     private var onSongClick: ((ISong) -> Unit)? = null
@@ -125,8 +126,6 @@ class CurrentPlaylist (
 
         Log.d("CurrentPlaylist", "${GlobalManager.getSongID()} ${GlobalManager.getSongID() != (-1).toLong()} ${(-1).toLong()} $context")
 
-        BroadcastManagerController(requireContext()).sendBroadcast("SHOW_PLAYER")
-
         searchText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
 
@@ -135,21 +134,13 @@ class CurrentPlaylist (
                     return
                 }
 
-                if (s?.toString() != "") {
-                    playlistNameText.visibility = View.GONE
-                }
-
                 val query = s?.toString() ?: ""
                 playlist  = songSearchController.search(query, playlist)
 
                 updatePlaylist(playlistName)
             }
 
-            override fun afterTextChanged(s: Editable?) {
-                if (searchText.text.toString() == "") {
-                    playlistNameText.visibility = View.VISIBLE
-                }
-            }
+            override fun afterTextChanged(s: Editable?) { }
         })
 
         setButtonListeners()
@@ -226,6 +217,7 @@ class CurrentPlaylist (
 
         closeSearchTextButton.setOnClickListener {
             FrameLayoutManager.openLayout(playlistLayout)
+            BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
         }
 
         settingsPlaylistButton.setOnClickListener {
@@ -268,9 +260,13 @@ class CurrentPlaylist (
     }
 
     private fun playSong(song: ISong) {
-
         playlist?.findSong(song)?.let {
             GlobalManager.updatePlayedPlaylistName(playlist!!.name)
+            GlobalManager.updateSongID(song.id, requireContext())
+            PlayerSettingsManager.saveSettings(requireContext())
+
+            playlist!!.findSong(song)
+
             songPlayerAdapter.refresh()
 
             context?.let { context ->

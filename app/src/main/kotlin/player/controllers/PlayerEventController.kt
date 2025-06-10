@@ -53,9 +53,7 @@ class PlayerEventController(
     }
 
     fun onPlaylistShuffleClicked() {
-
         getPlaylistFragment()?.shufflePlaylist()
-
         onPlaylistRefresh()
     }
 
@@ -64,27 +62,11 @@ class PlayerEventController(
     }
 
     fun onShowPlayer(playerFrameLayout: View) {
-
-        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getDisplayedPlaylistName())
-        val song = playlist?.getCurrentSong()
-
-        if (playerFrameLayout.visibility != View.VISIBLE) {
-            playerFrameLayout.visibility = View.VISIBLE
-            val playerFragment = getPlayerFragment()
-
-            if (playlist != null) {
-
-                playerFragment?.updateSongAndPlaylist(context, song, playlist)
-            }
-        }
+        playerFrameLayout.visibility = View.VISIBLE
     }
 
     fun onHidePlayer(playerFrameLayout: View) {
-        if (playerFrameLayout.visibility == View.VISIBLE) {
-            playerFrameLayout.visibility = View.GONE
-            val playerFragment = getPlayerFragment()
-            playerFragment?.updateSongAndPlaylist(context, null, null)
-        }
+        playerFrameLayout.visibility = View.GONE
     }
 
     fun onPlaySong() {
@@ -112,12 +94,7 @@ class PlayerEventController(
     }
 
     fun onUpdateSong() {
-        val playlist = PlaylistController(context).getPlaylist(GlobalManager.getDisplayedPlaylistName())
-
-        if (playlist != null) {
-            val song = playlist.getCurrentSong()
-            getPlayerFragment()?.updateSongAndPlaylist(context, song, playlist)
-        }
+        getPlayerFragment()?.updateSongController()
     }
 
     fun onClosePlaylist() {

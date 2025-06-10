@@ -8,8 +8,8 @@ import screens.fragments.SongSettingsCard
 object AppFragmentManager {
 
     fun openFragment(fragmentManager: FragmentManager,
-                     containerId: Int,
-                     fragmentTag: String,
+                     containerId:     Int,
+                     fragmentTag:     String,
                      fragmentFactory: () -> Fragment) {
         val existingFragment = fragmentManager.findFragmentByTag(fragmentTag)
         if (existingFragment != null) {
@@ -22,8 +22,8 @@ object AppFragmentManager {
     }
 
     fun addMenuFragment(fragmentManager: FragmentManager,
-                        newFragment: Fragment,
-                        oldFragment: Fragment) {
+                        newFragment:     Fragment,
+                        oldFragment:     Fragment) {
         fragmentManager.beginTransaction()
             .add(R.id.songContainerFragment, newFragment)
             .addToBackStack(null)
