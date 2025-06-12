@@ -24,7 +24,7 @@ class NotificationController(private val context: Context) {
                 context,
                 0,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT  or PendingIntent.FLAG_IMMUTABLE
             )
 
         return NotificationCompat.Builder(context, channelId)
@@ -35,6 +35,7 @@ class NotificationController(private val context: Context) {
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(2)
+            .setSound(null)
             .build()
     }
 
