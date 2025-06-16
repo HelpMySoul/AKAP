@@ -119,4 +119,5 @@
     <string name="auto_outro_skip">Automatic song outro skip</string>
     <string name="enable_outro_skip">Enable outro skip</string>
     <string name="auto_outro_info">Trigger threshold:</string>
+    <string name="no_playlists_to_delete">No playlists selected for deletion</string>
 </resources>

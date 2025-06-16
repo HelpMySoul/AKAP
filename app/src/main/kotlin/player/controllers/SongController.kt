@@ -33,7 +33,7 @@ class SongController(
     private val updateSeekBarTask = Runnable { updateSongTime() }
     private val checkOutroSkip    = Runnable { outroSkip() }
 
-    private val currentSong: ISong?
+    private val currentSong: ISong
         get() {
            return MusicFinderService(context).findSongById(GlobalManager.getSongID())
         }
@@ -50,11 +50,11 @@ class SongController(
     }
 
     fun setupSong() {
-        currentSong?.let { SongManager.setSong(context, it) }
+        currentSong.let { SongManager.setSong(context, it) }
     }
 
     private fun playCurrentSong() {
-        currentSong?.let { SongManager.play(context, it) }
+        currentSong.let { SongManager.play(context, it) }
         playNextListenerSetup()
 
         Handler(Looper.getMainLooper()).postDelayed( {
@@ -151,7 +151,7 @@ class SongController(
     }
 
     private fun  getSongName(): String {
-        return "${currentSong?.artist} - ${currentSong?.title}"
+        return "${currentSong.artist} - ${currentSong?.title}"
     }
 
     fun updateUI(updateSongTitle: Boolean = false) {
@@ -159,14 +159,12 @@ class SongController(
             currentSongTitle.text = getSongName()
         }
 
-        currentTimeSeekBar.max      = currentSong?.duration?.toInt() ?: 0
+        currentTimeSeekBar.max      = currentSong.duration.toInt()
         currentTimeSeekBar.progress = SongManager.getCurrentPosition()
         currentTimeText.text        = "${TimeAdapter.formatTime(SongManager.getCurrentPosition())} / " +
-                "${
-                    currentSong?.duration?.let {
-                        TimeAdapter.formatTime(it.toInt())
-                    }        
-                }"
+            currentSong.duration.let {
+                TimeAdapter.formatTime(it.toInt())
+            }
 
         currentSongTitle.isSelected = true
         localVolumeSeekBar.progress = SongManager.getLocalVolume()
@@ -194,11 +192,9 @@ class SongController(
 
     private  fun updateSongTimeText(currentTime: Int) {
         currentTimeText.text = "${TimeAdapter.formatTime(currentTime)} / " +
-            "${
-                currentSong?.duration?.let {
-                    TimeAdapter.formatTime(it.toInt())
-                }
-            }"
+            currentSong.duration.let {
+                TimeAdapter.formatTime(it.toInt())
+            }
     }
 
     private fun outroSkip() {
@@ -228,8 +224,8 @@ class SongController(
 
     private fun createNotificationIntent() {
         val intent = Intent(context, NotificationService::class.java).apply {
-            putExtra("title",  currentSong?.title)
-            putExtra("artist", currentSong?.artist)
+            putExtra("title", currentSong.title)
+            putExtra("artist", currentSong.artist)
             putExtra("show",true)
         }
 

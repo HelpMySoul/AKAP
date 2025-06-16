@@ -49,7 +49,7 @@ class Playlists : Fragment() {
 
         deletePlaylistsButton.setOnClickListener {
             if (playlistAdapter.getSelectedPlaylists().isEmpty()) {
-                Toast.makeText(context, context?.getString(R.string.no_playlists), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.no_playlists_to_delete), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             playlistAdapter.getSelectedPlaylists().forEach { playlist ->

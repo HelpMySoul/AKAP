@@ -119,4 +119,5 @@
     <string name="auto_outro_skip">Configuración automática del punto de salto del final de la canción</string>
     <string name="enable_outro_skip">Habilitar punto de salto</string>
     <string name="auto_outro_info">Umbral de activación:</string>
+    <string name="no_playlists_to_delete">No hay listas de reproducción seleccionadas para eliminar</string>
 </resources>

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import com.example.akap.R
 
 class NotificationController(private val context: Context) {
 
@@ -28,7 +29,7 @@ class NotificationController(private val context: Context) {
             )
 
         return NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(android.R.drawable.ic_media_play)
+            .setSmallIcon(R.drawable.logo)
             .setCustomContentView(smallContentView)
             .setCustomBigContentView(bigContentView)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())

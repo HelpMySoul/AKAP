@@ -41,8 +41,14 @@ object SongManager {
         if (mediaPlayer?.isPlaying == true) {
             stop()
         }
-        initializeMediaPlayer(context, song)
-        currentSong = song
+        try {
+            initializeMediaPlayer(context, song)
+            currentSong = song
+        }
+        catch (e: Exception) {
+            Toast.makeText(context, e.localizedMessage, Toast.LENGTH_SHORT).show()
+            currentSong = null
+        }
     }
 
     fun unpause(context: Context) {
@@ -209,17 +215,8 @@ object SongManager {
 
     private fun initializeMediaPlayer(context: Context, song: ISong) {
         mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(context, Uri.parse(song.filePath))
-                prepare()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Toast.makeText(context,
-                    e.localizedMessage ?: "Unknown error",
-                    Toast.LENGTH_SHORT
-                ).show()
-                release()
-            }
+            setDataSource(context, Uri.parse(song.filePath))
+            prepare()
         }
     }
 
