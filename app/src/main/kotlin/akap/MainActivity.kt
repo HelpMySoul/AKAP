@@ -21,6 +21,7 @@ import bluetooth.MediaButtonHandler
 import global.GlobalManager
 import player.controllers.PlayerEventController
 import player.managers.PlaylistManager
+import player.managers.SongManager
 import screens.AppFragmentManager
 import screens.fragments.CurrentPlaylist
 import screens.fragments.PlayerMain
@@ -123,6 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        SongManager.stop()
         if (!restartApp) {
             BroadcastManagerController(this).sendBroadcast("STOP_NOTIFICATION")
             broadcastManagerController.unregisterAll()
