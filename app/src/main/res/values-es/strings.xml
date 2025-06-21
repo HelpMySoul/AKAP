@@ -26,6 +26,17 @@
         <item>Tema oscuro</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>Más recientes primero</item>
+        <item>Más antiguos primero</item>
+        <item>Por título (A-Z)</item>
+        <item>Por título (Z-A)</item>
+        <item>Por autor (A-Z)</item>
+        <item>Por autor (Z-A)</item>
+        <item>Por duración (↑)</item>
+        <item>Por duración (↓)</item>
+    </string-array>
+
     <string name="now_playing_string">Reproduciendo ahora:</string>
     <string name="language_string">Idioma</string>
     <string name="playlists_string">Todas las listas de reproducción</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">Habilitar punto de salto</string>
     <string name="auto_outro_info">Umbral de activación:</string>
     <string name="no_playlists_to_delete">No hay listas de reproducción seleccionadas para eliminar</string>
+    <string name="filter_rule">Elegir regla de ordenación</string>
 </resources>

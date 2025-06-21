@@ -2,16 +2,22 @@ package player.classes
 
 import org.json.JSONObject
 import player.interfaces.ISong
+import java.util.Date
 
 class Song (
     override var id:            Long,
     override var duration:      Long,
+
+    override val dateAdded:     Long,
+
     introDuration:              Long = 0,
     outroDuration:              Long = 0,
 
     override var title:         String,
     override var artist:        String,
     override val filePath:      String,
+
+
 
     localVolume:                Int = 75
 ) : ISong {
@@ -73,6 +79,7 @@ class Song (
         json.put("title",         title)
         json.put("artist",        artist)
         json.put("filePath",      filePath)
+        json.put("dateAdded",     dateAdded)
         json.put("localVolume",   localVolume)
         return json
     }
@@ -84,6 +91,7 @@ class Song (
                 duration      = json.getLong("duration"),
                 introDuration = json.getLong("introDuration"),
                 outroDuration = json.getLong("outroDuration"),
+                dateAdded     = json.getLong("dateAdded"),
 
                 title         = json.getString("title"),
                 artist        = json.getString("artist"),

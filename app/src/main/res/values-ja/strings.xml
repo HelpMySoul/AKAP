@@ -26,6 +26,17 @@
         <item>ダークテーマ</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>新しい順</item>
+        <item>古い順</item>
+        <item>タイトル順 (A-Z)</item>
+        <item>タイトル順 (Z-A)</item>
+        <item>著者順 (A-Z)</item>
+        <item>著者順 (Z-A)</item>
+        <item>時間の短い順</item>
+        <item>時間の長い順</item>
+    </string-array>
+
     <string name="now_playing_string">再生中：</string>
     <string name="language_string">言語</string>
     <string name="playlists_string">すべてのプレイリスト</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">スキップポイントを有効化</string>
     <string name="auto_outro_info">トリガー割合:</string>
     <string name="no_playlists_to_delete">削除するプレイリストが選択されていません</string>
+    <string name="filter_rule">並べ替えルールを選択</string>
 </resources>

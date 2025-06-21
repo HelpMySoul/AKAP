@@ -26,6 +26,17 @@
         <item>Темная тема</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>Сначала новые</item>
+        <item>Сначала старые</item>
+        <item>По названию (А-Я)</item>
+        <item>По названию (Я-А)</item>
+        <item>По автору (А-Я)</item>
+        <item>По автору (Я-А)</item>
+        <item>По длительности (↑)</item>
+        <item>По длительности (↓)</item>
+    </string-array>
+
     <string name="now_playing_string">Сейчас играет:</string>
     <string name="language_string">Язык</string>
     <string name="playlists_string">Все плейлисты</string>
@@ -118,4 +129,5 @@
     <string name="enable_outro_skip">Включить установку точки пропуска</string>
     <string name="auto_outro_info">Порог срабатывания:</string>
     <string name="no_playlists_to_delete">Нет выбранных плейлистов для удаления</string>
+    <string name="filter_rule">Выберите правило сортировки</string>
 </resources>

@@ -26,6 +26,17 @@
         <item>深色主题</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>最新</item>
+        <item>最旧</item>
+        <item>按标题 (A-Z)</item>
+        <item>按标题 (Z-A)</item>
+        <item>按作者 (A-Z)</item>
+        <item>按作者 (Z-A)</item>
+        <item>按时长 (升序)</item>
+        <item>按时长 (降序)</item>
+    </string-array>
+
     <string name="now_playing_string">正在播放：</string>
     <string name="language_string">语言</string>
     <string name="playlists_string">所有播放列表</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">启用跳过点</string>
     <string name="auto_outro_info">触发百分比（%）:</string>
     <string name="no_playlists_to_delete">没有选择要删除的播放列表</string>
+    <string name="filter_rule">选择排序规则</string>
 </resources>

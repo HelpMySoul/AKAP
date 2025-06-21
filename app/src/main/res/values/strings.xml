@@ -26,6 +26,17 @@
         <item>Dark theme</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>By title (A-Z)</item>
+        <item>By title (Z-A)</item>
+        <item>By author (A-Z)</item>
+        <item>By author (Z-A)</item>
+        <item>By duration (↑)</item>
+        <item>By duration (↓)</item>
+    </string-array>
+
     <string name="now_playing_string">Now Playing:</string>
     <string name="language_string">Language</string>
     <string name="playlists_string">All playlists</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">Enable outro skip</string>
     <string name="auto_outro_info">Trigger threshold:</string>
     <string name="no_playlists_to_delete">No playlists selected for deletion</string>
+    <string name="filter_rule">Choose sort rule</string>
 </resources>

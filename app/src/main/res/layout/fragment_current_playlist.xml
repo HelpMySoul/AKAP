@@ -97,12 +97,22 @@
                     android:visibility="visible" />
 
                 <ImageButton
+                    android:id="@+id/songFilterButton"
+                    style="@style/AppImageButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+
+                <ImageButton
                     android:id="@+id/closeSearchTextButton"
                     style="@style/AppImageButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:srcCompat="@drawable/back" />
+
 
             </LinearLayout>
         </FrameLayout>

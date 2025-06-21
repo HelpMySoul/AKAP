@@ -1,6 +1,7 @@
 package player.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -69,5 +70,22 @@ class SongPlayerAdapter(
                 GlobalManager.getPlayedPlaylistName() == playlist.name)
 
         holder.itemView.setBackgroundColor(if (isSelected) selectedColor else defaultColor)
+    }
+
+    fun sort(ruleId: Int) {
+        Log.d("Filter", ruleId.toString())
+
+        when (ruleId) {
+            0 -> playlist.songs.sortByDescending { song -> song.dateAdded }
+            1 -> playlist.songs.sortBy           { song -> song.dateAdded }
+            2 -> playlist.songs.sortBy           { song -> song.title }
+            3 -> playlist.songs.sortByDescending { song -> song.title }
+            4 -> playlist.songs.sortBy           { song -> song.artist }
+            5 -> playlist.songs.sortByDescending { song -> song.artist }
+            6 -> playlist.songs.sortBy           { song -> song.duration }
+            7 -> playlist.songs.sortByDescending { song -> song.duration}
+        }
+
+        refresh()
     }
 }

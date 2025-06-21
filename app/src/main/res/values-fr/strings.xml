@@ -26,6 +26,17 @@
         <item>Thème sombre</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>Plus récents d\'abord</item>
+        <item>Plus anciens d\'abord</item>
+        <item>Par titre (A-Z)</item>
+        <item>Par titre (Z-A)</item>
+        <item>Par auteur (A-Z)</item>
+        <item>Par auteur (Z-A)</item>
+        <item>Par durée (↑)</item>
+        <item>Par durée (↓)</item>
+    </string-array>
+
     <string name="now_playing_string">En cours de lecture:</string>
     <string name="language_string">Langue</string>
     <string name="playlists_string">Toutes les playlists</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">Activer le point de saut</string>
     <string name="auto_outro_info">Seuil de déclenchement:</string>
     <string name="no_playlists_to_delete">Aucune playlist sélectionnée pour la suppression</string>
+    <string name="filter_rule">Choisir la règle de tri</string>
 </resources>

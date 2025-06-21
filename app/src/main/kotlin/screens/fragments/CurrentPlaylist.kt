@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import builders.SetNameBuilder
 import com.example.akap.R
 import broadcast.BroadcastManagerController
+import builders.SelectionBuilder
 import player.controllers.PlaylistController
 import player.controllers.SongSearchController
 import player.interfaces.IPlaylist
@@ -52,6 +53,7 @@ class CurrentPlaylist (
 
     private lateinit var searchLayout:           FrameLayout
     private lateinit var searchText:             EditText
+    private lateinit var songFilterButton:       ImageButton
     private lateinit var closeSearchTextButton:  ImageButton
 
     private lateinit var settingsLayout:          FrameLayout
@@ -79,6 +81,7 @@ class CurrentPlaylist (
         settingsPlaylistButton  = view.findViewById(R.id.settingsPlaylistButton)
         settingsLayout          = view.findViewById(R.id.settingsLayout)
         closeSettingsTextButton = view.findViewById(R.id.closeSettingsTextButton)
+        songFilterButton        = view.findViewById(R.id.songFilterButton)
 
         songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -161,7 +164,7 @@ class CurrentPlaylist (
         AppFragmentManager.addMenuFragment(parentFragmentManager, SongSettingsCard(song) { refresh() }, this)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "ResourceType")
     private fun setButtonListeners() {
         deleteSongsButton.setOnClickListener {
             showSongSelectorFragment(
@@ -213,6 +216,22 @@ class CurrentPlaylist (
 
         searchInPlaylistButton.setOnClickListener {
             FrameLayoutManager.openLayout(searchLayout)
+        }
+
+        songFilterButton.setOnClickListener {
+            val vars: List<String>? = context?.resources?.getStringArray(R.array.filter_rules)?.toList()
+
+            context?.let { context ->
+                if (vars != null) {
+                    SelectionBuilder(
+                        context,
+                        context.getString(R.string.filter_rule),
+                        vars
+                    ) { rule ->
+                        songPlayerAdapter.sort(vars.indexOf(rule))
+                    }.built()
+                }
+            }
         }
 
         closeSearchTextButton.setOnClickListener {

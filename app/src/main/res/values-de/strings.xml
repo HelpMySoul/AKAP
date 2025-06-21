@@ -26,6 +26,17 @@
         <item>Dunkles Design</item>
     </string-array>
 
+    <string-array name="filter_rules">
+        <item>Neueste zuerst</item>
+        <item>Älteste zuerst</item>
+        <item>Nach Titel (A-Z)</item>
+        <item>Nach Titel (Z-A)</item>
+        <item>Nach Autor (A-Z)</item>
+        <item>Nach Autor (Z-A)</item>
+        <item>Nach Dauer (↑)</item>
+        <item>Nach Dauer (↓)</item>
+    </string-array>
+
     <string name="now_playing_string">Jetzt läuft:</string>
     <string name="language_string">Sprache</string>
     <string name="playlists_string">Alle Playlists</string>
@@ -120,4 +131,5 @@
     <string name="enable_outro_skip">Skippunkt aktivieren</string>
     <string name="auto_outro_info">Auslöse-Schwellenwert:</string>
     <string name="no_playlists_to_delete">Keine Wiedergabelisten zum Löschen ausgewählt</string>
+    <string name="filter_rule" />
 </resources>
