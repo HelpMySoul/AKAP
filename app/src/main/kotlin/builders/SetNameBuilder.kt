@@ -13,7 +13,7 @@ class SetNameBuilder(
 ) {
 
     fun built() {
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         val input         = EditText(context)
 
         input.setText(currentName)

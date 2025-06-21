@@ -15,6 +15,7 @@ import notification.services.NotificationService
 import player.adapters.TimeAdapter
 import player.interfaces.ISong
 import player.managers.SongManager
+import player.managers.SongMetadataManager
 import player.services.MusicFinderService
 
 @SuppressLint("SetTextI18n")
@@ -35,7 +36,7 @@ class SongController(
 
     private val currentSong: ISong
         get() {
-           return MusicFinderService(context).findSongById(GlobalManager.getSongID())
+            return MusicFinderService(context).findSongById(GlobalManager.getSongID())
         }
 
     init {

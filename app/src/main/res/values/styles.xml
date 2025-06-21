@@ -103,4 +103,24 @@
 
     </style>
 
+    <style name="AlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">?attr/colorOnPrimary</item>
+
+        <item name="android:textColorPrimary">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitleStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogBodyStyle</item>
+    </style>
+
+    <style name="AlertDialogTitleStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AlertDialogBodyStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

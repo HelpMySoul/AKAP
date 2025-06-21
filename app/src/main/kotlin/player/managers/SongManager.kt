@@ -182,7 +182,7 @@ object SongManager {
             return
         }
 
-        song.outroDuration = value.toLong()
+        song.outroDuration = song.duration - value.toLong()
         SongMetadataManager.saveMetadata(context, song)
         Toast.makeText(context, context.getString(R.string.outro_set_successfully), Toast.LENGTH_SHORT).show()
     }

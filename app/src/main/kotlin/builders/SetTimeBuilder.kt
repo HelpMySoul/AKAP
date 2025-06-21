@@ -17,7 +17,7 @@ class SetTimeBuilder(
 ) {
     @SuppressLint("SetTextI18n")
     fun built() {
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         val input         = SeekBar(context)
         val timeText      = TextView(context)
 

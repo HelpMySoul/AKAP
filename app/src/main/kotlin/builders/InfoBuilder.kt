@@ -9,7 +9,7 @@ import com.example.akap.R
 
 class InfoBuilder (private val context: Context, private val string: String) {
     fun built() {
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
 
         dialogBuilder.setTitle(context.getString(R.string.info_title))
         val textView = TextView(context).apply {
