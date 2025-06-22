@@ -57,12 +57,13 @@ class Playlist(
         }
     }
 
-    override fun getNext(): ISong? {
+    override fun getNext(): ISong {
         return if (songIndex + 1 < songs.size) {
             songIndex++
             songs[songIndex]
         } else {
-            null
+            songIndex = 0
+            songs[songIndex]
         }
     }
 
