@@ -96,7 +96,7 @@ class NotificationService : Service() {
             intentController.createPendingIntent("ACTION_NEXT", 2)
         )
 
-        var notificationController = NotificationController(applicationContext)
+        val notificationController = NotificationController(applicationContext)
 
         return notificationController.buildNotification(channelId, remoteViewsSmall, remoteViewsBig)
     }
