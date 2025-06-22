@@ -132,4 +132,5 @@
     <string name="auto_outro_info">Auslöse-Schwellenwert:</string>
     <string name="no_playlists_to_delete">Keine Wiedergabelisten zum Löschen ausgewählt</string>
     <string name="filter_rule" />
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>

@@ -132,4 +132,5 @@
     <string name="auto_outro_info">Trigger threshold:</string>
     <string name="no_playlists_to_delete">No playlists selected for deletion</string>
     <string name="filter_rule">Choose sort rule</string>
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>

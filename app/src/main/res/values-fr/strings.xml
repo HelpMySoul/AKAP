@@ -132,4 +132,5 @@
     <string name="auto_outro_info">Seuil de déclenchement:</string>
     <string name="no_playlists_to_delete">Aucune playlist sélectionnée pour la suppression</string>
     <string name="filter_rule">Choisir la règle de tri</string>
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>

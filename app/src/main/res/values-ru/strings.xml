@@ -130,4 +130,5 @@
     <string name="auto_outro_info">Порог срабатывания:</string>
     <string name="no_playlists_to_delete">Нет выбранных плейлистов для удаления</string>
     <string name="filter_rule">Выберите правило сортировки</string>
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>

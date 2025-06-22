@@ -3,6 +3,7 @@ package player.controllers
 import android.content.Context
 import com.example.akap.R
 import player.interfaces.IPlaylist
+import player.interfaces.ISong
 
 class SongSearchController(private val context: Context, private val playlistController: PlaylistController) {
     private var origPlaylist:  IPlaylist?          = null

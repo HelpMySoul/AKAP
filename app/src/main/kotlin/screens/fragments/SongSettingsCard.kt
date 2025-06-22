@@ -5,18 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.akap.R
 import player.interfaces.ISong
 import settings.songSettingsCard.SongSettingsController
 
-class SongSettingsCard (private val song: ISong, private  val fragmentRefresh: () -> Unit): Fragment() {
+class SongSettingsCard (private val song: ISong, private  val action: () -> Unit): Fragment() {
 
     private lateinit var changeNameSettingButton:      Button
     private lateinit var changeAuthorSettingButton:    Button
     private lateinit var discardMetaDataSettingButton: Button
+    private lateinit var searchAuthorSettingButton:    Button
 
     private lateinit var songNameSettingCard:   TextView
     private lateinit var songAuthorSettingCard: TextView
@@ -28,6 +28,7 @@ class SongSettingsCard (private val song: ISong, private  val fragmentRefresh: (
         changeNameSettingButton      = view.findViewById(R.id.changeNameSettingButton)
         changeAuthorSettingButton    = view.findViewById(R.id.changeAuthorSettingButton)
         discardMetaDataSettingButton = view.findViewById(R.id.discardMetaDataSettingButton)
+        searchAuthorSettingButton    = view.findViewById(R.id.searchAuthorSettingButton)
 
         songNameSettingCard   = view.findViewById(R.id.songNameSettingCard)
         songAuthorSettingCard = view.findViewById(R.id.songAuthorSettingCard)
@@ -49,6 +50,11 @@ class SongSettingsCard (private val song: ISong, private  val fragmentRefresh: (
             SongSettingsController.changeAuthor(requireContext(), song) { refresh() }
         }
 
+        searchAuthorSettingButton.setOnClickListener {
+            SongSettingsController.searchAuthor(requireContext(), song) { refresh() }
+            parentFragmentManager.popBackStack()
+        }
+
         discardMetaDataSettingButton.setOnClickListener {
             SongSettingsController.discardMetaData(requireContext(), song)
         }
@@ -58,6 +64,6 @@ class SongSettingsCard (private val song: ISong, private  val fragmentRefresh: (
         songNameSettingCard.text   = song.title
         songAuthorSettingCard.text = song.artist
 
-        fragmentRefresh.invoke()
+        action.invoke()
     }
 }

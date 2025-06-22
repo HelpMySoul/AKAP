@@ -132,4 +132,5 @@
     <string name="auto_outro_info">触发百分比（%）:</string>
     <string name="no_playlists_to_delete">没有选择要删除的播放列表</string>
     <string name="filter_rule">选择排序规则</string>
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>

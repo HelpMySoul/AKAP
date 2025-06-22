@@ -43,7 +43,13 @@ class CurrentPlaylist (
 
     private lateinit var playlistNameText:       TextView
 
-    private var          playlist:               IPlaylist? = null
+    private var playlist:               IPlaylist?
+        get() {
+        return playlistController.getPlaylist(GlobalManager.getDisplayedPlaylistName())
+    }
+        set(value) {
+            GlobalManager.updateDisplayedPlaylistName(value!!.name)
+    }
 
     private lateinit var playlistLayout:         FrameLayout
     private lateinit var editLayout:             LinearLayout
@@ -90,12 +96,6 @@ class CurrentPlaylist (
         playlistController   = PlaylistController(requireContext())
         songSearchController = SongSearchController(requireContext(), playlistController)
 
-        val playlistName = GlobalManager.getDisplayedPlaylistName()
-
-        Log.e("CurrentPlaylist", "Playlist changed: ${GlobalManager.getDisplayedPlaylistName()}, Playing: ${GlobalManager.getPlayedPlaylistName()}")
-
-        playlist = playlistController.getPlaylist(playlistName)
-
         if (playlist == null) {
             playlistNameText.text = context?.getString(R.string.no_playlist) ?: ""
 
@@ -139,8 +139,7 @@ class CurrentPlaylist (
 
                 val query = s?.toString() ?: ""
                 playlist  = songSearchController.search(query, playlist)
-
-                updatePlaylist(playlistName)
+                updatePlaylist()
             }
 
             override fun afterTextChanged(s: Editable?) { }
@@ -267,15 +266,12 @@ class CurrentPlaylist (
             AppFragmentManager.addMenuFragment(parentFragmentManager, newFragment, this)
     }
 
-    private fun updatePlaylist(playlistName: String) {
+    private fun updatePlaylist() {
         songPlayerAdapter.updatePlaylist(playlist)
 
         songsRecyclerView.adapter = songPlayerAdapter
 
         BroadcastManagerController(requireContext()).sendBroadcast("REFRESH_PLAYLIST")
-
-        GlobalManager.updateDisplayedPlaylistName(playlist?.name ?: playlistName)
-
     }
 
     private fun playSong(song: ISong) {

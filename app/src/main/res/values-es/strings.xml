@@ -132,4 +132,5 @@
     <string name="auto_outro_info">Umbral de activación:</string>
     <string name="no_playlists_to_delete">No hay listas de reproducción seleccionadas para eliminar</string>
     <string name="filter_rule">Elegir regla de ordenación</string>
+    <string name="searchAuthorSongSetting">Search songs by author</string>
 </resources>
