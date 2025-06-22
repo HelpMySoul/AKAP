@@ -59,4 +59,19 @@ class SongChooseAdapter (private var playlist:    IPlaylist) : RecyclerView.Adap
     fun getSelected(): MutableList<ISong> {
         return selectedSongs
     }
+
+    fun selectAll() {
+        if (playlist.songs.all { song -> selectedSongs.contains(song) }) {
+            selectedSongs.clear()
+        }
+        else {
+            for (song in playlist.songs) {
+                if (!selectedSongs.contains(song)) {
+                    selectedSongs.add(song)
+                }
+            }
+        }
+
+        refresh()
+    }
 }

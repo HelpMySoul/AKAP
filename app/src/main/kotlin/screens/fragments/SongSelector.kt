@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class SongSelector (
     private lateinit var applyButton:               Button
     private lateinit var searchSongSelectorText:    EditText
     private lateinit var songSearchController:      SongSearchController
+    private lateinit var quickSelectionButton:      ImageButton
 
     private          var resultListener:            OnFragmentResultListener? = null
 
@@ -49,6 +51,8 @@ class SongSelector (
         songsSelectorRecyclerView = view.findViewById(R.id.songsSelectorRecyclerView)
         applyButton               = view.findViewById(R.id.applyButton)
         searchSongSelectorText    = view.findViewById(R.id.searchSongSelectorText)
+        quickSelectionButton      = view.findViewById(R.id.quickSelectionButton)
+
         songSearchController      = SongSearchController(requireContext(), playlistController)
         songAdapter               = SongChooseAdapter(playlist!!)
 
@@ -80,10 +84,15 @@ class SongSelector (
         })
 
         applyButton.text = buttonText
+
         applyButton.setOnClickListener {
             resultListener?.onResult(songAdapter.getSelected())
 
             parentFragmentManager.popBackStack()
+        }
+
+        quickSelectionButton.setOnClickListener {
+            songAdapter.selectAll()
         }
 
         return view
