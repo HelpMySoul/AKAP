@@ -50,6 +50,7 @@ class NotificationController(private val context: Context) {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(2)
             .setSound(null)
+            .setSilent(true)
             .setDeleteIntent(dismissPendingIntent)
             .build()
     }
