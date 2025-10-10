@@ -74,6 +74,10 @@ class PlayerMain : Fragment() {
         introInfoButton      = view.findViewById(R.id.infoIntroButton)
         outroInfoButton      = view.findViewById(R.id.infoOutroButton)
 
+        currentSongTitle.setOnClickListener {
+            BroadcastManagerController(requireContext()).sendBroadcast("SHOW_CURRENT_SONG")
+        }
+
         nextSongButton.setOnClickListener {
             BroadcastManagerController(requireContext()).sendBroadcast("NEXT_SONG")
         }

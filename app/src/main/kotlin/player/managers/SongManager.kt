@@ -28,7 +28,7 @@ object SongManager {
             it.start()
             canPlay  = true
             isPaused = false
-            setLocalVolume(song.localVolume / 100f)
+            setLocalVolume(song.localVolume.toFloat())
             if (skipTheIntro) {
                 it.seekTo(song.introDuration.toInt())
             }
@@ -221,6 +221,7 @@ object SongManager {
     }
 
     fun setOnCompletionListener(listener: MediaPlayer.OnCompletionListener) {
+        mediaPlayer?.setOnCompletionListener(null)
         mediaPlayer?.setOnCompletionListener(listener)
     }
 
@@ -233,7 +234,7 @@ object SongManager {
                 val currentPosition = player.currentPosition
                 val outroTime       = song.duration - song.outroDuration
 
-                if (currentPosition >= outroTime) {
+                if (outroTime != song.duration && currentPosition > outroTime) {
                     if (isRepeating){
                         BroadcastManagerController(context).sendBroadcast("REPEAT_SONG")
                     } else {

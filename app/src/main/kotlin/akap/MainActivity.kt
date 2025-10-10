@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             "PAUSE_SONG"            to { playerEventController.onPauseSong()                                      },
             "UPDATE_SONG"           to { playerEventController.onUpdateSong()                                     },
             "STOP_NOTIFICATION"     to { playerEventController.stopNotification(this)                      },
+            "SHOW_CURRENT_SONG"     to { playerEventController.showCurrentSong()                                  },
             "RESTART_APP"           to { restartApp()                                                             },
             "RESTART_ACTIVITY"      to { restartActivity()                                                        }
         )

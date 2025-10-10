@@ -29,6 +29,7 @@ import global.GlobalManager
 import player.adapters.SongPlayerAdapter
 import player.managers.FrameLayoutManager
 import player.managers.PlaylistManager
+import player.managers.SongManager
 import screens.AppFragmentManager
 import settings.player.PlayerSettingsManager
 
@@ -209,6 +210,9 @@ class CurrentPlaylist (
                 Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             }
             else {
+                if (GlobalManager.getPlayedPlaylistName() == "") {
+                    GlobalManager.updatePlayedPlaylistName(GlobalManager.getDisplayedPlaylistName())
+                }
                 BroadcastManagerController(requireContext()).sendBroadcast("SHUFFLE_PLAYLIST")
             }
         }
@@ -334,10 +338,22 @@ class CurrentPlaylist (
     }
 
     fun shufflePlaylist() {
-        BroadcastManagerController(requireContext()).sendBroadcast("STOP_SONG")
 
-        playlist?.shuffle()
+        if (SongManager.canPlay) {
+            BroadcastManagerController(requireContext()).sendBroadcast("STOP_SONG")
 
-        BroadcastManagerController(requireContext()).sendBroadcast("UPDATE_SONG")
+            playlist?.shuffle()
+
+            BroadcastManagerController(requireContext()).sendBroadcast("UPDATE_SONG")
+        }
+        else {
+            playlist?.shuffle()
+        }
+
+
+    }
+
+    fun showCurrentSong() {
+        playlist?.let { songsRecyclerView.scrollToPosition(it.getIndex()) }
     }
 }

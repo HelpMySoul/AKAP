@@ -6,6 +6,7 @@ import com.example.akap.R
 import player.interfaces.IPlaylist
 import player.interfaces.ISong
 import player.managers.PlaylistManager
+import player.managers.PlaylistManager.savePlaylistsToPreferences
 
 class PlaylistController(var context: Context) {
 
@@ -31,9 +32,10 @@ class PlaylistController(var context: Context) {
         for (song in songs) {
             addSongToPlaylist(playlistName, song)
         }
+        savePlaylists()
     }
 
-    fun addSongToPlaylist(playlistName: String, song: ISong) {
+    private fun addSongToPlaylist(playlistName: String, song: ISong) {
         if (!PlaylistManager.getPlaylistByName(playlistName)?.songs?.contains(song)!!) {
             PlaylistManager.addSongToPlaylist(playlistName, song)
         }

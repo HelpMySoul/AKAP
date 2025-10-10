@@ -24,6 +24,10 @@ object PlaylistManager {
         {
             return
         }
+        else
+        {
+            initialized = true
+        }
         playlists = mutableListOf()
 
         val musicService = MusicFinderService(context)
@@ -78,6 +82,7 @@ object PlaylistManager {
     }
 
     fun savePlaylistsToPreferences() {
+        sharedPreferences.edit().clear().apply()
         val playlistsArray = JSONArray()
         playlists.forEach { playlist ->
             if (playlist is Playlist && !playlist.isTemporary && allPlaylistsNames.any { allSongsName -> playlist.name != allSongsName }) {
@@ -135,7 +140,6 @@ object PlaylistManager {
 
     fun addSongToPlaylist(playlistName: String, song: ISong) {
         getPlaylistByName(playlistName)?.addSong(song)
-        savePlaylistsToPreferences()
     }
 
     fun getNextSong(playlist: IPlaylist): ISong? {
@@ -144,7 +148,6 @@ object PlaylistManager {
 
     fun getSongFromPlaylist(song: ISong, playlist: IPlaylist): ISong? {
         return playlist.findSong(song)
-
     }
 
     fun deletePlaylist(playlistName: String) {

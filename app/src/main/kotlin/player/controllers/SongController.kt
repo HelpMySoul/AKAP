@@ -55,8 +55,12 @@ class SongController(
     }
 
     private fun playCurrentSong() {
+
+        if (currentSong.id != GlobalManager.getSongID())
+        {
+            return
+        }
         currentSong.let { SongManager.play(context, it) }
-        playNextListenerSetup()
 
         Handler(Looper.getMainLooper()).postDelayed( {
             currentSongTitle.isSelected = true
@@ -66,6 +70,8 @@ class SongController(
         updateUI()
 
         startHandler()
+
+        playNextListenerSetup()
     }
 
     private fun setupListeners() {
@@ -132,7 +138,7 @@ class SongController(
         }
 
         repeatSongCheckBox.isChecked = SongManager.isRepeating
-        playNextListenerSetup()
+
     }
 
     private fun playNext() {
@@ -141,7 +147,6 @@ class SongController(
         } else {
             BroadcastManagerController(context).sendBroadcast("NEXT_SONG")
         }
-        playNextListenerSetup() 
     }
 
     private fun playNextListenerSetup() {
