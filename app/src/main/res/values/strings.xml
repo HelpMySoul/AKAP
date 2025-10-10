@@ -133,4 +133,8 @@
     <string name="no_playlists_to_delete">No playlists selected for deletion</string>
     <string name="filter_rule">Choose sort rule</string>
     <string name="searchAuthorSongSetting">Search songs by author</string>
+    <string name="jump_to_start">Go to the beginning of the song</string>
+    <string name="enable_jump_to_start">Enable song rollback</string>
+    <string name="jump_to_start_description">after the specified percentage when trying to play the previous song</string>
+    <string name="jump_to_start_info">Trigger threshold:</string>
 </resources>

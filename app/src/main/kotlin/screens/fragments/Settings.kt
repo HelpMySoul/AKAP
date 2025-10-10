@@ -35,6 +35,20 @@ class Settings : Fragment() {
         val themeSpinner: Spinner = view.findViewById(R.id.themeSpinner)
         ThemeManager.setupThemeSpinner(requireContext(), themeSpinner)
 
+        outroTimePanelInit(view)
+
+        jumpToStartPanelInit(view)
+
+        val deleteButton: Button = view.findViewById(R.id.delete_metadata_button)
+        deleteButton.setOnClickListener {
+            SongMetadataManager.clearAllMetadata(requireContext())
+        }
+
+        return view
+    }
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "SetTextI18n")
+    fun outroTimePanelInit(view : View) {
         val outroSwitch: Switch = view.findViewById(R.id.outroSkipSwitch)
         outroSwitch.isChecked   = SongManager.autoOutroSkip
 
@@ -67,12 +81,41 @@ class Settings : Fragment() {
                 context?.let { PlayerSettingsManager.saveSettings(it) }
             }
         })
+    }
 
-        val deleteButton: Button = view.findViewById(R.id.delete_metadata_button)
-        deleteButton.setOnClickListener {
-            SongMetadataManager.clearAllMetadata(requireContext())
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "SetTextI18n")
+    fun jumpToStartPanelInit(view : View) {
+        val jumpToStartSwitch: Switch = view.findViewById(R.id.jumpToStartSwitch)
+        jumpToStartSwitch.isChecked   = SongManager.jumpToStart
+
+        jumpToStartSwitch.setOnClickListener {
+            context?.let { context -> SongManager.setJumpToStartSwitch(context, jumpToStartSwitch.isChecked) }
         }
 
-        return view
+        val jumpToStartSeekBar: SeekBar = view.findViewById(R.id.jumpToStartSeekBar)
+
+        jumpToStartSeekBar.max      = 100
+        jumpToStartSeekBar.progress = GlobalManager.jumpToStartPercent
+
+        val jumpToStartText: TextView = view.findViewById(R.id.jumpToStartText)
+
+        jumpToStartText.text = "${GlobalManager.jumpToStartPercent}%"
+
+        jumpToStartSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                jumpToStartText.text = "$progress%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                GlobalManager.jumpToStartPercent = jumpToStartSeekBar.progress
+                jumpToStartText.text = "${GlobalManager.jumpToStartPercent}%"
+                context?.let { PlayerSettingsManager.saveSettings(it) }
+            }
+        })
     }
 }

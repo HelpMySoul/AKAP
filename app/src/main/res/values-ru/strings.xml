@@ -130,5 +130,9 @@
     <string name="auto_outro_info">Порог срабатывания:</string>
     <string name="no_playlists_to_delete">Нет выбранных плейлистов для удаления</string>
     <string name="filter_rule">Выберите правило сортировки</string>
-    <string name="searchAuthorSongSetting">Search songs by author</string>
+    <string name="searchAuthorSongSetting">Найти песни автора</string>
+    <string name="jump_to_start">Перейти к началу песни</string>
+    <string name="enable_jump_to_start">Включить откат песни</string>
+    <string name="jump_to_start_description">после указанного процента при попытке воспроизвести предыдущую песню</string>
+    <string name="jump_to_start_info">Порог срабатывания:</string>
 </resources>

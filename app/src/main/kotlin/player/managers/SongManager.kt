@@ -22,6 +22,7 @@ object SongManager {
     var skipTheIntro:  Boolean = false
     var skipTheOutro:  Boolean = false
     var autoOutroSkip: Boolean = false
+    var jumpToStart:   Boolean = false
 
     fun play(context: Context, song: ISong) {
         mediaPlayer?.setOnPreparedListener {
@@ -263,7 +264,14 @@ object SongManager {
         PlayerSettingsManager.saveSettings(context)
     }
 
+    fun setJumpToStartSwitch(context: Context, value: Boolean) {
+        jumpToStart = value
+        PlayerSettingsManager.saveSettings(context)
+    }
+
     fun getMaxPosition(): Int {
         return mediaPlayer?.duration ?: 0
     }
+
+
 }

@@ -132,5 +132,9 @@
     <string name="auto_outro_info">Seuil de déclenchement:</string>
     <string name="no_playlists_to_delete">Aucune playlist sélectionnée pour la suppression</string>
     <string name="filter_rule">Choisir la règle de tri</string>
-    <string name="searchAuthorSongSetting">Search songs by author</string>
+    <string name="searchAuthorSongSetting">Rechercher des chansons par auteur</string>
+    <string name="jump_to_start">Aller au début de la chanson</string>
+    <string name="enable_jump_to_start">Activer le retour en arrière</string>
+    <string name="jump_to_start_description">après le pourcentage spécifié lors d\'une tentative de lecture de la chanson précédente</string>
+    <string name="jump_to_start_info">Seuil de déclenchement :</string>
 </resources>

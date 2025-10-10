@@ -132,5 +132,9 @@
     <string name="auto_outro_info">Umbral de activación:</string>
     <string name="no_playlists_to_delete">No hay listas de reproducción seleccionadas para eliminar</string>
     <string name="filter_rule">Elegir regla de ordenación</string>
-    <string name="searchAuthorSongSetting">Search songs by author</string>
+    <string name="searchAuthorSongSetting">Buscar canciones por autor</string>
+    <string name="jump_to_start">Ir al inicio de la canción</string>
+    <string name="enable_jump_to_start">Activar retroceso de canción</string>
+    <string name="jump_to_start_description">después del porcentaje especificado al intentar reproducir la canción anterior</string>
+    <string name="jump_to_start_info">Umbral de activación:</string>
 </resources>

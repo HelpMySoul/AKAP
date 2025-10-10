@@ -193,7 +193,18 @@ class PlayerMain : Fragment() {
             Toast.makeText(requireContext(), requireContext().getString(R.string.no_playlist), Toast.LENGTH_SHORT).show()
             return
         }
-        songControllerCheck(currentPlaylist?.getBefore())
+
+        val currentTime: Int = songController?.getCurrentTime() ?: 0
+
+        if (SongManager.jumpToStart &&
+            currentTime.toFloat() / songController?.getMaxTime()!!.toFloat() > GlobalManager.jumpToStartPercent.toFloat()/100)
+        {
+            songControllerCheck(currentPlaylist?.getCurrentSong())
+        }
+        else
+        {
+            songControllerCheck(currentPlaylist?.getBefore())
+        }
     }
 
     private fun songControllerCheck(song: ISong?) {
