@@ -116,5 +116,4 @@ class PlayerEventController(
     fun showCurrentSong() {
         getPlaylistFragment()?.showCurrentSong()
     }
-
 }

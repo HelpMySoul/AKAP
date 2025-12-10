@@ -13,7 +13,6 @@ import kotlin.random.Random
 
 class MusicFinderService(private val context: Context) {
 
-
     fun findSongById(id: Long): ISong {
         val song: ISong? = PlaylistManager.getAllSongsPlaylist().findSongByID(id)
 

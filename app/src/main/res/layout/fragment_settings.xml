@@ -3,179 +3,183 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    >
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            android:id="@+id/settingCard"
-            layout="@layout/item_language_card"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-
-        <include
-            android:id="@+id/themeCard"
-            layout="@layout/item_theme_card"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSecondary"
-                android:padding="4dp"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
-
-                <TextView
-                    android:id="@+id/outroSkipTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/auto_outro_skip"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-
-                <Switch
-                    android:id="@+id/outroSkipSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="@string/enable_outro_skip"
-                    android:textColor="?android:attr/textColor"
-                    tools:checked="false"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"/>
-
-                <TextView
-                    android:id="@+id/outroSkipInfoTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/auto_outro_info"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-
-                <SeekBar
-                    android:id="@+id/outroSkipSeekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/outroTimeText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:textAlignment="center"
-                    android:text="" />
-            </LinearLayout>
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSecondary"
-                android:padding="4dp"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/jump_to_start"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/jump_to_start_description"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-
-                <Switch
-                    android:id="@+id/jumpToStartSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="@string/enable_jump_to_start"
-                    android:textColor="?android:attr/textColor"
-                    tools:checked="false"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"/>
-
-                <TextView
-                    android:id="@+id/jumpToStartTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/jump_to_start_info"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
-
-                <SeekBar
-                    android:id="@+id/jumpToStartSeekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/jumpToStartText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:textAlignment="center"
-                    android:text="" />
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-
-        <Button
-            android:id="@+id/delete_metadata_button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/delete_metadata" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    </LinearLayout>
+            <include
+                android:id="@+id/settingCard"
+                layout="@layout/item_language_card"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <include
+                android:id="@+id/themeCard"
+                layout="@layout/item_theme_card"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSecondary"
+                    android:orientation="vertical"
+                    android:padding="4dp"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/outroSkipTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_outro_skip"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"/>
+
+                    <Switch
+                        android:id="@+id/outroSkipSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/enable_outro_skip"
+                        android:textColor="?android:attr/textColor"
+                        tools:checked="false"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"/>
+
+                    <TextView
+                        android:id="@+id/outroSkipInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_outro_info"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"/>
+
+                    <SeekBar
+                        android:id="@+id/outroSkipSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/outroTimeText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:text=""
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSecondary"
+                    android:orientation="vertical"
+                    android:padding="4dp"
+                    tools:ignore="UselessParent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jump_to_start"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jump_to_start_description"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"/>
+
+                    <Switch
+                        android:id="@+id/jumpToStartSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/enable_jump_to_start"
+                        android:textColor="?android:attr/textColor"
+                        tools:checked="false"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"/>
+
+                    <TextView
+                        android:id="@+id/jumpToStartTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jump_to_start_info"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"/>
+
+                    <SeekBar
+                        android:id="@+id/jumpToStartSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/jumpToStartText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:text=""
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <Button
+                android:id="@+id/delete_metadata_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_metadata" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import builders.SelectionBuilder
 import com.example.akap.R
 import player.adapters.SongChooseAdapter
 import player.controllers.PlaylistController
@@ -25,12 +26,15 @@ class SongSelector (
     private var buttonText:         String
 ): Fragment() {
 
+
     private lateinit var songsSelectorRecyclerView: RecyclerView
     private lateinit var songAdapter:               SongChooseAdapter
     private lateinit var applyButton:               Button
     private lateinit var searchSongSelectorText:    EditText
     private lateinit var songSearchController:      SongSearchController
     private lateinit var quickSelectionButton:      ImageButton
+    private lateinit var songSelectorFilterButton:  ImageButton
+
 
     private          var resultListener:            OnFragmentResultListener? = null
 
@@ -52,6 +56,7 @@ class SongSelector (
         applyButton               = view.findViewById(R.id.applyButton)
         searchSongSelectorText    = view.findViewById(R.id.searchSongSelectorText)
         quickSelectionButton      = view.findViewById(R.id.quickSelectionButton)
+        songSelectorFilterButton  = view.findViewById(R.id.songSelectorFilterButton)
 
         songSearchController      = SongSearchController(requireContext(), playlistController)
         songAdapter               = SongChooseAdapter(playlist!!)
@@ -93,6 +98,22 @@ class SongSelector (
 
         quickSelectionButton.setOnClickListener {
             songAdapter.selectAll()
+        }
+
+        songSelectorFilterButton.setOnClickListener {
+            val vars: List<String>? = context?.resources?.getStringArray(R.array.filter_rules)?.toList()
+
+            context?.let { context ->
+                if (vars != null) {
+                    SelectionBuilder(
+                        context,
+                        context.getString(R.string.filter_rule),
+                        vars
+                    ) { rule ->
+                        songAdapter.sort(vars.indexOf(rule))
+                    }.built()
+                }
+            }
         }
 
         return view

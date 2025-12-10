@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
 
         GlobalManager.updateDisplayedPlaylistName(GlobalManager.getPlayedPlaylistName())
 
+        if (GlobalManager.getSongID().toInt() != -1) {
+            BroadcastManagerController(this).sendBroadcast("UPDATE_SONG")
+            BroadcastManagerController(this).sendBroadcast("SHOW_PLAYER")
+        }
+
         AppFragmentManager.openFragment(supportFragmentManager, R.id.songContainerFragment, GlobalManager.getPlayedPlaylistName()) {
             CurrentPlaylist().apply {
                 arguments = Bundle().apply {

@@ -122,9 +122,18 @@ class CurrentPlaylist (
 
         songsRecyclerView.adapter = songPlayerAdapter
 
-        playlist!!.getSongAt(playlist!!.getIndex()).let { song ->
-            if (song != null) {
-                songPlayerAdapter.setCurrentSong(song)
+        if (GlobalManager.getSongID().toInt() != -1) {
+            playlist!!.songs.find {song -> song.id == GlobalManager.getSongID()}.let { song ->
+                if (song != null) {
+                    songPlayerAdapter.setCurrentSong(song)
+                }
+            }
+        }
+        else {
+            playlist!!.getSongAt(playlist!!.getIndex()).let { song ->
+                if (song != null) {
+                    songPlayerAdapter.setCurrentSong(song)
+                }
             }
         }
 

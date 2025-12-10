@@ -31,6 +31,16 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1" />
+
+        <ImageButton
+            android:id="@+id/songSelectorFilterButton"
+            style="@style/AppImageButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+
     </LinearLayout>
 
     <View
